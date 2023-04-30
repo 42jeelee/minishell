@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:42:15 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 19:05:08 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/04/30 22:11:15 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_cmds	*new_prompt(int *num_of_cmd)
 	if (line)
 	{
 		status = parse_line(line, &cmds, num_of_cmd);
+		add_history(line);
 		free(line);
 		if (status == -1)
 		{
