@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 16:56:20 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 17:46:45 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/04/30 21:47:53 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 char	**get_path(char **env)
 {
 	char	**paths;
+	char	*tmp;
+	int		i;
 
 	paths = NULL;
 	while (*env)
@@ -27,6 +29,13 @@ char	**get_path(char **env)
 			break ;
 		}
 		env++;
+	}
+	i = -1;
+	while (paths[++i])
+	{
+		tmp = paths[i];
+		paths[i] = ft_strjoin(paths[i], "/");
+		free(tmp);
 	}
 	return (paths);
 }

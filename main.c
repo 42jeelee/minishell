@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 18:54:42 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/04/30 21:48:16 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **env)
 		arg = get_arg(num_of_cmds, paths);
 		if (!arg)
 			ft_putendl_fd("ERROR!", 1);
-		print_cmds(arg, cmds);
+		print_arg(arg);
 		free_cmds(cmds);
 	}
 	free_arg(arg);

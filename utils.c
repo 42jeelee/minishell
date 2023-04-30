@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:57:42 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 19:52:53 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/04/30 21:30:53 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,23 @@ int	add_list_int(int num, int **list)
 	if (*list)
 		free(*list);
 	*list = new_list;
+	return (0);
+}
+
+int	create_word_list(char ***list)
+{
+	*list = (char **)malloc(sizeof(char *));
+	if (!(*list))
+		return (-1);
+	(*list)[0] = 0;
+	return (0);
+}
+
+int	create_int_list(int **list)
+{
+	*list = (int *)malloc(sizeof(int));
+	if (!(*list))
+		return (-1);
+	*list = 0;
 	return (0);
 }

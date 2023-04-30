@@ -6,7 +6,7 @@
 #    By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 20:55:40 by jeelee            #+#    #+#              #
-#    Updated: 2023/04/30 21:02:12 by jeelee           ###   ########.fr        #
+#    Updated: 2023/04/30 21:37:37 by jeelee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBDIR		=	./libft
 LIBFT		=	$(LIBDIR)/libft.a
 
 SRC			=	main.c get_args.c new_prompt.c parse_line.c command.c \
-				utils.c free_it.c print_it.c
+				utils.c free_it.c print_it.c init.c
 
 OBJ			=	$(SRC:.c=.o)
 

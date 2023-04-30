@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 19:18:37 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/04/30 21:36:34 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_cmds	*new_cmd(char *commad)
 	cmd = (t_cmds *)malloc(sizeof(t_cmds));
 	if (!cmd)
 		return (NULL);
-	ft_memset(cmd, 0, sizeof(t_cmds));
+	init_cmd(cmd);
 	if (parse_cmd(cmd, commad) == -1)
 	{
 		free(cmd);
