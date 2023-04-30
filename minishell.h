@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:43 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 21:36:04 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/04/30 22:42:45 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		add_list_int(int num, int **list);
 int		create_word_list(char ***list);
 int		create_int_list(int **list);
 int		init_cmd(t_cmds *cmd);
+int		is_in_chars(char *str, char *inchars);
 
 char	**get_path(char **env);
 t_arg	*get_arg(int num_of_cmd, char **paths);
