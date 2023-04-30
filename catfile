@@ -1,0 +1,16 @@
+total 288
+drwxr-xr-x  15 byejeon  2022_seoul    510 Apr 30 19:26 .
+drwxr-xr-x  15 byejeon  2022_seoul    510 Apr 30 18:02 ..
+-rw-r--r--   1 byejeon  2022_seoul  28672 Apr 30 19:26 .minishell.c.swp
+-rw-r--r--   1 byejeon  2022_seoul  16384 Apr 30 19:22 .usablefunc.txt.swp
+-rw-r--r--@  1 byejeon  2022_seoul    341 Apr 30 15:43 Makefile
+-rw-r--r--@  1 byejeon  2022_seoul   1690 Apr 29 15:12 cmd_abs_path.c
+-rw-r--r--   1 byejeon  2022_seoul    753 Apr 30 13:03 howtomake.txt
+-rw-r--r--   1 byejeon  2022_seoul     36 Apr 29 20:49 infile
+-rw-r--r--@  1 byejeon  2022_seoul   1879 Apr 29 13:53 intro.txt
+-rwxr-xr-x   1 byejeon  2022_seoul  50880 Apr 30 19:26 minishell
+-rw-r--r--   1 byejeon  2022_seoul   8010 Apr 30 19:26 minishell.c
+-rw-r--r--@  1 byejeon  2022_seoul    941 Apr 29 21:03 minishell.h
+-rw-r--r--   1 byejeon  2022_seoul   7508 Apr 30 19:26 minishell.o
+-rw-r--r--   1 byejeon  2022_seoul      0 Apr 30 19:26 outfile
+-rw-r--r--@  1 byejeon  2022_seoul   4114 Apr 30 18:03 usablefunc.txt

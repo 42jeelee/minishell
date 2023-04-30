@@ -1,0 +1,121 @@
+아는 함수
+printf
+open
+read
+close
+malloc
+free
+write
+strerror
+perror
+exit
+
+<unistd.h>
+int	access(const char *path, int mode)
+	권한 체크 함수. path에 파일 이름(경로포함)
+	mode에	R_OK 존재여부 + 읽기권한, W_OK 존재여부 + 쓰기권한
+			X_OK 존재여부+ 실행권한, F_OK 존재여부
+			모드는 R_OK | W_OK 이런식으로 여러개를 동시에 넣을 수 있다.
+	리턴값	모드 전부 성공 시 0
+			else -1 리턴, 전역변수 errno 수정된다.(perror로 확인 가능)
+
+pid_t fork(void)
+	새 프로세스 생성(자식). 이는 호출 프로세스(부모)의 복제(?).
+		예외>	자식프로세스가 유니크 프로세스 ID
+				자식프로세스가 다른 부모 프로세스 ID를 가짐(?)
+				...더있음
+	리턴값	성공시 0(자식), 자식 프로세스ID(부모)
+			실패시	-1 을 부모에게 리턴함.
+					자식프로세스가 생성되지 않으면 errorno수정됨
+int	execve(const char *path, char *const argv[], char *const envp[])
+	path의 프로그램을 실행시키고, 프로세스를 종료한다.
+	argv, envp는 실행시킬 프로그램의 argv, envp를 조작.
+	argv는 ps명령어에서 CMD로 확인되기도 한다.
+	리턴값	성공시 없음. 실패시 -1
+int	dup(int fildes)
+	인자로 fd1를 받고, 빈 파일생성자 넘버중 가장 작은 수를 리턴한다.
+	새로 할당된 fd2는 fd1과 같은 파일을 가르킨다.
+	fd1에서 read로 5글자 읽었으면fd2는 read하면 6번째부터 읽는다.
+	리턴값	fd2
+int	dup2(int fildes, int fildes2)
+	fd2가 가르키는 파일을 fd1이 가르키는 파일로 바꾼다 fd2의 인트값은 안바뀜.
+	ex> dup2(fd, STDOUT_FILENO); -> 다른 파일이 stdout하려그럴때 (printf)
+		표준출력이 아닌 fd가 가르키는 파일에 내용을 쓰게됨.
+	리턴값	fd2에 저장됐던 인트값.
+	- 무슨 의미인것이지? 아무래도 stdin out err 다룰때만 쓰일듯
+int	pipe(int fd[2])
+	pipe를 생성해서 fd[0]이 파이프 읽기, fd[1]이 파이프에 쓰기
+	리턴값	성공시 0 실패시 -1
+
+처음보는 함수
+<readline/readline.h> -lreadline 
+char *readline(const char *str)
+	str을 표준출력, 표준입력 개행 나올때까지 받음. 개행난오면 개행전까지 return
+	
+<readline/history.h> -lreadline 
+rl_clear_history
+rl_on_new_line
+rl_replace_line
+rl_redisplay
+add_history
+
+<sys/wait.h>
+pid_t wait(int *stat_loc)
+	자식 프로세스가 종료될때까지 대기하다가 종료되면 반환됨.
+	stat_loc에는 자식 프로세스가 종료할 때 리턴한 값이 들어감(?).
+	리턴값	성공 자식 프로세스 id 실패 -1
+pid_t	wait3(int *stat_loc, int options, struct rusage *rusage)
+pid_t	wait4(pid_t pid, int *stat_loc, int options, struct rusage *rusage)
+pid_t waitpid(pid_t pid, int *stat_loc, int options)
+	리턴값
+
+<signal.h>
+sig_t	signal(int sig, sig_t func)
+int		sigaction(int sig, const struct sigaction *restrict act, struct sigaction *restrict oact)
+int		sigemptyset(sigset_t *set)
+int		sigaddset(sigset_t *set, int signo)
+int		kill(pid_t pid, int sig)
+
+<unistd.h>
+char	*getcwd(char *buf, size_t size)
+int		chdir(const char *path)
+
+<sys/stat.h>
+int	stat(const char *restrict path, struct stat *restrict buf)
+int	lstat(const char *restrict path, struct stat *restrict buf)
+int	fstat(int fildes, struct stat *buf)
+
+
+<unistd.h>
+int unlink(const char *path)
+	파일 삭제(?)
+	리턴값	성공시 0 실패시 -1
+
+<dirent.h>
+DIR				*opendir(const char *filename)
+struct dirent	*readdir(DIR *dirp)
+int				closedir(DIR *dirp)
+
+<unistd.h>
+int		isatty(int fd)
+char	*ttyname(int fd)
+int		ttyslot(void)    #gpt
+
+<sys/ioctl.h>
+int	ioctl(int fildes, unsigned long request, ...)
+
+<stdlib.h>
+char	*getenv(const char *name)
+
+<termios.h>
+int	tcsetattr(int fildes, int optional_actions, const struct termios *termios_p)
+int	tcgetattr(int fildes, struct termios *termios_p)
+
+<curses.h>
+<term.h>
+int		tgetent(char *bp, const char *name)
+int		tgetflag(char *id)
+int		tgetnum(char *id)
+char	*tgetstr(char *id, char **area)
+char	*tgoto(const char *cap, int col, int row)
+int		tputs(const char *str, int affcnt, int (*putc)(int))
