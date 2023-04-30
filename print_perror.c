@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   print_perror.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/29 16:45:14 by byejeon           #+#    #+#             */
-/*   Updated: 2023/04/29 21:03:22 by byejeon          ###   ########.fr       */
+/*   Created: 2023/04/30 21:34:36 by byejeon           #+#    #+#             */
+/*   Updated: 2023/04/30 21:35:03 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "exe_cmd_line.h"
 
-#endif
+int	print_perror(char *str)
+{
+	perror(str);
+	return (1);
+}

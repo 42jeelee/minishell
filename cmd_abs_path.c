@@ -5,17 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 11:24:27 by byejeon           #+#    #+#             */
-/*   Updated: 2023/04/05 19:43:59 by byejeon          ###   ########.fr       */
+/*   Created: 2023/04/30 21:38:25 by byejeon           #+#    #+#             */
+/*   Updated: 2023/04/30 21:38:57 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "string.h"
+#include "exe_cmd_line.h"
 
 static char	*print_error_message(char *cmd, char *message);
 static char	*print_perror_massage(char *cmd);
-
 char	*cmd_abs_path(char *cmd, char **paths)
 {
 	char	*out;
@@ -30,7 +28,9 @@ char	*cmd_abs_path(char *cmd, char **paths)
 		if (access(out, F_OK) == 0)
 		{
 			if (access(out, X_OK) == 0)
+			{
 				return (out);
+			}
 			else
 			{
 				free(out);
