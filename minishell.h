@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:43 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 22:18:28 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/01 10:52:26 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
 # include "./libft/libft.h"
@@ -46,6 +47,7 @@ typedef struct s_execute_arg
 	char	*cmd_path;
 }	t_execute_arg;
 
+// jeelee func
 t_cmds	*new_prompt(int *num_of_cmd);
 
 int		parse_line(char *line, t_cmds **cmds, int *num_of_cmd);
@@ -73,15 +75,17 @@ size_t	ft_strlen(const char *str);
 char	*cmd_abs_path(char *cmd, char **paths);
 char	*ft_strjoin(char const *s1, char const *s2);
 
+// byejeon func
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
-void	setting(t_arg *arg, t_cmds *cmds);
+int		print_perror(char *str);
+char	*cmd_abs_path(char *cmd, char **paths);
+int		**make_pipes(int num_of_pipe);
+void	close_pipes_exept(int **pfd, int num_of_pipe, int *fd);
+int		is_relative_path(char *cmd);
 
-int		init(t_arg *arg, t_execute_arg *exe_arg);
 void	pipe_redir(int **pfd, int i, int num_of_cmd);
 void	in_redir(t_cmds *cmds, int *fd);
 void	out_redir(t_cmds *cmds, int *fd);
-int		is_relative_path(char *cmd);
-void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds);
 
 // PRINT
 void	print_cmds(t_arg *arg, t_cmds *cmds);
