@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:43 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/03 14:01:10 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/03 15:36:03 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ int		is_in_idx(char *str, char *catch);
 char	*get_wordcatch(char *str, char *catch);
 
 // byejeon func
-int		**make_pipes(int num_of_pipe);
-int		print_perror(char *str);
-void	close_pipes_exept(int **pfd, int num_of_pipe, int *fd);
-char	*cmd_abs_path(char *cmd, char **paths);
-
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
 int		print_perror(char *str);
 char	*cmd_abs_path(char *cmd, char **paths);
@@ -87,9 +82,8 @@ int		**make_pipes(int num_of_pipe);
 void	close_pipes_exept(int **pfd, int num_of_pipe, int *fd);
 int		is_relative_path(char *cmd);
 
-void	pipe_redir(int **pfd, int i, int num_of_cmd);
-void	in_redir(t_cmds *cmds, int *fd);
-void	out_redir(t_cmds *cmds, int *fd);
+void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd);
+void	redir(char **file, int *redir_type, int *fd);
 
 // PRINT
 void	print_cmds(t_arg *arg, t_cmds *cmds);
