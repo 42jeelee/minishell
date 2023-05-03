@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 17:13:33 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 18:26:57 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/03 14:54:42 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,10 @@ void	print_cmds(t_arg *arg, t_cmds *cmds)
 	while (++i < arg->num_of_cmd)
 	{
 		printf("--------[ %d ]---------\n", i);
-		if (cmds->in_redir_type)
+		if (cmds->redir_type)
 		{
-			printf("INFILE:\n");
-			print_redirection(cmds->in_redir_type, cmds->infile);
-		}
-		if (cmds->out_redir_type)
-		{
-			printf("OUTFILE:\n");
-			print_redirection(cmds->out_redir_type, cmds->outfile);
+			printf("REDIRECTION:\n");
+			print_redirection(cmds->redir_type, cmds->file);
 		}
 		print_words(cmds->cmd);
 		printf("-----------------------\n");

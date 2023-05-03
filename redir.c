@@ -6,65 +6,77 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:43:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/01 10:50:15 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/03 15:38:17 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pipe_redir(int **pfd, int i, int num_of_cmd)
+static void	in_one(char *file, int *fd, int *in_count);
+static void	out_one_two(char *file, int redir_type, int *fd, int *out_count);
+
+void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd)
 {
 	if (i != 0)
-		dup2(pfd[i - 1][0], 0);
+	{
+		fd[0] = pfd[i -1][0];
+		dup2(pfd[i -1][0], 0);
+	}
 	if (i != num_of_cmd - 1)
-		dup2(pfd[i - 1][1], 1);
+	{
+		fd[1] = pfd[i][1];
+		dup2(pfd[i][1], 1);
+	}
 }
 
-void	in_redir(t_cmds *cmds, int *fd)
+void	redir(char **file, int *redir_type, int *fd)
 {
 	int		i;
-	char	**infile;
+	int		in_count;
+	int		out_count;
 
-	infile = cmds->infile;
 	i = 0;
-	while (infile[i])
+	in_count = 0;
+	out_count = 0;
+	while (file[i])
 	{
-		if (i != 0)
-			close(fd[0]);
-		if (access(infile[i], R_OK) == -1)
-			exit(print_perror(infile[i]));
-		fd[0] = open(infile[i], O_RDONLY);
-		if (fd[0] < 0)
-			exit(print_perror(infile[i]));
-		dup2(fd[0], 0);
+		if (redir_type[i] == INONE)
+			in_one(file[i], fd, &in_count);
+		else if (redir_type[i] == OUTONE || redir_type[i] == OUTTWO)
+			out_one_two(file[i], redir_type[i], fd, &out_count);
 		i++;
 	}
 }
 
-void	out_redir(t_cmds *cmds, int *fd)
+static void	in_one(char *file, int *fd, int *in_count)
 {
-	int		i;
-	char	**outfile;
+	if (*in_count != 0)
+		close(fd[0]);
+	if (access(file, R_OK) == -1)
+		exit(print_perror(file));
+	fd[0] = open(file, O_RDONLY);
+	if (fd[0] < 0)
+		exit(print_perror(file));
+	dup2(fd[0], 0);
+	(*in_count)++;
+}
 
-	outfile = cmds->outfile;
-	i = 0;
-	while (outfile[i])
+static void	out_one_two(char *file, int redir_type, int *fd, int *out_count)
+{
+	if (*out_count != 0)
+		close(fd[1]);
+	if (access(file, F_OK) == 0)
+		if (access(file, W_OK) != 0)
+			exit(print_perror(file));
+	if (redir_type == OUTONE)
 	{
-		if (i != 0)
-			close(fd[1]);
-		if (access(outfile[i], F_OK) == 0)
-			if (access(outfile[i], W_OK) != 0)
-				exit(print_perror(outfile[i]));
-		if (*cmds->out_redir_type == 1)
-		{
-			unlink(outfile[i]);
-			fd[1] = open(outfile[i], O_WRONLY | O_CREAT, 0644);
-		}
-		else
-			fd[1] = open(outfile[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd[1] < 0)
-			exit(print_perror(outfile[i]));
-		dup2(fd[1], 1);
-		i++;
+		unlink(file);
+		fd[1] = open(file, O_WRONLY | O_CREAT, 0644);
 	}
+	else
+		fd[1] = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd[1] < 0)
+		exit(print_perror(file));
+	dup2(fd[1], 1);
+	(*out_count)++;
 }
