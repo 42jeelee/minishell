@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 21:36:34 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/03 14:53:20 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,29 @@
 
 int	is_redirection(char *word)
 {
-	int	size;
-
-	size = ft_strlen(word);
-	if (size > 2)
-		return (0);
-	else if (size == 2)
-	{
-		if (word[0] == '<' && word[1] == '<')
-			return (1);
-		else if (word[0] == '>' && word[1] == '>')
-			return (3);
-	}
-	else if (size == 1)
-	{
-		if (word[0] == '<')
-			return (2);
-		else if (word[0] == '>')
-			return (4);
-	}
+	if (word[0] == '<' && word[1] == '<')
+		return (INTWO);
+	else if (word[0] == '>' && word[1] == '>')
+		return (OUTTWO);
+	else if (word[0] == '<')
+		return (INONE);
+	else if (word[0] == '>')
+		return (OUTONE);
 	return (0);
 }
 
-int	parse_redirection(char *type, char *filename, t_cmds *cmd)
+int	add_any_list(int type, char *word, t_cmds *cmd)
 {
-	int	typenum;
-
-	if (!filename)
-		return (-1);
-	typenum = is_redirection(type);
-	if (typenum < 3)
+	if (type)
 	{
-		if (add_list_int((typenum & 1) + 1, &(cmd->in_redir_type)) == -1)
+		if (add_list_int(type, &(cmd->redir_type)) == -1)
 			return (-1);
-		if (add_list_word(filename, &(cmd->infile)) == -1)
+		if (add_list_word(word, &(cmd->file)) == -1)
 			return (-1);
 	}
 	else
 	{
-		if (add_list_int((typenum & 1) + 1, &(cmd->out_redir_type)) == -1)
-			return (-1);
-		if (add_list_word(filename, &(cmd->outfile)) == -1)
+		if (add_list_word(word, &(cmd->cmd)) == -1)
 			return (-1);
 	}
 	return (0);
@@ -62,28 +44,36 @@ int	parse_redirection(char *type, char *filename, t_cmds *cmd)
 
 int	parse_cmd(t_cmds *cmd, char *command)
 {
-	char	**words;
 	int		i;
+	int		type;
+	int		size;
+	char	*word;
 
-	words = ft_split(command, ' ');
-	if (!words)
-		return (-1);
-	i = -1;
-	while (words[++i])
+	type = 0;
+	size = 0;
+	i = 0;
+	while (command[i])
 	{
-		if (is_redirection(words[i]))
-		{
-			if (parse_redirection(words[i], words[i + 1], cmd) == -1)
-			{
-				free_words(words);
-				return (-1);
-			}
+		while (command[i] == ' ')
 			i++;
+		size = is_in_idx(command + i, "< >");
+		if (size == -1)
+			size = ft_strlen(command + i);
+		if (size > 0)
+		{
+			word = get_wordcatch(command + i, "< >");
+			if (!word)
+				return (-1);
+			if (add_any_list(type, word, cmd) == -1)
+				return (-1);
+			type = 0;
+			free(word);
+			i += size;
 		}
-		else
-			add_list_word(words[i], &(cmd->cmd));
+		type = is_redirection(command + i);
+		if (type)
+			i += (type & 1) + 1;
 	}
-	free_words(words);
 	return (0);
 }
 
@@ -97,11 +87,9 @@ t_cmds	*new_cmd(char *commad)
 	init_cmd(cmd);
 	if (parse_cmd(cmd, commad) == -1)
 	{
-		free(cmd);
+		free_cmds(cmd);
 		return (NULL);
 	}
-	cmd->next = 0;
-	cmd->prev = 0;
 	return (cmd);
 }
 
