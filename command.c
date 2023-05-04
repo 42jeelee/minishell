@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/03 14:53:20 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/04 15:45:50 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	add_any_list(int type, char *word, t_cmds *cmd)
 	}
 	else
 	{
+		if (!(*(cmd->cmd)))
+			cmd->builtin = is_builtin(word);
 		if (add_list_word(word, &(cmd->cmd)) == -1)
 			return (-1);
 	}
