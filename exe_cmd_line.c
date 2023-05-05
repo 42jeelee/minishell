@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/05 19:15:20 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/05 20:31:37 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds, char **env);
 static int	init(t_arg *arg, t_execute_arg *exe_arg);
 static void	free_exe_arg(t_execute_arg *exe_arg);
+int			run_builtin(t_cmds *cmds, char **env);
 
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 {
@@ -22,6 +23,8 @@ int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 
 	if (init(arg, &exe_arg))
 		return (print_perror("error"));
+	if (arg->num_of_cmd == 1 && cmds->builtin == 1)
+		return (run_builtin(cmds, env));
 	while (cmds)
 	{
 		exe_arg.pid[exe_arg.i] = fork();
@@ -48,7 +51,7 @@ static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds, cha
 	if (arg->num_of_cmd > 1)
 		close_pipes_exept(exe_arg->pfd, arg->num_of_cmd - 1, exe_arg->fd);
 	if (cmds->builtin == 1)
-		run_and_exit_builin();
+		exit(run_builtin(cmds, env));
 	if (is_relative_path(cmds->cmd[0]))
 	{
 		exe_arg->cmd_path = cmds->cmd[0];
@@ -62,17 +65,64 @@ static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds, cha
 }
 
 void	print_env(char **env);
-void	run_and_exit_builtin(t_cmds *cmds, char **env)
+void	print_echo(char **cmd);
+void	print_pwd(char **env);
+int	run_builtin(t_cmds *cmds, char **env)
 {
-	if (ft_strcmp(cmds->cmd[0], "env"))
+	if (ft_strncmp(cmds->cmd[0], "env", 4) == 0)
 		print_env(env);
+	else if (ft_strncmp(cmds->cmd[0], "echo", 5) == 0)
+		print_echo(cmds->cmd);
+	else if (ft_strncmp(cmds->cmd[0], "pwd", 4) == 0)
+		print_pwd(env);
+	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
+		exit(0);
+	return 0;
 }
 
-void	exe_echo(char **cmd)
+void	print_pwd(char **env)
 {
 	int	i;
 
-	if (cmd[1])
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "PWD=", 4) == 0)
+		{
+			printf("%s\n", env[i] + 4);
+			return ;
+		}
+		i++;
+	}
+}
+
+void	print_echo(char **cmd)
+{
+	int	i;
+
+	if (cmd[1] != 0 && ft_strncmp(cmd[1], "-n") == 0)
+	{
+		i = 2;
+		while (cmd[i])
+		{
+			printf("%s", cmd[i]);
+			if (cmd[i + 1] != 0)
+				printf(" ");
+			i++;
+		}
+	}
+	else
+	{
+		i = 1;
+		while (cmd[i])
+		{
+			printf("%s", cmd[i]);
+			if (cmd[i + 1] != 0)
+				printf(" ");
+			i++;
+		}
+		printf("\n");
+	}
 }
 
 void	print_env(char **env)
