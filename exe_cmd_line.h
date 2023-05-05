@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/04/30 21:49:23 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/05 17:41:30 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_arg
 
 typedef struct s_cmds
 {
+	int				builtin;
 	char			**cmd;
 	int				*redir_type;
 	char			**file;

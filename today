@@ -1,0 +1,14 @@
+빌트인 만들기
+echo with -n 옵션
+	echo 만 썼을때 개행만 출력
+	echo -n 만 썼을때 아무것도 안하고 종료
+	echo asd qwe    qwe asldk -> asd qwe qwe asldk 출력후 개행 출력
+	echo -n asd qwe    qwe asldk -> asd qwe qwe asldk출력 후 종료
+cd 상대경로, 절대경로
+pwd 노옵션
+export 노옵션
+unset 노옵션
+exit 노옵션
+
+
+env 노옵션 노arg OK
