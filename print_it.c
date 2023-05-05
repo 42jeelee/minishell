@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 17:13:33 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/03 14:54:42 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/04 16:01:54 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	print_cmds(t_arg *arg, t_cmds *cmds)
 			printf("REDIRECTION:\n");
 			print_redirection(cmds->redir_type, cmds->file);
 		}
+		printf("builtin: %d\n", cmds->builtin);
 		print_words(cmds->cmd);
 		printf("-----------------------\n");
 		cmds = cmds->next;

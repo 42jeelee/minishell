@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:38:43 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/03 15:36:03 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/04 15:47:19 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <fcntl.h>
 # include "./libft/libft.h"
 
-#define INONE 2
-#define INTWO 1
-#define OUTONE 4
-#define OUTTWO 3
+# define INONE 2
+# define INTWO 1
+# define OUTONE 4
+# define OUTTWO 3
 
 typedef struct s_arg
 {
@@ -34,6 +34,7 @@ typedef struct s_arg
 
 typedef struct s_cmds
 {
+	int				builtin;
 	char			**cmd;
 	int				*redir_type;
 	char			**file;
@@ -41,7 +42,7 @@ typedef struct s_cmds
 	struct s_cmds	*prev;
 }	t_cmds;
 
-typedef struct	s_execute_arg
+typedef struct s_execute_arg
 {
 	int		**pfd;
 	int		fd[2];
@@ -73,6 +74,7 @@ void	free_arg(t_arg *arg);
 
 int		is_in_idx(char *str, char *catch);
 char	*get_wordcatch(char *str, char *catch);
+int		is_builtin(char *word);
 
 // byejeon func
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
