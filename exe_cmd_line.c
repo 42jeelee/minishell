@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/04/30 22:43:02 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/05 13:38:11 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds);
 static int	init(t_arg *arg, t_execute_arg *exe_arg);
+static void	free_exe_arg(t_execute_arg *exe_arg);
 
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 {
@@ -36,6 +37,7 @@ int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 	close_pipes_exept(exe_arg.pfd, arg->num_of_cmd - 1, exe_arg.fd);
 	while (exe_arg.i--)
 		waitpid(exe_arg.pid[exe_arg.i], 0, 0);
+	free_exe_arg(&exe_arg);
 	return (0);
 }
 
@@ -75,4 +77,9 @@ static int	init(t_arg *arg, t_execute_arg *exe_arg)
 		}
 	}
 	return (0);
+}
+
+static void	free_exe_arg(t_execute_arg *exe_arg)
+{
+	free(exe_arg->pid);
 }
