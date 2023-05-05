@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:39:37 by byejeon           #+#    #+#             */
-/*   Updated: 2023/04/30 21:39:58 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/05 20:56:39 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	**pipe_malloc_free(int **pfd, int i);
 static int	**pipe_func_fail(int **pfd, int i);
+
 int	**make_pipes(int num_of_pipe)
 {
 	int	i;

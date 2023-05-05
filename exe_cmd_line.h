@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/05 17:41:30 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/05 21:02:16 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 
-#define INONE 0
-#define INTWO 1
-#define OUTONE 2
-#define OUTTWO 3
+# define INONE 0
+# define INTWO 1
+# define OUTONE 2
+# define OUTTWO 3
 
 typedef struct s_arg
 {
@@ -49,10 +49,11 @@ typedef struct	s_execute_arg
 	char	*cmd_path;
 }	t_execute_arg;
 
-
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
+int		run_builtin(t_cmds *cmds, char **env);
 int		print_perror(char *str);
 size_t	ft_strlen(const char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*cmd_abs_path(char *cmd, char **paths);
 int		**make_pipes(int num_of_pipe);

@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:38:25 by byejeon           #+#    #+#             */
-/*   Updated: 2023/04/30 21:38:57 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/05 20:57:02 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static char	*print_error_message(char *cmd, char *message);
 static char	*print_perror_massage(char *cmd);
+
 char	*cmd_abs_path(char *cmd, char **paths)
 {
 	char	*out;
@@ -40,7 +41,7 @@ char	*cmd_abs_path(char *cmd, char **paths)
 		else
 			free(out);
 	}
-	return(print_error_message(cmd, ": command not found\n"));
+	return (print_error_message(cmd, ": command not found\n"));
 }
 
 static char	*print_perror_massage(char *cmd)
@@ -49,7 +50,7 @@ static char	*print_perror_massage(char *cmd)
 	return (0);
 }
 
-static char *print_error_message(char *cmd, char *message)
+static char	*print_error_message(char *cmd, char *message)
 {
 	write(2, cmd, ft_strlen(cmd));
 	write(2, message, ft_strlen(message));
