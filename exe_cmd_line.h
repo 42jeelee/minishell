@@ -19,6 +19,11 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 
+#define INONE 0
+#define INTWO 1
+#define OUTONE 2
+#define OUTTWO 3
+
 typedef struct s_arg
 {
 	int		num_of_cmd;
@@ -28,10 +33,8 @@ typedef struct s_arg
 typedef struct s_cmds
 {
 	char			**cmd;
-	int				*in_redir_type;
-	int				*out_redir_type;
-	char			**infile;
-	char			**outfile;
+	int				*redir_type;
+	char			**file;
 	struct s_cmds	*next;
 	struct s_cmds	*prev;
 }	t_cmds;
@@ -55,8 +58,7 @@ int		**make_pipes(int num_of_pipe);
 void	close_pipes_exept(int **pfd, int num_of_pipe, int *fd);
 int		is_relative_path(char *cmd);
 
-void	pipe_redir(int **pfd, int i, int num_of_cmd);
-void	in_redir(t_cmds *cmds, int *fd);
-void	out_redir(t_cmds *cmds, int *fd);
+void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd);
+void	redir(char **file, int *redir_type, int *fd);
 
 #endif

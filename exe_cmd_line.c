@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/04/30 21:53:23 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/04/30 22:43:02 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static int	init(t_arg *arg, t_execute_arg *exe_arg);
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 {
 	t_execute_arg	exe_arg;
-	int				stat_loc;
-	int				i;
 
 	if (init(arg, &exe_arg))
 		return (print_perror("error"));
@@ -35,19 +33,18 @@ int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 		cmds = cmds->next;
 		exe_arg.i++;
 	}
-	i = 0;
-	while (i < arg->num_of_cmd)
-		waitpid(exe_arg.pid[i++], &stat_loc, WUNTRACED);
+	close_pipes_exept(exe_arg.pfd, arg->num_of_cmd - 1, exe_arg.fd);
+	while (exe_arg.i--)
+		waitpid(exe_arg.pid[exe_arg.i], 0, 0);
 	return (0);
 }
 
 static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds)
 {
-	pipe_redir(exe_arg->pfd, exe_arg->i, arg->num_of_cmd);
-	in_redir(cmds, exe_arg->fd);
-	out_redir(cmds, exe_arg->fd);
+	pipe_redir(exe_arg->pfd, exe_arg->i, arg->num_of_cmd, exe_arg->fd);
+	redir(cmds->file, cmds->redir_type, exe_arg->fd);
 	if (arg->num_of_cmd > 1)
-		close_pipes_exept(exe_arg->pfd, arg->num_of_cmd, exe_arg->fd);
+		close_pipes_exept(exe_arg->pfd, arg->num_of_cmd - 1, exe_arg->fd);
 	if (is_relative_path(cmds->cmd[0]))
 	{
 		exe_arg->cmd_path = cmds->cmd[0];
@@ -57,7 +54,7 @@ static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds)
 	else
 		exe_arg->cmd_path = cmd_abs_path(cmds->cmd[0], arg->path);
 	if (exe_arg->cmd_path == 0)
-		exit(print_perror(cmds->cmd[0]));
+		exit(1);
 }
 
 static int	init(t_arg *arg, t_execute_arg *exe_arg)
