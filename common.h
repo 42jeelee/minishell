@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 15:06:10 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:46:21 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ typedef struct s_execute_arg
 	int		i;
 	char	*cmd_path;
 }	t_execute_arg;
+
+int		print_perror(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:42:15 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 17:50:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 20:09:53 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_cmds	*new_prompt(int *num_of_cmd)
 		free(line);
 		if (status == -1)
 		{
-			free(cmds);
+			free_cmds(cmds);
 			return (NULL);
 		}
 	}
