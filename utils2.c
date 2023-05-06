@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 22:15:27 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 15:29:10 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:38:12 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ char	*get_wordcatch(char *str, char *catchs)
 	int		rm_quotes;
 
 	size = rm_quotes_wordsize(str, catchs, &rm_quotes);
-	if (!size)
-		return (NULL);
 	word = (char *)malloc(sizeof(char) * (size + 1));
 	if (!word)
 		return (NULL);
