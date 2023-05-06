@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/05 21:34:37 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:33:53 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "common.h"
 
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
-int		run_builtin(t_cmds *cmds, char **env);
+int		run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg);
 int		print_perror(char *str);
 char	*cmd_abs_path(char *cmd, char **paths);
 int		**make_pipes(int num_of_pipe);
