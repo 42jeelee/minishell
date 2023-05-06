@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:48:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 18:31:00 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 17:52:53 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	parse_line(char *line, t_cmds **cmds, int *num_of_cmd)
 	while (commands[size])
 		size++;
 	*num_of_cmd = size;
+	if (!size)
+		size = 1;
 	i = -1;
 	while (++i < size)
 	{
