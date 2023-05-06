@@ -6,42 +6,50 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 22:15:27 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/04 16:00:03 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 15:29:10 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_in_idx(char *str, char *catch)
+int	is_in_idx(char *str, char *catchs)
 {
 	int	i;
 
 	i = -1;
 	while (str[++i])
 	{
-		if (ft_strchr(catch, str[i]))
+		i += quotes_blockidx(str + i);
+		if (ft_strchr(catchs, str[i]))
 			return (i);
 	}
 	return (-1);
 }
 
-char	*get_wordcatch(char *str, char *catch)
+char	*get_wordcatch(char *str, char *catchs)
 {
 	char	*word;
 	int		i;
 	int		size;
+	int		rm_quotes;
 
-	size = is_in_idx(str, catch);
+	size = rm_quotes_wordsize(str, catchs, &rm_quotes);
 	if (!size)
 		return (NULL);
-	if (size == -1)
-		size = ft_strlen(str);
 	word = (char *)malloc(sizeof(char) * (size + 1));
 	if (!word)
 		return (NULL);
 	i = -1;
 	while (++i < size)
-		word[i] = str[i];
+	{
+		if (rm_quotes && (*str == '\'' || *str == '\"'))
+		{
+			rm_quotes--;
+			str++;
+		}
+		word[i] = *str;
+		str++;
+	}
 	word[i] = 0;
 	return (word);
 }

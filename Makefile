@@ -6,7 +6,7 @@
 #    By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 20:55:40 by jeelee            #+#    #+#              #
-#    Updated: 2023/05/05 21:35:43 by byejeon          ###   ########.fr        #
+#    Updated: 2023/05/06 15:16:36 by jeelee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBDIR		=	./libft
 LIBFT		=	$(LIBDIR)/libft.a
 
 SRC			=	main.c get_args.c new_prompt.c parse_line.c command.c \
-				utils.c utils2.c free_it.c print_it.c init.c \
+				utils.c utils2.c utils3.c free_it.c print_it.c init.c \
 				close_pipes_exept.c cmd_abs_path.c exe_cmd_line.c \
 				is_relative_path.c make_pipes.c print_perror.c redir.c
 
