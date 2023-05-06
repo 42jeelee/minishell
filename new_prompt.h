@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 00:06:19 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 15:26:04 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,13 @@ void	free_words(char **words);
 void	free_cmds(t_cmds *cmds);
 void	free_arg(t_arg *arg);
 
-int		is_in_idx(char *str, char *catch);
-char	*get_wordcatch(char *str, char *catch);
+int		quotes_blockidx(char *str);
+int		is_in_idx(char *str, char *catchs);
 int		is_builtin(char *word);
+int		is_redirection(char *word);
+char	*get_wordcatch(char *str, char *catchs);
+
+int		remove_quotes(char *str, int size);
+int		rm_quotes_wordsize(char *str, char *catches, int *rm_quotes);
 
 #endif
