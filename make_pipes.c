@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:39:37 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/03 15:38:39 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 14:47:29 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	**pipe_malloc_free(int **pfd, int i);
 static int	**pipe_func_fail(int **pfd, int i);
+
 int	**make_pipes(int num_of_pipe)
 {
 	int	i;

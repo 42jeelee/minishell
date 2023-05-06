@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/05 21:29:24 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/06 15:06:10 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_execute_arg
 {
 	int		**pfd;
 	int		fd[2];
+	int		restore_fd[2];
 	pid_t	*pid;
 	int		i;
 	char	*cmd_path;
