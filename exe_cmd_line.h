@@ -14,7 +14,6 @@
 # define EXE_CMD_LINE_H
 
 # include "common.h"
-# include <dirent.h>
 
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
 int		run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg);
