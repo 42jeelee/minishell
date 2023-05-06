@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 20:06:20 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 21:30:57 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,22 @@
 int	main(int ac, char **av, char **env)
 {
 	t_cmds	*cmds;
-	t_arg	*arg;
-	char	**paths;
-	int		num_of_cmds;
+	t_arg	arg;
 
 	if (ac > 1)
 		(void)av;
-	paths = get_path(env);
+	arg.path = get_path(env);
+	if (!(arg.path))
+		print_perror("PARSE ERROR");
 	while (1)
 	{
-		num_of_cmds = 0;
-		cmds = new_prompt(&num_of_cmds);
+		cmds = new_prompt(&(arg.num_of_cmd));
 		if (!cmds)
 			print_perror("PARSE ERROR");
-		arg = get_arg(num_of_cmds, paths);
-		if (!arg)
-			print_perror("PARSE ERROR");
-		if (num_of_cmds)
-			exe_cmd_line(arg, cmds, env);
+		if (arg.num_of_cmd)
+			exe_cmd_line(&arg, cmds, env);
 		free_cmds(cmds);
 	}
-	free_arg(arg);
+	free_words(arg.path);
 	return (0);
 }

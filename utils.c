@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:57:42 by jeelee            #+#    #+#             */
-/*   Updated: 2023/04/30 21:30:53 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 21:28:45 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ int	create_int_list(int **list)
 	*list = (int *)malloc(sizeof(int));
 	if (!(*list))
 		return (-1);
-	*list = 0;
+	**list = 0;
 	return (0);
 }
