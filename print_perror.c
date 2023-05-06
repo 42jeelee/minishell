@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:34:36 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/03 15:38:30 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 19:01:43 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	print_perror(char *str)
 {
+	if (str[0] == 0)
+		write(2, ": ", 2);
 	perror(str);
 	return (1);
 }
