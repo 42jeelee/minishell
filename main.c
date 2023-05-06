@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 18:38:54 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:55:23 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	main(int ac, char **av, char **env)
 		arg = get_arg(num_of_cmds, paths);
 		if (!arg)
 			ft_putendl_fd("ERROR!", 1);
-		print_cmds(arg, cmds);
-		// if (num_of_cmds)
-		// 	exe_cmd_line(arg, cmds, env);
+		//print_cmds(arg, cmds);
+		if (num_of_cmds)
+		exe_cmd_line(arg, cmds, env);
 		free_cmds(cmds);
 	}
 	free_arg(arg);

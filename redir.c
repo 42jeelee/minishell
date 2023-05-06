@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:43:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 14:30:11 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:01:49 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static void	in_one(char *file, int *fd, int *in_count)
 	if (*in_count != 0)
 		close(fd[0]);
 	if (access(file, R_OK) == -1)
+	{
+		write
 		exit(print_perror(file));
+	}
 	fd[0] = open(file, O_RDONLY);
 	if (fd[0] < 0)
 		exit(print_perror(file));

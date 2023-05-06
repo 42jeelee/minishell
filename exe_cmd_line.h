@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 14:33:53 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/06 18:03:10 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXE_CMD_LINE_H
 
 # include "common.h"
+# include <dirent.h>
 
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
 int		run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg);

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:38:25 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 14:46:01 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/06 18:56:32 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*cmd_abs_path(char *cmd, char **paths)
 	int		i;
 
 	i = -1;
+	if (cmd[0] == '\0')
+		return (print_error_message(cmd, ": command not found\n"));
 	while (paths[++i])
 	{
 		out = ft_strjoin(paths[i], cmd);
@@ -29,9 +31,7 @@ char	*cmd_abs_path(char *cmd, char **paths)
 		if (access(out, F_OK) == 0)
 		{
 			if (access(out, X_OK) == 0)
-			{
 				return (out);
-			}
 			else
 			{
 				free(out);
