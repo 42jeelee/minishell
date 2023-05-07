@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/07 12:50:31 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/07 19:08:08 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_arg
 {
 	int		num_of_cmd;
 	char	**path;
+	char	**env;
 }	t_arg;
 
 typedef struct s_cmds
@@ -50,10 +51,8 @@ typedef struct s_execute_arg
 	pid_t	*pid;
 	int		i;
 	char	*cmd_path;
-	int		stat_loc;
 }	t_execute_arg;
 
 int		print_perror(char *str);
-int		add_list_word(char *word, char ***list);
 
 #endif
