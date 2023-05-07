@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 20:30:45 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/07 12:50:31 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ typedef struct s_execute_arg
 }	t_execute_arg;
 
 int		print_perror(char *str);
+int		add_list_word(char *word, char ***list);
 
 #endif
