@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 20:51:55 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/07 19:21:13 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int		create_word_list(char ***list);
 int		create_int_list(int **list);
 int		init_cmd(t_cmds *cmd);
 
+char	**list_dup(char **list);
 char	**get_path(char **env);
+char	**make_envlist(char **env);
 
 void	free_words(char **words);
 void	free_cmds(t_cmds *cmds);

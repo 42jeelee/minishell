@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 21:30:57 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/07 19:24:14 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int ac, char **av, char **env)
 	if (ac > 1)
 		(void)av;
 	arg.path = get_path(env);
+	arg.env = make_envlist(env);
 	if (!(arg.path))
 		print_perror("PARSE ERROR");
 	while (1)
