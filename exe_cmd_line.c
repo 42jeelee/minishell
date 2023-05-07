@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 18:43:34 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/06 19:29:45 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 	}
 	close_pipes_exept(exe_arg.pfd, arg->num_of_cmd - 1, exe_arg.fd);
 	while (exe_arg.i--)
-		waitpid(exe_arg.pid[exe_arg.i], 0, 0);
+		waitpid(exe_arg.pid[exe_arg.i], &exe_arg.stat_loc, 0);
 	close_and_free_things(&exe_arg);
-	return (0);
+	return (exe_arg.stat_loc);
 }
 
 static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds,
