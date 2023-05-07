@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/07 19:08:08 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/08 00:11:19 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <termios.h>
+# include <errno.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/wait.h>
@@ -54,5 +57,9 @@ typedef struct s_execute_arg
 }	t_execute_arg;
 
 int		print_perror(char *str);
+
+char	**list_dup(char **list);
+int		add_list_word(char *word, char ***list);
+int		add_list_int(int num, int **list);
 
 #endif

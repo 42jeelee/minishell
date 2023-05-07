@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/07 19:21:13 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/08 00:07:29 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,10 @@ int		parse_line(char *line, t_cmds **cmds, int *num_of_cmd);
 t_cmds	*new_cmd(char *commad);
 void	add_cmd_list(t_cmds *new, t_cmds **list);
 
-int		add_list_word(char *word, char ***list);
-int		add_list_int(int num, int **list);
 int		create_word_list(char ***list);
 int		create_int_list(int **list);
 int		init_cmd(t_cmds *cmd);
 
-char	**list_dup(char **list);
 char	**get_path(char **env);
 char	**make_envlist(char **env);
 
@@ -44,5 +41,8 @@ char	*get_wordcatch(char *str, char *catchs);
 
 int		remove_quotes(char *str, int size);
 int		rm_quotes_wordsize(char *str, char *catches, int *rm_quotes);
+
+void	change_term(struct termios *term);
+void	no_echoctl(struct termios *old_term);
 
 #endif
