@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/07 19:24:14 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/07 21:00:15 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **env)
 		if (!cmds)
 			print_perror("PARSE ERROR");
 		if (arg.num_of_cmd)
-			exe_cmd_line(&arg, cmds, env);
+			exe_cmd_line(&arg, cmds, arg.env);
 		free_cmds(cmds);
 	}
 	free_words(arg.path);
