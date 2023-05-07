@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 18:43:25 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/07 19:14:34 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 void	print_env(char **env);
 void	print_echo(char **cmd);
-void	print_pwd(char **env);
+void	print_pwd(void);
+void	exe_cd(char **cmd, char **env);
+//cd 는 env에서 home을 읽어서 home으로 간다.
+//cd - 는 env에서 OLDPWD를 읽어서 OLDPWD로 간다.
+//cd ~ 는 ~ 로 간다.
 
 int	run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg)
 {
@@ -23,9 +27,11 @@ int	run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg)
 	else if (ft_strncmp(cmds->cmd[0], "echo", 5) == 0)
 		print_echo(cmds->cmd);
 	else if (ft_strncmp(cmds->cmd[0], "pwd", 4) == 0)
-		print_pwd(env);
+		print_pwd();
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
 		exit(0);
+	else if (ft_strncmp(cmds->cmd[0], "cd", 5) == 0)
+		exe_cd(cmds->cmd, env);
 	dup2(exe_arg->restore_fd[0], 0);
 	dup2(exe_arg->restore_fd[1], 1);
 	close(exe_arg->restore_fd[0]);
@@ -33,21 +39,16 @@ int	run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg)
 	return (0);
 }
 
-void	print_pwd(char **env)
+void	print_pwd(void)
 {
-	int	i;
+	char	*str;
 
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "PWD=", 4) == 0)
-		{
-			write(1, env[i] + 4, ft_strlen(env[i]) - 4);
-			write(1, "\n", 1);
-			return ;
-		}
-		i++;
-	}
+	str = getcwd(0, 0);
+	if (str == 0)
+		exit(12);
+	write(1, str, ft_strlen(str));
+	write(1, "\n", 1);
+	free(str);
 }
 
 void	print_echo(char **cmd)
