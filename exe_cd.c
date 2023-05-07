@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:11:32 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/07 19:15:04 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/07 20:29:44 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct cd_home_arg
 int	is_in_env(char *str, char **env);
 int	exe_cd_home(char **env);
 int	exe_cd_oldpwd(char **env);
+
 void	exe_cd(char **cmd, char **env)
 {
 	if (cmd[1] == 0)
@@ -29,7 +30,6 @@ void	exe_cd(char **cmd, char **env)
 	else if (ft_strncmp(cmd[1], "-", 2) == 0)
 		exe_cd_oldpwd(env);
 	else
-
 }
 
 void	exe_cd_common(char *cmd, char **env)
@@ -37,7 +37,6 @@ void	exe_cd_common(char *cmd, char **env)
 	t_cd_arg	cd_arg;
 
 	chdir(cmd[1]);
-
 }
 
 int	init_cd_common(t_cd_arg *cd_arg, char **cmd, char **env)
