@@ -10,141 +10,119 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct cd_home_arg
-{
-	int		pwd_idx;
-	int		oldpwd_idx;
-	char	*home_path;
-	char	*after_pwdenv;
-	char	*after_oldpwdenv;
-}	t_cd_arg;
+#include "common.h"
 
-int	is_in_env(char *str, char **env);
-int	exe_cd_home(char **env);
-int	exe_cd_oldpwd(char **env);
+#define FAIL -1
+#define CD_HOME 0
+#define CD_OLD 1
+#define CD_COMMON 2
 
-void	exe_cd(char **cmd, char **env)
+static int		cd_set_flag(char **cmd, char **env);
+static int		str_idx_in_env(const char *str, char **env);
+static char	*get_path(char **cmd, char **env, int flag);
+static void	change_pwds_in_env(char **env, char *after_pwd, char *after_oldpwd);
+
+int	exe_cd(char **cmd, char **env)
 {
-	if (cmd[1] == 0)
-		exe_cd_home(env);
-	else if (ft_strncmp(cmd[1], "-", 2) == 0)
-		exe_cd_oldpwd(env);
+	int		flag;
+	char	*cd_path;
+	char	*after_oldpwd;
+	char	*after_pwd;
+
+	flag = cd_set_flag(cmd, env);
+	if (flag == FAIL)
+		return (1);
+	cd_path = get_path(cmd, env, flag);
+	after_oldpwd = getcwd(0, 0);
+	if (after_oldpwd == 0)
+		exit(print_perror("cd"));
+	if (chdir(cd_path) != 0)
+	{
+		free(after_oldpwd);
+		return (print_perror("cd"));
+	}
+	after_pwd = getcwd(0, 0);
+	if (after_pwd == 0)
+		exit(print_perror("cd"));
+	if (flag == CD_OLD)
+		printf("%s\n", after_pwd);
+	change_pwds_in_env(env, after_pwd, after_oldpwd);
+	return (0);
+}
+
+static void	change_pwds_in_env(char **env, char *after_pwd, char *after_oldpwd)
+{
+	int	pwd_idx;
+	int	oldpwd_idx;
+
+	pwd_idx = str_idx_in_env("PWD", env);
+	oldpwd_idx = str_idx_in_env("OLDPWD", env);
+	if (pwd_idx != FAIL)
+	{
+		free(env[pwd_idx]);
+		env[pwd_idx] = ft_strjoin("PWD=", after_pwd);
+		if (env[pwd_idx] == 0)
+			exit(print_perror("cd"));
+		free(after_pwd);
+	}
 	else
-}
-
-void	exe_cd_common(char *cmd, char **env)
-{
-	t_cd_arg	cd_arg;
-
-	chdir(cmd[1]);
-}
-
-int	init_cd_common(t_cd_arg *cd_arg, char **cmd, char **env)
-{
-	cd_arg->pwd_idx = is_in_env("PWD=", env);
-	cd_arg->oldpwd_idx = is_in_env("OLDPWD=", env);
-	cd_arg->after_pwdenv = ft_strjoin("PWD=", );
-	cd_arg->after_oldpwdenv =
-}
-
-int	init_cd_oldpwd(t_cd_arg *cd_arg, char **env);
-int	exe_cd_oldpwd(char **env)
-{
-	t_cd_arg	cd_arg;
-
-	if (init_cd_oldpwd(&cd_arg, env))
-		return (1);
-	chdir(env[cd_arg.oldpwd_idx] + 7);
-	printf("%s\n", env[cd_arg.oldpwd_idx] + 7);
-	env[cd_arg.pwd_idx] = cd_arg.after_pwdenv;
-	env[cd_arg.oldpwd_idx] = cd_arg.after_oldpwdenv;
-	return (0);
-}
-
-int	init_cd_oldpwd(t_cd_arg *cd_arg, char **env)
-{
-	char	*tmp;
-
-	cd_arg->pwd_idx = is_in_env("PWD=", env);
-	cd_arg->oldpwd_idx = is_in_env("OLDPWD=", env);
-	if (cd_arg->oldpwd_idx == -1)
+		free(after_pwd);
+	if (oldpwd_idx != FAIL)
 	{
-		write(2, "cd: OLDPWD not set\n", 19);
-		return (1);
+		free(env[oldpwd_idx]);
+		env[oldpwd_idx] = ft_strjoin("OLDPWD=", after_oldpwd);
+		if (env[oldpwd_idx] == 0)
+			exit(print_perror("cd"));
+		free(after_oldpwd);
 	}
-	if (cd_arg->pwd_idx != 1)
-		cd_arg->after_pwdenv = ft_strjoin("PWD=", env[cd_arg->oldpwd_idx] + 7);
-	tmp = getcwd(0, 0);
-	if (tmp == 0 || cd_arg->after_pwdenv == 0)
-		exit(12);
-	if (cd_arg->oldpwd_idx != 1)
-	{
-		cd_arg->after_oldpwdenv = ft_strjoin("OLDPWD=", tmp);
-		if (cd_arg->after_oldpwdenv == 0)
-			exit (12);
-	}
-	free(tmp);
-	return (0);
+	else
+		free(after_oldpwd);
 }
 
-int	init_cd_home(t_cd_arg *cd_arg, char **env);
-int	exe_cd_home(char **env)
+static char	*get_path(char **cmd, char **env, int flag)
 {
-	t_cd_arg	cd_arg;
-
-	if (init_cd_home(&cd_arg, env) == 1)
-		return (1);
-	chdir(cd_arg.home_path);
-	if (cd_arg.pwd_idx != -1)
-		env[cd_arg.pwd_idx] = cd_arg.after_pwdenv;
-	if (cd_arg.oldpwd_idx != -1)
-		env[cd_arg.oldpwd_idx] = cd_arg.after_oldpwdenv;
-	return (0);
+	if (flag == CD_HOME)
+		return (&env[str_idx_in_env("HOME=", env)][5]);
+	else if (flag == CD_OLD)
+		return (&env[str_idx_in_env("OLDPWD=", env)][7]);
+	else
+		return (&cmd[1][0]);
 }
 
-int	init_cd_home(t_cd_arg *cd_arg, char **env)
+static int	cd_set_flag(char **cmd, char **env)
 {
-	int		i;
-	char	*tmp;
-
-	i = is_in_env("HOME=", env);
-	cd_arg->pwd_idx = is_in_env("PWD=", env);
-	cd_arg->oldpwd_idx = is_in_env("OLDPWD=", env);
-	if (i == -1)
+	if (cmd[1] == 0 || ft_strncmp(cmd[1], "~", 2) == 0)
 	{
-		write(2, "cd: HOME not set\n", 17);
-		return (1);
+		if (str_idx_in_env("HOME=", env) == FAIL)
+		{
+			write(2, "cd: HOME not set\n", 17);
+			return (FAIL);
+		}
+		return (CD_HOME);
 	}
-	cd_arg->home_path = ft_strdup(env[i] + 5);
-	cd_arg->after_pwdenv = ft_strjoin("PWD=", cd_arg->home_path);
-	tmp = getcwd(0, 0);
-	cd_arg->after_oldpwdenv = ft_strjoin("OLDPWD=", tmp);
-	free(tmp);
-	return (0);
+	else if (ft_strncmp(cmd[1], "-", 2) == 0)
+	{
+		if (str_idx_in_env("OLDPWD=", env) == FAIL)
+		{
+			write(2, "cd: OLDPWD not set\n", 19);
+			return (FAIL);
+		}
+		return (CD_OLD);
+	}
+	else
+		return (CD_COMMON);
 }
 
-int	is_in_env(char *str, char **env)
+static int	str_idx_in_env(const char *str, char **env)
 {
 	int	i;
 
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], str, ft_strlen(str)) == 0)
+		if (ft_strncmp(str, env[i], ft_strlen(str)) == 0)
 			return (i);
 		i++;
 	}
-	return (-1);
-}
-
-void	free_things(void *a, void *b, void *c, void *d)
-{
-	if (a != 0)
-		free(a);
-	if (b != 0)
-		free(b);
-	if (c != 0)
-		free(c);
-	if (d != 0)
-		free(d);
+	return (FAIL);
 }
