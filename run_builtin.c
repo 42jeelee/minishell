@@ -30,7 +30,7 @@ int	run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg)
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(cmds->cmd[0], "cd", 5) == 0)
-
+		exe_cd(cmds->cmd, env);
 	dup2(exe_arg->restore_fd[0], 0);
 	dup2(exe_arg->restore_fd[1], 1);
 	close(exe_arg->restore_fd[0]);

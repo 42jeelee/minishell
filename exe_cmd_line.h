@@ -24,5 +24,6 @@ int		is_relative_path(char *cmd);
 
 void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd);
 void	redir(char **file, int *redir_type, int *fd);
+int		exe_cd(char **cmd, char **env);
 
 #endif

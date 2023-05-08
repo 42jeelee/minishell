@@ -46,6 +46,7 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds,
 				char **env)
 {
+	fork_sig_init(arg);
 	pipe_redir(exe_arg->pfd, exe_arg->i, arg->num_of_cmd, exe_arg->fd);
 	redir(cmds->file, cmds->redir_type, exe_arg->fd);
 	if (arg->num_of_cmd > 1)

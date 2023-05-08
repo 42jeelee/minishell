@@ -18,15 +18,15 @@ CFLAGS		=	-Wall -Wextra -Werror
 LIBDIR		=	./libft
 LIBFT		=	$(LIBDIR)/libft.a
 
-RLDIR		=	/usr/local/opt/readline/lib
-RLINC		=	/usr/local/opt/readline/include
+RLDIR		=	/opt/homebrew/opt/readline/lib
+RLINC		=	/opt/homebrew/opt/readline/include
 
 SRC			=	main.c get_path.c new_prompt.c parse_line.c command.c \
 				utils.c utils2.c utils3.c utils4.c free_it.c print_it.c init.c \
 				term_env.c sig_control.c \
 				close_pipes_exept.c cmd_abs_path.c exe_cmd_line.c \
 				is_relative_path.c make_pipes.c print_perror.c redir.c \
-				run_builtin.c
+				run_builtin.c exe_cd.c
 
 OBJ			=	$(SRC:.c=.o)
 
