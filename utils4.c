@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:08:39 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 20:28:15 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/09 01:07:57 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**make_envlist(char **env)
 	env_list = list_dup(env);
 	if (!env_list)
 		return (NULL);
-	if (!get_value_env("OLDPWD", env))
+	if (!getenv("OLDPWD"))
 	{
 		if (add_list_word("OLDPWD", &env_list) == -1)
 		{
@@ -56,26 +56,31 @@ char	**make_envlist(char **env)
 	return (env_list);
 }
 
-char	*ft_strsizejoin(char *s1, int size, char *s2)
+char	*ft_strchange(char *str, int start, int end, char *changestr)
 {
 	char	*new_str;
-	int		s1_size;
-	int		s2_size;
+	int		s_size;
+	int		c_size;
 	int		i;
 
-	s1_size = ft_strlen(s1);
-	s2_size = ft_strlen(s2);
-	if (s1_size < size)
-		size = s1_size;
-	new_str = (char *)malloc(sizeof(char) * (size + s2_size + 1));
+	if (start > end)
+		return (str);
+	s_size = ft_strlen(str);
+	if (start < 0 || s_size < end)
+		return (str);
+	c_size = ft_strlen(changestr);
+	new_str = (char *)malloc(sizeof(char) * (s_size - (end - start) + c_size));
 	if (!new_str)
 		return (NULL);
 	i = -1;
-	while (++i < size)
-		new_str[i] = s1[i];
+	while (++i < start)
+		new_str[i] = str[i];
 	i = -1;
-	while (++i < s2_size)
-		new_str[size + i] = s2[i];
-	new_str[size + i] = 0;
+	while (++i < c_size)
+		new_str[start + i] = changestr[i];
+	i = -1;
+	while (++i < s_size - end)
+		new_str[start + c_size + i] = str[end + i];
+	new_str[start + c_size + i] = 0;
 	return (new_str);
 }

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 20:26:40 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/09 01:06:14 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int		parse_line(char *line, t_cmds **cmds, int *num_of_cmd);
 
 t_cmds	*new_cmd(char *commad);
 void	add_cmd_list(t_cmds *new, t_cmds **list);
-char	*ft_strsizejoin(char *s1, int size, char *s2);
+char	*ft_strchange(char *str, int start, int end, char *changestr);
 
 int		create_word_list(char ***list);
 int		create_int_list(int **list);
 int		init_cmd(t_cmds *cmd);
 
-char	*get_value_env(char *key, char **env);
+char	*get_value_env(char *key, int *end, char **env);
 int		change_env_list(char **list, char **env);
 int		change_allist_env(t_cmds *cmds, t_arg *arg);
 
