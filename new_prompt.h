@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 00:07:29 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/08 02:56:29 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ int		rm_quotes_wordsize(char *str, char *catches, int *rm_quotes);
 
 void	change_term(struct termios *term);
 void	no_echoctl(struct termios *old_term);
+
+void	sig_init(void);
 
 #endif

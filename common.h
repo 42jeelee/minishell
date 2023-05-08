@@ -6,15 +6,14 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/08 00:11:19 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/08 13:49:17 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMON_H
 # define COMMON_H
 
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <stdio.h>
 # include <signal.h>
 # include <termios.h>
 # include <errno.h>
@@ -22,6 +21,8 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "./libft/libft.h"
 
 # define INONE 2
