@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:08:39 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/07 19:23:56 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/08 20:01:03 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,28 @@ char	**make_envlist(char **env)
 		return (NULL);
 	}
 	return (env_list);
+}
+
+char	*ft_strsizejoin(char *s1, int size, char *s2)
+{
+	char	*new_str;
+	int		s1_size;
+	int		s2_size;
+	int		i;
+
+	s1_size = ft_strlen(s1);
+	s2_size = ft_strlen(s2);
+	if (s1_size < size)
+		size = s1_size;
+	new_str = (char *)malloc(sizeof(char) * (size + s2_size + 1));
+	if (!new_str)
+		return (NULL);
+	i = -1;
+	while (++i < size)
+		new_str[i] = s1[i];
+	i = -1;
+	while (++i < s2_size)
+		new_str[size + i] = s2[i];
+	new_str[size + i] = 0;
+	return (new_str);
 }
