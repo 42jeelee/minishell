@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 20:22:04 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/08 20:42:21 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,30 @@ char	*get_value_env(char *key, char **env)
 	return (value);
 }
 
-int	change_env_list(char **list, char **env)
+int	set_word_change(char *word, int idx, char **env)
 {
-	int		i;
-	int		idx;
 	char	*value;
 	char	*new_word;
+
+	value = get_value_env(word + idx + 1, env);
+	if (value)
+	{
+		value = ft_strdup("");
+		if (!value)
+			return (1);
+	}
+	new_word = ft_strsizejoin(word, idx, value);
+	if (!new_word)
+		return (1);
+	free(word);
+	word = new_word;
+	return (0);
+}
+
+int	change_env_list(char **list, char **env)
+{
+	int	i;
+	int	idx;
 
 	i = -1;
 	while (list[++i])
@@ -45,15 +63,8 @@ int	change_env_list(char **list, char **env)
 		idx = is_in_idx(list[i], "$");
 		if (idx != -1)
 		{
-			value = get_value_env(list[i] + idx + 1, env);
-			if (value)
-			{
-				new_word = ft_strsizejoin(list[i], idx, value);
-				if (!new_word)
-					return (print_perror("PARSE ERROR"));
-				free(list[i]);
-				list[i] = new_word;
-			}
+			if (set_word_change(list[i], idx, env))
+				return (1);
 		}
 	}
 	return (0);
