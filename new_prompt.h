@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 20:06:53 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/08 20:26:40 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*ft_strsizejoin(char *s1, int size, char *s2);
 int		create_word_list(char ***list);
 int		create_int_list(int **list);
 int		init_cmd(t_cmds *cmd);
+
+char	*get_value_env(char *key, char **env);
 int		change_env_list(char **list, char **env);
 int		change_allist_env(t_cmds *cmds, t_arg *arg);
 
