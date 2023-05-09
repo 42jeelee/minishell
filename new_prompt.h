@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/09 01:06:14 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/10 00:57:58 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ int		is_in_idx(char *str, char *catchs);
 int		is_builtin(char *word);
 int		is_redirection(char *word);
 char	*get_wordcatch(char *str, char *catchs);
-
-int		remove_quotes(char *str, int size);
-int		rm_quotes_wordsize(char *str, char *catches, int *rm_quotes);
 
 void	change_term(struct termios *term);
 void	no_echoctl(struct termios *old_term);
