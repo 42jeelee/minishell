@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **env)
 		if (change_allist_env(cmds, &arg))
 			return (1);
 		if (arg.num_of_cmd)
-			exe_cmd_line(&arg, cmds, arg.env);
+			exe_cmd_line(&arg, cmds, &arg.env);
 		free_cmds(cmds);
 		arg.num_of_cmd = 0;
 	}

@@ -13,11 +13,11 @@
 #include "minishell.h"
 
 static int	init(t_arg *arg, t_execute_arg *exe_arg);
-static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds,
-				char **env);
+static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
+				t_cmds *cmds, char ***env);
 static void	close_and_free_things(t_execute_arg *exe_arg);
 
-int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
+int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 {
 	t_execute_arg	exe_arg;
 
@@ -43,8 +43,8 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env)
 	return (0);
 }
 
-static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds,
-				char **env)
+static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
+				t_cmds *cmds, char ***env)
 {
 	fork_sig_init(arg);
 	pipe_redir(exe_arg->pfd, exe_arg->i, arg->num_of_cmd, exe_arg->fd);
@@ -63,7 +63,7 @@ static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg, t_cmds *cmds,
 		exe_arg->cmd_path = cmd_abs_path(cmds->cmd[0], arg->path);
 	if (exe_arg->cmd_path == 0)
 		exit(1);
-	execve(exe_arg->cmd_path, cmds->cmd, env);
+	execve(exe_arg->cmd_path, cmds->cmd, *env);
 	exit(print_perror(cmds->cmd[0]));
 }
 

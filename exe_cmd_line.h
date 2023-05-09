@@ -15,8 +15,8 @@
 
 # include "common.h"
 
-int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char **env);
-int		run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg);
+int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env);
+int		run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg);
 char	*cmd_abs_path(char *cmd, char **paths);
 int		**make_pipes(int num_of_pipe);
 void	close_pipes_exept(int **pfd, int num_of_pipe, int *fd);
@@ -25,5 +25,6 @@ int		is_relative_path(char *cmd);
 void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd);
 void	redir(char **file, int *redir_type, int *fd);
 int		exe_cd(char **cmd, char **env);
+void	exe_export(char **cmd, char ***env);
 
 #endif
