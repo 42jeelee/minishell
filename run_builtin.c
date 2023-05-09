@@ -19,10 +19,10 @@ void	print_pwd(void);
 //cd - 는 env에서 OLDPWD를 읽어서 OLDPWD로 간다.
 //cd ~ 는 ~ 로 간다.
 
-int	run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg)
+int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 {
 	if (ft_strncmp(cmds->cmd[0], "env", 4) == 0)
-		print_env(env);
+		print_env(*env);
 	else if (ft_strncmp(cmds->cmd[0], "echo", 5) == 0)
 		print_echo(cmds->cmd);
 	else if (ft_strncmp(cmds->cmd[0], "pwd", 4) == 0)
@@ -30,7 +30,9 @@ int	run_builtin(t_cmds *cmds, char **env, t_execute_arg *exe_arg)
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(cmds->cmd[0], "cd", 5) == 0)
-		exe_cd(cmds->cmd, env);
+		exe_cd(cmds->cmd, *env);
+	else if (ft_strncmp(cmds->cmd[0], "export", 7) == 0)
+		exe_export(cmds->cmd, env);
 	dup2(exe_arg->restore_fd[0], 0);
 	dup2(exe_arg->restore_fd[1], 1);
 	close(exe_arg->restore_fd[0]);
@@ -85,5 +87,9 @@ void	print_env(char **env)
 
 	i = 0;
 	while (env[i])
-		printf("%s\n", env[i++]);
+	{
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
+		i++;
+	}
 }
