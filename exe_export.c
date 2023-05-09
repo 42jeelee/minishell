@@ -4,6 +4,7 @@ static void	exe_export_with_no_arg(char **env);
 static int	is_invalid_identifier_in_str(const char *str);
 void	exe_export_add_one(char *str, char ***env);
 int		str_size_until_equal_or_null(const char *str);
+int		find_str_idx_in_env(char *str, char **env);
 
 void	exe_export(char **cmd, char ***env)
 {
@@ -28,33 +29,39 @@ void	exe_export(char **cmd, char ***env)
 
 void	exe_export_add_one(char *str, char ***env)
 {
+	int	idx;
+
+	idx = find_str_idx_in_env(str, *env);
+	if (idx >= 0)
+	{
+		if (ft_strchr(str, '='))
+		{
+			free((*env)[idx]);
+			(*env)[idx] = ft_strdup(str);
+			if ((*env)[idx] == 0)
+				exit(print_perror("export"));
+			return ;
+		}
+	}
+	else
+		add_list_word(str, env);
+}
+
+int	find_str_idx_in_env(char *str, char **env)
+{
 	int	i;
 	int	size;
 
 	i = 0;
 	size = str_size_until_equal_or_null(str);
-	printf("size : %d\n", size);
-	while ((*env)[i])
+	while (env[i])
 	{
-		if (ft_strncmp(str, (*env)[i], size) == 0 &&
-				((*env)[i][size] == '=' || (*env)[i][size] == '\0'))
-		{
-			if (ft_strchr(str, '='))
-			{
-				free(*(env)[i]);
-				(*env)[i] = ft_strdup(str);
-				if ((*env)[i] == 0)
-					exit(print_perror("export"));
-				return ;
-			}
-		}
-		else
-		{
-			add_list_word(str, env);
-			return ;
-		}
+		if (ft_strncmp(str, env[i], size) == 0 &&
+				(env[i][size] == '=' || env[i][size] == '\0'))
+			return (i);
 		i++;
 	}
+	return (-1);
 }
 
 int	str_size_until_equal_or_null(const char *str)
