@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 17:11:10 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 19:10:15 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*get_value_env(char *key, int size, char **env)
 
 int	get_env_size(char *word, int block_size)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (block_size <= 0 || word[i] != '$')

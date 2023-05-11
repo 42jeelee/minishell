@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 01:36:40 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 14:29:43 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 19:08:21 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,14 @@ void	fork_sig_init(t_arg *arg)
 {
 	signal(SIGINT, arg->old_sigint);
 	signal(SIGQUIT, arg->old_sigquit);
+}
+
+void	parents_sig_init(void)
+{
+	signal(SIGINT, SIG_IGN);
+}
+
+void	parents_sig_end(void)
+{
+	signal(SIGINT, sig_handler);
 }
