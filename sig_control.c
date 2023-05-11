@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 01:36:40 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 19:08:21 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 19:23:21 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@ void	sig_handler(int signum)
 	if (signum == SIGINT)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_replace_line("", 1);
+		rl_replace_line("", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_redisplay();
 	}
+}
+
+void	sig_have_child(int signum)
+{
+	if (signum == SIGINT)
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 void	sig_init(t_arg *arg)
@@ -37,7 +43,7 @@ void	fork_sig_init(t_arg *arg)
 
 void	parents_sig_init(void)
 {
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, sig_have_child);
 }
 
 void	parents_sig_end(void)
