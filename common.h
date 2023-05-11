@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/08 14:30:29 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 19:08:58 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_execute_arg
 int		print_perror(char *str);
 
 void	fork_sig_init(t_arg *arg);
+void	parents_sig_init(void);
+void	parents_sig_end(void);
 
 char	**list_dup(char **list);
 int		add_list_word(char *word, char ***list);

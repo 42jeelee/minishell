@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 17:21:30 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 19:09:47 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "common.h"
 
-typedef struct	s_blockinfo
+typedef struct s_blockinfo
 {
 	int		word_size;
 	int		start;
