@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 13:56:41 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 15:29:25 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 18:17:59 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,47 +27,46 @@ int	is_redirection(char *word)
 
 int	quotes_blockidx(char *str)
 {
-	int	i;
+	int		i;
+	char	c;
 
 	i = 0;
 	if (str[i] == '\'' || str[i] == '\"')
 	{
+		c = str[i];
 		while (str[++i])
 		{
-			if (str[i] == '\'' || str[i] == '\"')
+			if (str[i] == c)
 				return (i);
 		}
 	}
 	return (0);
 }
 
-int	remove_quotes(char *str, int size)
+int	get_block_size(char *word, char c)
 {
-	int	quotes;
-	int	i;
-
-	quotes = 0;
-	i = -1;
-	while (str[++i] && i < size)
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-			quotes++;
-	}
-	return ((quotes / 2) * 2);
-}
-
-int	rm_quotes_wordsize(char *str, char *catches, int *rm_quotes)
-{
+	int	start;
+	int	end;
 	int	size;
-	int	rm;
 
-	rm = 0;
-	size = is_in_idx(str, catches);
-	if (size == -1)
-		size = ft_strlen(str);
-	rm = remove_quotes(str, size);
-	size -= rm;
-	if (rm_quotes)
-		*rm_quotes = rm;
-	return (size);
+	start = 0;
+	while (word[start])
+	{
+		end = str_in_idx(word + start, "\"\'");
+		if (end != -1)
+		{
+			if (c == word[start + end])
+				return (start + end);
+			if (!c)
+			{
+				size = quotes_blockidx(word + start + end);
+				if (size > 0)
+					return (start + end);
+			}
+			start += end + 1;
+		}
+		else
+			break ;
+	}
+	return (ft_strlen(word));
 }

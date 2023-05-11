@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:08:39 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/09 01:07:57 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 16:13:23 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,29 @@ char	*ft_strchange(char *str, int start, int end, char *changestr)
 	while (++i < s_size - end)
 		new_str[start + c_size + i] = str[end + i];
 	new_str[start + c_size + i] = 0;
+	return (new_str);
+}
+
+char	*rmbothend_str(char *word, int start, int end)
+{
+	char	*new_str;
+	int		size;
+	int		word_i;
+	int		i;
+
+	size = ft_strlen(word) - 2;
+	new_str = (char *)malloc(sizeof(char) * (size + 1));
+	if (!new_str)
+		return (NULL);
+	word_i = 0;
+	i = -1;
+	while (++i < size)
+	{
+		while (word_i == start - 1 || word_i == end)
+			word_i++;
+		new_str[i] = word[word_i];
+		word_i++;
+	}
+	new_str[i] = 0;
 	return (new_str);
 }
