@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 22:15:27 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/10 00:58:50 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/10 18:10:16 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ int	is_in_idx(char *str, char *catchs)
 		if (ft_strchr(catchs, str[i]))
 			return (i);
 	}
+	return (-1);
+}
+
+int	str_in_idx(char *str, char *catchs)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (ft_strchr(catchs, str[i]))
+			return (i);
 	return (-1);
 }
 

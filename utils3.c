@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 13:56:41 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/10 00:57:04 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 18:17:59 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,46 @@ int	is_redirection(char *word)
 
 int	quotes_blockidx(char *str)
 {
-	int	i;
+	int		i;
+	char	c;
 
 	i = 0;
 	if (str[i] == '\'' || str[i] == '\"')
 	{
+		c = str[i];
 		while (str[++i])
 		{
-			if (str[i] == '\'' || str[i] == '\"')
+			if (str[i] == c)
 				return (i);
 		}
 	}
 	return (0);
+}
+
+int	get_block_size(char *word, char c)
+{
+	int	start;
+	int	end;
+	int	size;
+
+	start = 0;
+	while (word[start])
+	{
+		end = str_in_idx(word + start, "\"\'");
+		if (end != -1)
+		{
+			if (c == word[start + end])
+				return (start + end);
+			if (!c)
+			{
+				size = quotes_blockidx(word + start + end);
+				if (size > 0)
+					return (start + end);
+			}
+			start += end + 1;
+		}
+		else
+			break ;
+	}
+	return (ft_strlen(word));
 }

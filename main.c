@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/10 00:54:02 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/11 18:27:27 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	main(int ac, char **av, char **env)
 		cmds = new_prompt(&(arg.num_of_cmd));
 		if (!cmds)
 			print_perror("PARSE ERROR");
-		print_cmds(&arg, cmds);
-		if (change_allist_env(cmds, &arg))
+		if (trim_cmds(cmds, &arg))
 			return (1);
 		if (arg.num_of_cmd)
 			exe_cmd_line(&arg, cmds, &arg.env);
