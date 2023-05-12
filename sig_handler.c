@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_control.c                                      :+:      :+:    :+:   */
+/*   sig_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 01:36:40 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/12 17:41:52 by jeelee           ###   ########.fr       */
+/*   Created: 2023/05/12 17:41:16 by jeelee            #+#    #+#             */
+/*   Updated: 2023/05/12 17:41:56 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sig_init(t_arg *arg)
+void	sig_handler(int signum)
 {
-	arg->old_sigint = signal(SIGINT, sig_handler);
-	arg->old_sigquit = signal(SIGQUIT, SIG_IGN);
+	if (signum == SIGINT)
+	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-void	fork_sig_init(t_arg *arg)
+void	sig_have_child(int signum)
 {
-	signal(SIGINT, arg->old_sigint);
-	signal(SIGQUIT, arg->old_sigquit);
-}
-
-void	parents_sig_init(void)
-{
-	signal(SIGINT, sig_have_child);
-}
-
-void	parents_sig_end(void)
-{
-	signal(SIGINT, sig_handler);
+	if (signum == SIGINT)
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 17:14:02 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:37:10 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	rm_quotes_word(char **word, t_blockinfo *bi)
 	return (0);
 }
 
-int	change_block(char **word, t_blockinfo *bi, char **env)
+int	change_block(char **word, t_blockinfo *bi, t_arg *arg)
 {
 	int	block_size;
 
 	block_size = bi->end - bi->start;
-	if (block_size > 0 && change_block_env(word, bi, env))
+	if (block_size > 0 && change_block_env(word, bi, arg))
 		return (1);
 	if (rm_quotes_word(word, bi))
 		return (1);
@@ -59,7 +59,7 @@ int	trim_word(char **word, t_arg *arg)
 		else
 		{
 			bi.end += bi.start;
-			if (change_block(word, &bi, arg->env))
+			if (change_block(word, &bi, arg))
 				return (1);
 			bi.quotes = 0;
 			bi.start = bi.end;
@@ -87,9 +87,9 @@ int	trim_cmds(t_cmds *cmds, t_arg *arg)
 	while (now)
 	{
 		if (trim_list(cmds->file, arg))
-			return (print_perror("PARSE ERROR"));
+			return (print_perror("MINISHELL"));
 		if (trim_list(cmds->cmd, arg))
-			return (print_perror("PARSE ERROR"));
+			return (print_perror("MINISHELL"));
 		now = now->next;
 	}
 	return (0);

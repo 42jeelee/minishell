@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 19:10:15 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:29:16 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,36 @@ int	get_env_size(char *word, int block_size)
 			break ;
 		else if (word[i] == '\'' || word[i] == '\"')
 			break ;
+		else if (word[i - 1] == '?')
+			break ;
 	}
 	return (i);
 }
 
-char	*change_envvalue(char *word, int start, int size, char **env)
+char	*change_envvalue(char *word, int start, int size, t_arg *arg)
 {
 	char	*change_word;
 	char	*value;
 
-	value = get_value_env(word + start + 1, size - 1, env);
+	if (word[start + 1] == '?')
+	{
+		value = ft_itoa(arg->stat_loc >> 8);
+		if (!value)
+			return (NULL);
+	}
+	else
+		value = get_value_env(word + start + 1, size - 1, arg->env);
 	if (!value)
 		value = "";
 	change_word = ft_strchange(word, start, start + size, value);
 	if (!change_word)
 		return (NULL);
+	if (word[start + 1] == '?')
+		free(value);
 	return (change_word);
 }
 
-int	change_block_env(char **word, t_blockinfo *bi, char **env)
+int	change_block_env(char **word, t_blockinfo *bi, t_arg *arg)
 {
 	char	*change_word;
 	int		ch_word_size;
@@ -76,7 +87,7 @@ int	change_block_env(char **word, t_blockinfo *bi, char **env)
 		if (i == -1 || bi->end <= i + 1)
 			break ;
 		env_size = get_env_size(*word + i, bi->end - i);
-		change_word = change_envvalue(*word, i, env_size, env);
+		change_word = change_envvalue(*word, i, env_size, arg);
 		if (!change_word)
 			return (1);
 		ch_word_size = ft_strlen(change_word);
