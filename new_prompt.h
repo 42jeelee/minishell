@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 19:09:47 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:42:37 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ char	*rmbothend_str(char *word, int start, int end);
 
 int		create_word_list(char ***list);
 int		create_int_list(int **list);
+
+int		init_arg(t_arg *arg, char **env);
 int		init_cmd(t_cmds *cmd);
 
 int		get_block_size(char *word, char c);
-int		change_block_env(char **word, t_blockinfo *bi, char **env);
+int		change_block_env(char **word, t_blockinfo *bi, t_arg *env);
 
 int		trim_cmds(t_cmds *cmds, t_arg *arg);
 
@@ -60,6 +62,9 @@ char	*get_wordcatch(char *str, char *catchs);
 
 void	change_term(struct termios *term);
 void	no_echoctl(struct termios *old_term);
+
+void	sig_handler(int signum);
+void	sig_have_child(int signum);
 
 void	sig_init(t_arg *arg);
 
