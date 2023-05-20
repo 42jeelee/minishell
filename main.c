@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 20:07:53 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:40:19 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ int	main(int ac, char **av, char **env)
 
 	if (ac > 1)
 		(void)av;
-	arg.path = get_path(env);
-	arg.env = make_envlist(env);
+	if (init_arg(&arg, env))
+		return (print_perror("MINISHELL"));
 	sig_init(&arg);
 	if (!(arg.path))
-		print_perror("PARSE ERROR");
+		return (print_perror("MINISHELL"));
 	while (1)
 	{
 		cmds = new_prompt(&(arg.num_of_cmd));
 		if (!cmds)
-			print_perror("PARSE ERROR");
-		if (change_allist_env(cmds, &arg))
+			return (print_perror("MINISHELL"));
+		if (trim_cmds(cmds, &arg))
 			return (1);
 		if (arg.num_of_cmd)
-			exe_cmd_line(&arg, cmds, &arg.env);
+			arg.stat_loc = exe_cmd_line(&arg, cmds, &arg.env);
 		free_cmds(cmds);
 		arg.num_of_cmd = 0;
 	}

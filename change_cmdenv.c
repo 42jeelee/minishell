@@ -6,82 +6,95 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/09 01:53:31 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:29:16 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_value_env(char *key, int *end, char **env)
+char	*get_value_env(char *key, int size, char **env)
 {
 	char	*value;
 	int		i;
 
+	if (size == 0)
+		return (NULL);
 	value = NULL;
-	*end = is_in_idx(key, "$");
-	if (*end == -1)
-		*end = ft_strlen(key);
 	i = -1;
 	while (env[++i])
 	{
-		if (!ft_strncmp(key, env[i], *end) && env[i][*end] == '=')
+		if (!ft_strncmp(key, env[i], size) && env[i][size] == '=')
 		{
-			value = env[i] + *end + 1;
+			value = env[i] + size + 1;
 			break ;
 		}
 	}
 	return (value);
 }
 
-int	set_word_change(char **word, int idx, char **env)
-{
-	char	*value;
-	char	*new_word;
-	int		end;
-
-	value = get_value_env(*word + idx + 1, &end, env);
-	if (!value)
-		value = "";
-	new_word = ft_strchange(*word, idx, end + idx + 1, value);
-	if (!new_word)
-		return (1);
-	free(*word);
-	*word = new_word;
-	return (0);
-}
-
-int	change_env_list(char **list, char **env)
+int	get_env_size(char *word, int block_size)
 {
 	int	i;
-	int	idx;
 
 	i = 0;
-	while (list[i])
+	if (block_size <= 0 || word[i] != '$')
+		return (0);
+	while (++i < block_size)
 	{
-		idx = is_in_idx(list[i], "$");
-		if (idx != -1)
-		{
-			if (set_word_change(&(list[i]), idx, env))
-				return (1);
-		}
-		else
-			i++;
+		if (word[i] == '$' || word[i] == ' ')
+			break ;
+		else if (word[i] == '\'' || word[i] == '\"')
+			break ;
+		else if (word[i - 1] == '?')
+			break ;
 	}
-	return (0);
+	return (i);
 }
 
-int	change_allist_env(t_cmds *cmds, t_arg *arg)
+char	*change_envvalue(char *word, int start, int size, t_arg *arg)
 {
-	t_cmds	*now;
+	char	*change_word;
+	char	*value;
 
-	now = cmds;
-	while (now)
+	if (word[start + 1] == '?')
 	{
-		if (change_env_list(now->cmd, arg->env))
-			return (print_perror("PARSE ERROR"));
-		if (change_env_list(now->file, arg->env))
-			return (print_perror("PARSE ERROR"));
-		now = now->next;
+		value = ft_itoa(arg->stat_loc >> 8);
+		if (!value)
+			return (NULL);
+	}
+	else
+		value = get_value_env(word + start + 1, size - 1, arg->env);
+	if (!value)
+		value = "";
+	change_word = ft_strchange(word, start, start + size, value);
+	if (!change_word)
+		return (NULL);
+	if (word[start + 1] == '?')
+		free(value);
+	return (change_word);
+}
+
+int	change_block_env(char **word, t_blockinfo *bi, t_arg *arg)
+{
+	char	*change_word;
+	int		ch_word_size;
+	int		env_size;
+	int		i;
+
+	while (1)
+	{
+		i = str_in_idx(*word, "$");
+		if (i == -1 || bi->end <= i + 1)
+			break ;
+		env_size = get_env_size(*word + i, bi->end - i);
+		change_word = change_envvalue(*word, i, env_size, arg);
+		if (!change_word)
+			return (1);
+		ch_word_size = ft_strlen(change_word);
+		free(*word);
+		*word = change_word;
+		bi->end += ch_word_size - bi->word_size;
+		bi->word_size = ch_word_size;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/08 14:30:29 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:15:42 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 typedef struct s_arg
 {
 	int		num_of_cmd;
+	int		stat_loc;
 	char	**path;
 	char	**env;
 	void	(*old_sigint)(int);
@@ -62,9 +63,12 @@ typedef struct s_execute_arg
 int		print_perror(char *str);
 
 void	fork_sig_init(t_arg *arg);
+void	parents_sig_init(void);
+void	parents_sig_end(void);
 
 char	**list_dup(char **list);
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);
+void	copy_list(char **new_list, char **old_list, int size);
 
 #endif

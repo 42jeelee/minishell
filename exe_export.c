@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_export.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 14:28:21 by byejeon           #+#    #+#             */
+/*   Updated: 2023/05/20 14:28:23 by byejeon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exe_cmd_line.h"
 
 static void	exe_export_with_no_arg(char **env);
 static int	is_invalid_identifier_in_str(const char *str);
-void	exe_export_add_one(char *str, char ***env);
-int		str_size_until_equal_or_null(const char *str);
-int		find_str_idx_in_env(char *str, char **env);
+static void	exe_export_add_one(char *str, char ***env);
 
 void	exe_export(char **cmd, char ***env)
 {
@@ -27,7 +37,7 @@ void	exe_export(char **cmd, char ***env)
 	}
 }
 
-void	exe_export_add_one(char *str, char ***env)
+static void	exe_export_add_one(char *str, char ***env)
 {
 	int	idx;
 
@@ -47,41 +57,16 @@ void	exe_export_add_one(char *str, char ***env)
 		add_list_word(str, env);
 }
 
-int	find_str_idx_in_env(char *str, char **env)
-{
-	int	i;
-	int	size;
-
-	i = 0;
-	size = str_size_until_equal_or_null(str);
-	while (env[i])
-	{
-		if (ft_strncmp(str, env[i], size) == 0 &&
-				(env[i][size] == '=' || env[i][size] == '\0'))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int	str_size_until_equal_or_null(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	return (i);
-}
-
 static int	is_invalid_identifier_in_str(const char *str)
 {
 	int	i;
+	int	end_idx;
 
 	i = 0;
 	if (str[0] == '=' || str[0] == '\0' || ft_isdigit(str[0]))
 		return (1);
-	while (str[i])
+	end_idx = str_size_until_equal_or_null(str);
+	while (i < end_idx)
 	{
 		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_' &&
 				str[i] != '=')
@@ -93,24 +78,17 @@ static int	is_invalid_identifier_in_str(const char *str)
 
 static void	exe_export_with_no_arg(char **env)
 {
-	int	i;
-	int	j;
+	char	**copied_env;
+	int		size;
 
-	i = 0;
-	while (env[i])
-	{
-		j = 0;
-		write(1, "declare -x ", 11);
-		while (env[i][j] && env[i][j] != '=')
-			write(1, &env[i][j++], 1);
-		if (env[i][j] == '=')
-		{
-			write(1, "=\"", 2);
-			write(1, env[i] + j + 1, strlen(env[i] + j + 1));
-			write(1, "\"", 1);
-		}
-		write(1, "\n", 1);
-		i++;
-	}
+	size = 0;
+	while (env[size])
+		size++;
+	copied_env = malloc(sizeof(char *) * (size + 1));
+	if (copied_env == 0)
+		exit(print_perror("export"));
+	copy_list(copied_env, env, size + 1);
+	sort_export(copied_env);
+	print_export(copied_env);
+	free(copied_env);
 }
-

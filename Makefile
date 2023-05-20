@@ -6,7 +6,7 @@
 #    By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 20:55:40 by jeelee            #+#    #+#              #
-#    Updated: 2023/05/09 17:54:13 by jeelee           ###   ########.fr        #
+#    Updated: 2023/05/20 13:01:40 by byejeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,15 +18,17 @@ CFLAGS		=	-Wall -Wextra -Werror
 LIBDIR		=	./libft
 LIBFT		=	$(LIBDIR)/libft.a
 
-RLDIR		=	/opt/homebrew/opt/readline/lib
-RLINC		=	/opt/homebrew/opt/readline/include
+RLDIR		=	/Users/byejeon/.brew/opt/readline/lib
+RLINC		=	/Users/byejeon/.brew/opt/readline/include
 
 SRC			=	main.c get_path.c new_prompt.c parse_line.c command.c \
 				utils.c utils2.c utils3.c utils4.c free_it.c print_it.c init.c \
-				term_env.c sig_control.c change_cmdenv.c \
+				term_env.c sig_control.c sig_handler.c change_cmdenv.c trim_cmds.c \
 				close_pipes_exept.c cmd_abs_path.c exe_cmd_line.c \
 				is_relative_path.c make_pipes.c print_perror.c redir.c \
-				run_builtin.c exe_cd.c exe_export.c
+				run_builtin.c exe_cd.c exe_export.c exe_unset.c \
+				str_size_until_equal_of_null.c exe_export_utils.c \
+				find_str_idx_in_env.c
 
 OBJ			=	$(SRC:.c=.o)
 

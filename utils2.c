@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 22:15:27 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 18:38:12 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/10 18:10:16 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,32 @@ int	is_in_idx(char *str, char *catchs)
 	return (-1);
 }
 
+int	str_in_idx(char *str, char *catchs)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (ft_strchr(catchs, str[i]))
+			return (i);
+	return (-1);
+}
+
 char	*get_wordcatch(char *str, char *catchs)
 {
 	char	*word;
 	int		i;
 	int		size;
-	int		rm_quotes;
 
-	size = rm_quotes_wordsize(str, catchs, &rm_quotes);
+	size = is_in_idx(str, catchs);
+	if (size == -1)
+		size = ft_strlen(str);
 	word = (char *)malloc(sizeof(char) * (size + 1));
 	if (!word)
 		return (NULL);
 	i = -1;
 	while (++i < size)
-	{
-		if (rm_quotes && (*str == '\'' || *str == '\"'))
-		{
-			rm_quotes--;
-			str++;
-		}
-		word[i] = *str;
-		str++;
-	}
+		word[i] = str[i];
 	word[i] = 0;
 	return (word);
 }

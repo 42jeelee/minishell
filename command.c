@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/06 18:42:09 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/10 00:58:24 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ int	put_word_inlist(char *command, int *i, int type, t_cmds *cmd)
 {
 	char	*word;
 	int		size;
-	int		rm_quotes;
 
-	size = rm_quotes_wordsize(command + *i, "< >", &rm_quotes);
-	if (size > 0 || rm_quotes)
+	size = is_in_idx(command + *i, "< >");
+	if (size == -1)
+		size = ft_strlen(command + *i);
+	if (size > 0)
 	{
 		word = get_wordcatch(command + *i, "< >");
 		if (!word)
@@ -47,7 +48,7 @@ int	put_word_inlist(char *command, int *i, int type, t_cmds *cmd)
 			return (-1);
 		free(word);
 	}
-	*i += size + rm_quotes;
+	*i += size;
 	return (0);
 }
 
