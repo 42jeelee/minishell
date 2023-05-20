@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/14 13:36:54 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/20 14:44:30 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,12 @@ int	change_block_env(char **word, t_blockinfo *bi, t_arg *arg)
 		return (0);
 	while (1)
 	{
-		i = str_in_idx(*word, "$");
-		if (i == -1 || bi->end <= i + 1)
+		i = str_in_idx(*word + bi->start, "$");
+		if (i == -1 || bi->end <= bi->start + i + 1)
 			break ;
-		env_size = get_env_size(*word + i, bi->end - i);
-		change_word = change_envvalue(*word, i, env_size, arg);
+		env_size = get_env_size(*word + bi->start + i, \
+			bi->end - (bi->start + i));
+		change_word = change_envvalue(*word, bi->start + i, env_size, arg);
 		if (!change_word)
 			return (1);
 		ch_word_size = ft_strlen(change_word);
