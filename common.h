@@ -69,5 +69,6 @@ void	parents_sig_end(void);
 char	**list_dup(char **list);
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);
+void	copy_list(char **new_list, char **old_list, int size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:11:32 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/07 20:29:44 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/20 14:25:22 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	exe_cd(char **cmd, char **env)
 	if (chdir(cd_path) != 0)
 	{
 		free(after_oldpwd);
-		return (print_perror("cd"));
+		return (print_perror("cd"));//오류메세지에 파일 이름도 들어가야됨
 	}
 	after_pwd = getcwd(0, 0);
 	if (after_pwd == 0)
@@ -91,7 +91,7 @@ static char	*get_path(char **cmd, char **env, int flag)
 
 static int	cd_set_flag(char **cmd, char **env)
 {
-	if (cmd[1] == 0 || ft_strncmp(cmd[1], "~", 2) == 0)
+	if (cmd[1] == 0)
 	{
 		if (str_idx_in_env("HOME=", env) == FAIL)
 		{

@@ -24,7 +24,15 @@ int		is_relative_path(char *cmd);
 
 void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd);
 void	redir(char **file, int *redir_type, int *fd);
+
 int		exe_cd(char **cmd, char **env);
+
 void	exe_export(char **cmd, char ***env);
+void	sort_export(char **copied_env);
+void	print_export(char **env);
+int		str_size_until_equal_or_null(const char *str);
+int		find_str_idx_in_env(char *str, char **env);
+
+void	exe_unset(char **cmd, char **env);
 
 #endif

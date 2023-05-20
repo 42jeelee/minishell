@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/07 21:00:52 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/20 14:28:10 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 void	print_env(char **env);
 void	print_echo(char **cmd);
 void	print_pwd(void);
-//cd 는 env에서 home을 읽어서 home으로 간다.
-//cd - 는 env에서 OLDPWD를 읽어서 OLDPWD로 간다.
-//cd ~ 는 ~ 로 간다.
 
 int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 {
@@ -29,10 +26,12 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 		print_pwd();
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
 		exit(0);
-	else if (ft_strncmp(cmds->cmd[0], "cd", 5) == 0)
+	else if (ft_strncmp(cmds->cmd[0], "cd", 3) == 0)
 		exe_cd(cmds->cmd, *env);
 	else if (ft_strncmp(cmds->cmd[0], "export", 7) == 0)
 		exe_export(cmds->cmd, env);
+	else if (ft_strncmp(cmds->cmd[0], "unset", 6) == 0)
+		exe_unset(cmds->cmd, *env);
 	dup2(exe_arg->restore_fd[0], 0);
 	dup2(exe_arg->restore_fd[1], 1);
 	close(exe_arg->restore_fd[0]);
