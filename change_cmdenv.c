@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/12 17:29:16 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/20 14:51:11 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	change_block_env(char **word, t_blockinfo *bi, t_arg *arg)
 	int		env_size;
 	int		i;
 
+	if (bi->quotes == '\'')
+		return (0);
 	while (1)
 	{
 		i = str_in_idx(*word, "$");
