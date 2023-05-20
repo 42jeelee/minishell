@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/12 17:37:10 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/20 14:53:51 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	trim_cmds(t_cmds *cmds, t_arg *arg)
 	now = cmds;
 	while (now)
 	{
-		if (trim_list(cmds->file, arg))
+		if (trim_list(now->file, arg))
 			return (print_perror("MINISHELL"));
-		if (trim_list(cmds->cmd, arg))
+		if (trim_list(now->cmd, arg))
 			return (print_perror("MINISHELL"));
 		now = now->next;
 	}
