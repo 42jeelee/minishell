@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:08:39 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 16:13:23 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 21:10:15 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,33 @@ char	*ft_strchange(char *str, int start, int end, char *changestr)
 		new_str[start + c_size + i] = str[end + i];
 	new_str[start + c_size + i] = 0;
 	return (new_str);
+}
+
+char	*ft_tristrjoin(char *s1, char *s2, char *s3)
+{
+	char	*str;
+	int		s1_size;
+	int		s2_size;
+	int		s3_size;
+	int		i;
+
+	s1_size = ft_strlen(s1);
+	s2_size = ft_strlen(s2);
+	s3_size = ft_strlen(s3);
+	str = (char *)malloc(sizeof(char) * (s1_size + s2_size + s3_size + 1));
+	if (!str)
+		return (NULL);
+	i = -1;
+	while (++i < s1_size)
+		str[i] = s1[i];
+	i = -1;
+	while (++i < s2_size)
+		str[s1_size + i] = s2[i];
+	i = -1;
+	while (++i < s3_size)
+		str[s1_size + s2_size + i] = s3[i];
+	str[s1_size + s2_size + i] = 0;
+	return (str);
 }
 
 char	*rmbothend_str(char *word, int start, int end)

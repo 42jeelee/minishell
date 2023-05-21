@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:06 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 15:54:30 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 21:21:01 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,20 @@ int	init_cmd(t_cmds *cmd)
 		return (-1);
 	cmd->next = 0;
 	cmd->prev = 0;
+	return (0);
+}
+
+int	init_shell(t_arg *arg, char **env)
+{
+	char	*shlvl;
+
+	if (init_arg(arg, env))
+		return (1);
+	shlvl = ft_itoa(ft_atoi(get_value_env("SHLVL", 5, arg->env)) + 1);
+	if (!shlvl[0] || shlvl[0] == '0')
+		return (1);
+	if (set_valueenv("SHLVL", shlvl, arg->env))
+		return (1);
+	free(shlvl);
 	return (0);
 }
