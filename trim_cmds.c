@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/20 14:53:51 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 19:03:21 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,31 @@ int	rm_quotes_word(char **word, t_blockinfo *bi)
 	return (0);
 }
 
+int	rm_quotes_intoken(char **token, int i)
+{
+	t_blockinfo	bi;
+
+	bi.start = str_in_idx(*token + i, "\'\"");
+	if (bi.start == -1)
+		return (0);
+	bi.quotes = (*token)[i + bi.start];
+	bi.start += i + 1;
+	bi.end = get_block_size(*token + bi.start, bi.quotes);
+	if (bi.end > 0)
+	{
+		bi.end += bi.start;
+		if (rm_quotes_word(token, &bi))
+			return (1);
+	}
+	return (0);
+}
+
 int	change_block(char **word, t_blockinfo *bi, t_arg *arg)
 {
 	int	block_size;
 
 	block_size = bi->end - bi->start;
 	if (block_size > 0 && change_block_env(word, bi, arg))
-		return (1);
-	if (rm_quotes_word(word, bi))
 		return (1);
 	return (0);
 }
@@ -45,6 +62,8 @@ int	trim_word(char **word, t_arg *arg)
 {
 	t_blockinfo	bi;
 
+	if (!(*word))
+		return (0);
 	bi.word_size = ft_strlen(*word);
 	bi.start = 0;
 	bi.quotes = 0;
@@ -64,33 +83,6 @@ int	trim_word(char **word, t_arg *arg)
 			bi.quotes = 0;
 			bi.start = bi.end;
 		}
-	}
-	return (0);
-}
-
-int	trim_list(char **list, t_arg *arg)
-{
-	int	i;
-
-	i = -1;
-	while (list[++i])
-		if (trim_word(&(list[i]), arg))
-			return (1);
-	return (0);
-}
-
-int	trim_cmds(t_cmds *cmds, t_arg *arg)
-{
-	t_cmds	*now;
-
-	now = cmds;
-	while (now)
-	{
-		if (trim_list(now->file, arg))
-			return (print_perror("MINISHELL"));
-		if (trim_list(now->cmd, arg))
-			return (print_perror("MINISHELL"));
-		now = now->next;
 	}
 	return (0);
 }

@@ -6,11 +6,17 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:42:15 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/08 01:28:24 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 18:36:01 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_cmds	*fail_free(t_cmds *cmds)
+{
+	free_cmds(cmds);
+	return (NULL);
+}
 
 void	is_ctrl_d(char **line)
 {
@@ -23,7 +29,7 @@ void	is_ctrl_d(char **line)
 	}
 }
 
-t_cmds	*new_prompt(int *num_of_cmd)
+t_cmds	*new_prompt(t_arg *arg)
 {
 	t_cmds			*cmds;
 	char			*line;
@@ -37,14 +43,12 @@ t_cmds	*new_prompt(int *num_of_cmd)
 	is_ctrl_d(&line);
 	if (line)
 	{
-		status = parse_line(line, &cmds, num_of_cmd);
-		add_history(line);
+		status = parse_line(line, &cmds, arg);
+		if (ft_strlen(line))
+			add_history(line);
 		free(line);
 		if (status == -1)
-		{
-			free_cmds(cmds);
-			return (NULL);
-		}
+			return (fail_free(cmds));
 	}
 	return (cmds);
 }

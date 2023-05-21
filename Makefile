@@ -6,7 +6,7 @@
 #    By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 20:55:40 by jeelee            #+#    #+#              #
-#    Updated: 2023/05/21 15:39:29 by byejeon          ###   ########.fr        #
+#    Updated: 2023/05/21 16:40:50 by jeelee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ CFLAGS		=	-Wall -Wextra -Werror
 LIBDIR		=	./libft
 LIBFT		=	$(LIBDIR)/libft.a
 
-RLDIR		=	/Users/byejeon/.brew/opt/readline/lib
-RLINC		=	/Users/byejeon/.brew/opt/readline/include
+RLDIR		=	/Users/jeelee/.brew/opt/readline/lib
+RLINC		=	/Users/jeelee/.brew/opt/readline/include
 
 SRC			=	main.c get_path.c new_prompt.c parse_line.c command.c \
 				utils.c utils2.c utils3.c utils4.c free_it.c print_it.c init.c \
