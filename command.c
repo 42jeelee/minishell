@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/10 00:58:24 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 18:58:32 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,27 @@ int	add_any_list(int type, char *word, t_cmds *cmd)
 	return (0);
 }
 
-int	put_word_inlist(char *command, int *i, int type, t_cmds *cmd)
+int	put_word_inlist(char **command, int *i, int type, t_cmds *cmd)
 {
 	char	*word;
 	int		size;
+	int		afterquetes;
 
-	size = is_in_idx(command + *i, "< >");
+	afterquetes = 0;
+	if (type || ((cmd->cmd)[0] && ft_strncmp((cmd->cmd)[0], "export", 6)))
+		rm_quotes_intoken(command, *i);
+	else
+		afterquetes = 1;
+	size = is_in_idx(*command + *i, "< >");
 	if (size == -1)
-		size = ft_strlen(command + *i);
+		size = ft_strlen(*command + *i);
 	if (size > 0)
 	{
-		word = get_wordcatch(command + *i, "< >");
+		word = get_wordcatch(*command + *i, "< >");
 		if (!word)
 			return (-1);
+		if (afterquetes)
+			rm_quotes_intoken(&word, 0);
 		if (add_any_list(type, word, cmd) == -1)
 			return (-1);
 		free(word);
@@ -52,37 +60,39 @@ int	put_word_inlist(char *command, int *i, int type, t_cmds *cmd)
 	return (0);
 }
 
-int	parse_cmd(t_cmds *cmd, char *command)
+int	parse_cmd(t_cmds *cmd, char **command)
 {
 	int	i;
 	int	type;
 
-	if (!command)
+	if (!(*command))
 		return (0);
 	type = 0;
 	i = 0;
-	while (command[i])
+	while ((*command)[i])
 	{
-		while (command[i] == ' ')
+		while ((*command)[i] == ' ')
 			i++;
 		if (put_word_inlist(command, &i, type, cmd) == -1)
 			return (-1);
-		type = is_redirection(command + i);
+		type = is_redirection(*command + i);
 		if (type)
 			i += (type & 1) + 1;
 	}
 	return (0);
 }
 
-t_cmds	*new_cmd(char *commad)
+t_cmds	*new_cmd(char **command, t_arg *arg)
 {
 	t_cmds	*cmd;
 
+	if (trim_word(command, arg))
+		return (NULL);
 	cmd = (t_cmds *)malloc(sizeof(t_cmds));
 	if (!cmd)
 		return (NULL);
 	init_cmd(cmd);
-	if (parse_cmd(cmd, commad) == -1)
+	if (parse_cmd(cmd, command) == -1)
 	{
 		free_cmds(cmd);
 		return (NULL);

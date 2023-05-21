@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/12 17:42:37 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 18:58:50 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ typedef struct s_blockinfo
 	char	quotes;
 }	t_blockinfo;
 
-t_cmds	*new_prompt(int *num_of_cmd);
+t_cmds	*new_prompt(t_arg *arg);
 
-int		parse_line(char *line, t_cmds **cmds, int *num_of_cmd);
+int		parse_line(char *line, t_cmds **cmds, t_arg *arg);
 
-t_cmds	*new_cmd(char *commad);
+t_cmds	*new_cmd(char **command, t_arg *arg);
 void	add_cmd_list(t_cmds *new, t_cmds **list);
 char	*ft_strchange(char *str, int start, int end, char *changestr);
 char	*rmbothend_str(char *word, int start, int end);
@@ -41,7 +41,8 @@ int		init_cmd(t_cmds *cmd);
 int		get_block_size(char *word, char c);
 int		change_block_env(char **word, t_blockinfo *bi, t_arg *env);
 
-int		trim_cmds(t_cmds *cmds, t_arg *arg);
+int		rm_quotes_intoken(char **token, int i);
+int		trim_word(char **word, t_arg *arg);
 
 char	*get_value_env(char *key, int size, char **env);
 
