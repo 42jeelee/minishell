@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 18:58:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 19:53:35 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	put_word_inlist(char **command, int *i, int type, t_cmds *cmd)
 	int		afterquetes;
 
 	afterquetes = 0;
-	if (type || ((cmd->cmd)[0] && ft_strncmp((cmd->cmd)[0], "export", 6)))
+	if (type || ((cmd->cmd)[0] && !(cmd->builtin)))
 		rm_quotes_intoken(command, *i);
 	else
 		afterquetes = 1;
