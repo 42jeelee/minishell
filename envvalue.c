@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   envvalue.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 20:31:06 by jeelee           ###   ########.fr       */
+/*   Created: 2023/05/21 20:37:36 by jeelee            #+#    #+#             */
+/*   Updated: 2023/05/21 21:19:50 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	set_valueenv(char *key, char *value, char **env)
 {
-	t_cmds	*cmds;
-	t_arg	arg;
+	int		i;
+	int		key_size;
+	char	*tmp;
 
-	if (ac > 1)
-		(void)av;
-	if (init_shell(&arg, env))
-		return (print_perror("MINISHELL"));
-	sig_init(&arg);
-	while (1)
+	if (!key || !key)
+		return (0);
+	if (!value)
+		value = "";
+	key_size = ft_strlen(key);
+	i = -1;
+	while (env[++i])
 	{
-		cmds = new_prompt(&arg);
-		if (!cmds)
-			return (print_perror("MINISHELL"));
-		if (arg.num_of_cmd)
-			exe_cmd_line(&arg, cmds, &arg.env);
-		free_cmds(cmds);
-		arg.num_of_cmd = 0;
+		if (!ft_strncmp(key, env[i], key_size))
+		{
+			tmp = ft_tristrjoin(key, "=", value);
+			if (!tmp)
+				return (1);
+			free(env[i]);
+			env[i] = tmp;
+			break ;
+		}
 	}
 	return (0);
 }

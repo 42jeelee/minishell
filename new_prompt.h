@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 18:58:50 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 21:10:58 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ int		parse_line(char *line, t_cmds **cmds, t_arg *arg);
 t_cmds	*new_cmd(char **command, t_arg *arg);
 void	add_cmd_list(t_cmds *new, t_cmds **list);
 char	*ft_strchange(char *str, int start, int end, char *changestr);
+char	*ft_tristrjoin(char *s1, char *s2, char *s3);
 char	*rmbothend_str(char *word, int start, int end);
 
 int		create_word_list(char ***list);
 int		create_int_list(int **list);
 
-int		init_arg(t_arg *arg, char **env);
+int		init_shell(t_arg *arg, char **env);
 int		init_cmd(t_cmds *cmd);
 
 int		get_block_size(char *word, char c);
@@ -44,6 +45,7 @@ int		change_block_env(char **word, t_blockinfo *bi, t_arg *env);
 int		rm_quotes_intoken(char **token, int i);
 int		trim_word(char **word, t_arg *arg);
 
+int		set_valueenv(char *key, char *value, char **env);
 char	*get_value_env(char *key, int size, char **env);
 
 char	**get_path(char **env);
