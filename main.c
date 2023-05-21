@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/20 15:02:54 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 15:48:46 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	main(int ac, char **av, char **env)
 	if (init_arg(&arg, env))
 		return (print_perror("MINISHELL"));
 	sig_init(&arg);
-	if (!(arg.path))
-		return (print_perror("MINISHELL"));
 	while (1)
 	{
 		cmds = new_prompt(&(arg.num_of_cmd));
@@ -36,6 +34,5 @@ int	main(int ac, char **av, char **env)
 		free_cmds(cmds);
 		arg.num_of_cmd = 0;
 	}
-	free_words(arg.path);
 	return (0);
 }

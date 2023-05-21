@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:06 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/12 17:33:16 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 15:54:30 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	init_arg(t_arg *arg, char **env)
 {
-	arg->path = get_path(env);
-	if (!arg->path)
-		return (1);
 	arg->env = make_envlist(env);
 	if (!arg->env)
 		return (1);

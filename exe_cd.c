@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:11:32 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/20 14:55:38 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 16:29:31 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	cd_set_flag(char **cmd, char **env);
 static int	str_idx_in_env(const char *str, char **env);
 static char	*get_path(char **cmd, char **env, int flag);
 static void	change_pwds_in_env(char **env, char *after_pwd, char *after_oldpwd);
-//오류메세지에 파일 이름도 들어가야됨
+//오류메세지에 파일 이름도 들어가면 좋겠는데 아님말고
 
 int	exe_cd(char **cmd, char **env)
 {

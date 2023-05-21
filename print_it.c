@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 17:13:33 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/04 16:01:54 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 15:50:12 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,8 @@ void	print_words(char **words)
 
 void	print_arg(t_arg *arg)
 {
-	int	i;
-
 	printf("++++++++++ARG+++++++++++++\n");
 	printf("num_of_cmds: %d\n", arg->num_of_cmd);
-	printf("<paths>\n");
-	i = -1;
-	while ((arg->path)[++i])
-		printf("%d) %s\n", i, (arg->path)[i]);
 	printf("++++++++++++++++++++++++++\n");
 }
 
