@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 19:03:21 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 19:29:03 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,22 @@ int	rm_quotes_intoken(char **token, int i)
 {
 	t_blockinfo	bi;
 
-	bi.start = str_in_idx(*token + i, "\'\"");
-	if (bi.start == -1)
-		return (0);
-	bi.quotes = (*token)[i + bi.start];
-	bi.start += i + 1;
-	bi.end = get_block_size(*token + bi.start, bi.quotes);
-	if (bi.end > 0)
+	bi.start = i;
+	while ((*token)[bi.start])
 	{
-		bi.end += bi.start;
-		if (rm_quotes_word(token, &bi))
-			return (1);
+		bi.start = str_in_idx(*token + i, "\'\"");
+		if (bi.start == -1)
+			break ;
+		bi.quotes = (*token)[i + bi.start];
+		bi.start += i + 1;
+		bi.end = get_block_size(*token + bi.start, bi.quotes);
+		if (bi.end > 0)
+		{
+			bi.end += bi.start;
+			if (rm_quotes_word(token, &bi))
+				return (1);
+		}
+		bi.start = bi.end;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 18:58:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 20:09:45 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,7 @@ int	put_word_inlist(char **command, int *i, int type, t_cmds *cmd)
 {
 	char	*word;
 	int		size;
-	int		afterquetes;
 
-	afterquetes = 0;
-	if (type || ((cmd->cmd)[0] && ft_strncmp((cmd->cmd)[0], "export", 6)))
-		rm_quotes_intoken(command, *i);
-	else
-		afterquetes = 1;
 	size = is_in_idx(*command + *i, "< >");
 	if (size == -1)
 		size = ft_strlen(*command + *i);
@@ -50,8 +44,7 @@ int	put_word_inlist(char **command, int *i, int type, t_cmds *cmd)
 		word = get_wordcatch(*command + *i, "< >");
 		if (!word)
 			return (-1);
-		if (afterquetes)
-			rm_quotes_intoken(&word, 0);
+		rm_quotes_intoken(&word, 0);
 		if (add_any_list(type, word, cmd) == -1)
 			return (-1);
 		free(word);
