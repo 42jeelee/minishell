@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 15:41:09 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 20:12:29 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	close_pipes_exept(int **pfd, int num_of_pipe, int *fd);
 int		is_relative_path(char *cmd);
 
 void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd);
-void	redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg);
+int		redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg);
 
 int		exe_cd(char **cmd, char **env);
 
@@ -39,5 +39,6 @@ int		str_size_until_equal_or_null(const char *str);
 int		find_str_idx_in_env(char *str, char **env);
 
 void	exe_unset(char **cmd, char **env);
+int		free_things(void *a, void *b, void *c, void *d);
 
 #endif

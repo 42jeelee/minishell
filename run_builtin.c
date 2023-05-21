@@ -6,15 +6,15 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/20 14:28:10 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 21:26:43 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe_cmd_line.h"
 
-void	print_env(char **env);
-void	print_echo(char **cmd);
-void	print_pwd(void);
+static void	print_env(char **env);
+static void	print_echo(char **cmd);
+static int	print_pwd(int *exit_code);
 
 int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 {
@@ -23,11 +23,12 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 	else if (ft_strncmp(cmds->cmd[0], "echo", 5) == 0)
 		print_echo(cmds->cmd);
 	else if (ft_strncmp(cmds->cmd[0], "pwd", 4) == 0)
-		print_pwd();
+		exe_arg->exit_code = print_pwd(&exe_arg->exit_code);
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
 		exit(0);
-	else if (ft_strncmp(cmds->cmd[0], "cd", 3) == 0)
-		exe_cd(cmds->cmd, *env);
+	else if (ft_strncmp(cmds->cmd[0], "cd", 3) == 0
+		&& exe_cd(cmds->cmd, *env) > 0)
+		print_perror("cd");
 	else if (ft_strncmp(cmds->cmd[0], "export", 7) == 0)
 		exe_export(cmds->cmd, env);
 	else if (ft_strncmp(cmds->cmd[0], "unset", 6) == 0)
@@ -36,22 +37,26 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 	dup2(exe_arg->restore_fd[1], 1);
 	close(exe_arg->restore_fd[0]);
 	close(exe_arg->restore_fd[1]);
-	return (0);
+	return (exe_arg->exit_code);
 }
 
-void	print_pwd(void)
+static int	print_pwd(int *exit_code)
 {
 	char	*str;
 
 	str = getcwd(0, 0);
 	if (str == 0)
-		exit(12);
+	{
+		*exit_code = 1;
+		return (1);
+	}
 	write(1, str, ft_strlen(str));
 	write(1, "\n", 1);
 	free(str);
+	return (0);
 }
 
-void	print_echo(char **cmd)
+static void	print_echo(char **cmd)
 {
 	int	i;
 
@@ -80,7 +85,7 @@ void	print_echo(char **cmd)
 	}
 }
 
-void	print_env(char **env)
+static void	print_env(char **env)
 {
 	int	i;
 
