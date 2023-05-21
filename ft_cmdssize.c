@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_str_idx_in_env.c                              :+:      :+:    :+:   */
+/*   ft_cmdssize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 14:28:33 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/20 14:57:44 by byejeon          ###   ########.fr       */
+/*   Created: 2023/05/21 14:16:43 by byejeon           #+#    #+#             */
+/*   Updated: 2023/05/21 14:17:59 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exe_cmd_line.h"
+#include "common.h"
 
-int	find_str_idx_in_env(char *str, char **env)
+int	ft_cmdssize(t_cmds *cmds)
 {
-	int	i;
 	int	size;
 
-	i = 0;
-	size = str_size_until_equal_or_null(str);
-	while (env[i])
+	size = 0;
+	while (cmds)
 	{
-		if (ft_strncmp(str, env[i], size) == 0
-			&& (env[i][size] == '=' || env[i][size] == '\0'))
-			return (i);
-		i++;
+		size++;
+		cmds = cmds->next;
 	}
-	return (-1);
+	return (size);
 }

@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_str_idx_in_env.c                              :+:      :+:    :+:   */
+/*   make_tmp_name.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 14:28:33 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/20 14:57:44 by byejeon          ###   ########.fr       */
+/*   Created: 2023/05/21 14:19:06 by byejeon           #+#    #+#             */
+/*   Updated: 2023/05/21 14:19:49 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe_cmd_line.h"
 
-int	find_str_idx_in_env(char *str, char **env)
+char	**make_tmp_name(t_cmds *cmds)
 {
-	int	i;
-	int	size;
+	char	**tmp_name;
+	int		cmds_len;
+	char	*itoa_word;
+	int		i;
 
+	cmds_len = ft_cmdssize(cmds);
 	i = 0;
-	size = str_size_until_equal_or_null(str);
-	while (env[i])
+	tmp_name = malloc(sizeof(char *) * (cmds_len + 1));
+	if (tmp_name == 0)
+		exit(print_perror("tmp_file"));
+	while (i < cmds_len)
 	{
-		if (ft_strncmp(str, env[i], size) == 0
-			&& (env[i][size] == '=' || env[i][size] == '\0'))
-			return (i);
+		itoa_word = ft_itoa(i);
+		tmp_name[i] = ft_strjoin(".heredoctmpfile", itoa_word);
+		free(itoa_word);
 		i++;
 	}
-	return (-1);
+	tmp_name[i] = 0;
+	return (tmp_name);
 }

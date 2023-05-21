@@ -6,13 +6,13 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/07 20:55:32 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 14:41:39 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "exe_cmd_line.h"
 
-static int	init(t_arg *arg, t_execute_arg *exe_arg);
+static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg);
 static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
 				t_cmds *cmds, char ***env);
 static void	close_and_free_things(t_execute_arg *exe_arg);
@@ -21,11 +21,11 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 {
 	t_execute_arg	exe_arg;
 
-	if (init(arg, &exe_arg))
+	if (init(arg, cmds, &exe_arg))
 		return (print_perror("error"));
 	if (arg->num_of_cmd == 1 && cmds->builtin == 1)
 	{
-		redir(cmds->file, cmds->redir_type, exe_arg.fd);
+		redir(cmds->file, cmds->redir_type, exe_arg.fd, &exe_arg);
 		return (run_builtin(cmds, env, &exe_arg));
 	}
 	while (cmds)
@@ -48,7 +48,7 @@ static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
 {
 	fork_sig_init(arg);
 	pipe_redir(exe_arg->pfd, exe_arg->i, arg->num_of_cmd, exe_arg->fd);
-	redir(cmds->file, cmds->redir_type, exe_arg->fd);
+	redir(cmds->file, cmds->redir_type, exe_arg->fd, exe_arg);
 	if (arg->num_of_cmd > 1)
 		close_pipes_exept(exe_arg->pfd, arg->num_of_cmd - 1, exe_arg->fd);
 	if (cmds->builtin == 1)
@@ -67,7 +67,7 @@ static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
 	exit(print_perror(cmds->cmd[0]));
 }
 
-static int	init(t_arg *arg, t_execute_arg *exe_arg)
+static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 {
 	exe_arg->i = 0;
 	exe_arg->fd[0] = -1;
@@ -76,7 +76,7 @@ static int	init(t_arg *arg, t_execute_arg *exe_arg)
 	exe_arg->restore_fd[1] = dup(1);
 	exe_arg->pid = (pid_t *)malloc(sizeof(pid_t) * arg->num_of_cmd);
 	if (exe_arg->pid == 0)
-		return (1);
+		exit(print_perror("malloc pid"));
 	if (arg->num_of_cmd == 1)
 		exe_arg->pfd = 0;
 	else
@@ -88,11 +88,24 @@ static int	init(t_arg *arg, t_execute_arg *exe_arg)
 			return (1);
 		}
 	}
+	exe_arg->tmp_name = make_tmp_name(cmds);
+	make_and_write_tmp_files(cmds, exe_arg);
 	return (0);
 }
 
 static void	close_and_free_things(t_execute_arg *exe_arg)
 {
-	close(exe_arg->restore_fd[0]);
-	close(exe_arg->restore_fd[1]);
+	int	i;
+
+	i = 0;
+	if (exe_arg->fd[0] != -1)
+		close(exe_arg->restore_fd[0]);
+	if (exe_arg->fd[1] != -1)
+		close(exe_arg->restore_fd[1]);
+	while (exe_arg->tmp_name[i])
+	{
+		unlink(exe_arg->tmp_name[i]);
+		free(exe_arg->tmp_name[i++]);
+	}
+	free(exe_arg->tmp_name);
 }

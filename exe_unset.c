@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_unset.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 14:56:14 by byejeon           #+#    #+#             */
+/*   Updated: 2023/05/20 14:57:21 by byejeon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exe_cmd_line.h"
 
 static int	is_invalid_identifier_in_str(const char *str);
@@ -56,8 +68,8 @@ static int	is_invalid_identifier_in_str(const char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_' &&
-				str[i] != '=')
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_'
+			&& str[i] != '=')
 			return (1);
 		i++;
 	}
