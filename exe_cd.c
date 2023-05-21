@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:11:32 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/20 14:25:22 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/20 14:55:38 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 #define CD_OLD 1
 #define CD_COMMON 2
 
-static int		cd_set_flag(char **cmd, char **env);
-static int		str_idx_in_env(const char *str, char **env);
+static int	cd_set_flag(char **cmd, char **env);
+static int	str_idx_in_env(const char *str, char **env);
 static char	*get_path(char **cmd, char **env, int flag);
 static void	change_pwds_in_env(char **env, char *after_pwd, char *after_oldpwd);
+//오류메세지에 파일 이름도 들어가야됨
 
 int	exe_cd(char **cmd, char **env)
 {
@@ -39,7 +40,7 @@ int	exe_cd(char **cmd, char **env)
 	if (chdir(cd_path) != 0)
 	{
 		free(after_oldpwd);
-		return (print_perror("cd"));//오류메세지에 파일 이름도 들어가야됨
+		return (print_perror("cd"));
 	}
 	after_pwd = getcwd(0, 0);
 	if (after_pwd == 0)

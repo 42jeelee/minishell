@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:28:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/20 14:28:23 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/20 14:56:06 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static int	is_invalid_identifier_in_str(const char *str)
 	end_idx = str_size_until_equal_or_null(str);
 	while (i < end_idx)
 	{
-		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_' &&
-				str[i] != '=')
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_'
+			&& str[i] != '=')
 			return (1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/12 17:15:42 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 14:17:46 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_execute_arg
 	pid_t	*pid;
 	int		i;
 	char	*cmd_path;
+	char	**tmp_name;
 }	t_execute_arg;
 
 int		print_perror(char *str);
@@ -70,5 +71,6 @@ char	**list_dup(char **list);
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);
 void	copy_list(char **new_list, char **old_list, int size);
+int		ft_cmdssize(t_cmds *cmds);
 
 #endif
