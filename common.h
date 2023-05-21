@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 15:30:06 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:12:53 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_execute_arg
 	char	**path;
 	char	*cmd_path;
 	char	**tmp_name;
+	int		exit_code;
 }	t_execute_arg;
 
 int		print_perror(char *str);
