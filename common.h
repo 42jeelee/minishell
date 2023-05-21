@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 14:17:46 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 15:30:06 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_arg
 {
 	int		num_of_cmd;
 	int		stat_loc;
-	char	**path;
 	char	**env;
 	void	(*old_sigint)(int);
 	void	(*old_sigquit)(int);
@@ -57,6 +56,7 @@ typedef struct s_execute_arg
 	int		restore_fd[2];
 	pid_t	*pid;
 	int		i;
+	char	**path;
 	char	*cmd_path;
 	char	**tmp_name;
 }	t_execute_arg;

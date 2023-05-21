@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 17:24:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/02 22:42:36 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/21 15:49:21 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	free_arg(t_arg *arg)
 {
 	if (arg)
 	{
-		if (arg->path)
-			free_words(arg->path);
 		free(arg);
 		arg = 0;
 	}

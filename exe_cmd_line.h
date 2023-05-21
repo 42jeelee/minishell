@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 14:22:15 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 15:41:09 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env);
 
 char	**make_tmp_name(t_cmds *cmds);
+char	**make_paths(char **env);
 void	make_and_write_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg);
 
 int		run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg);

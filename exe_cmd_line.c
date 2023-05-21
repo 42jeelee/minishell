@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 14:41:39 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 16:36:48 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
 			exit(print_perror(exe_arg->cmd_path));
 	}
 	else
-		exe_arg->cmd_path = cmd_abs_path(cmds->cmd[0], arg->path);
+		exe_arg->cmd_path = cmd_abs_path(cmds->cmd[0], exe_arg->path);
 	if (exe_arg->cmd_path == 0)
 		exit(1);
 	execve(exe_arg->cmd_path, cmds->cmd, *env);
@@ -90,6 +90,7 @@ static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 	}
 	exe_arg->tmp_name = make_tmp_name(cmds);
 	make_and_write_tmp_files(cmds, exe_arg);
+	exe_arg->path = make_paths(arg->env);
 	return (0);
 }
 

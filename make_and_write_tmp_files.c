@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:21:00 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 14:41:38 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/21 16:30:28 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 				int cmds_idx, int redir_idx);
 
-// fd애러시 수정 필요할듯
+// fd 에러시 수정 필요할듯
 void	make_and_write_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg)
 {
 	int		cmds_idx;
