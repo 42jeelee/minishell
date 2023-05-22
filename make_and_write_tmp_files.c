@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:21:00 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 19:39:28 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 17:36:28 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,21 @@ static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 {
 	int		fd;
 	char	*str;
+	char	*tmp;
 
 	fd = open(exe_arg->tmp_name[cmds_idx], O_WRONLY | O_CREAT, 0644);
+	tmp = cmds->file[redir_idx];
 	if (fd < 0)
 		return (1);
 	while (1)
 	{
 		str = readline("> ");
-		if (str == 0)
+		if (str == 0 && errno)
 		{
 			close(fd);
 			return (1);
 		}
-		if (ft_strncmp(cmds->file[redir_idx], str, ft_strlen(str) + 1) == 0)
+		if (str == 0 || ft_strncmp(tmp, str, ft_strlen(str) + 1) == 0)
 			break ;
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);

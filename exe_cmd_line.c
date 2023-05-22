@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 15:13:31 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:15:03 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 		exe_arg.child_num++;
 	}
 	close_pipes_exept(exe_arg.pfd, arg->num_of_cmd - 1, exe_arg.fd);
-	while (exe_arg.i < exe_arg.child_num)
-		waitpid(exe_arg.pid[exe_arg.i++], &exe_arg.exit_code, 0);
+	wait_childs(&exe_arg);
 	close_and_free_things(&exe_arg);
 	parents_sig_end();
 	return (exe_arg.exit_code);
@@ -50,7 +49,7 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 				t_cmds *cmds, char ***env)
 {
-	fork_sig_init(arg);
+	fork_sig_init();
 	pipe_redir(exe_arg->pfd, exe_arg->child_num, arg->num_of_cmd, exe_arg->fd);
 	if (redir(cmds->file, cmds->redir_type, exe_arg->fd, exe_arg) != 0)
 		exit(print_perror("redir"));
@@ -67,7 +66,7 @@ static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 	else
 		exe_arg->cmd_path = cmd_abs_path(cmds->cmd[0], exe_arg->path);
 	if (exe_arg->cmd_path == 0)
-		exit(1);
+		exit(127);
 	execve(exe_arg->cmd_path, cmds->cmd, *env);
 	exit(print_perror(cmds->cmd[0]));
 }
@@ -89,12 +88,11 @@ static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 	exe_arg->tmp_name = make_tmp_name(cmds);
 	if (exe_arg->tmp_name == 0)
 		return (free_things(exe_arg->pid, exe_arg->pfd, 0, 0));
-	make_and_write_tmp_files(cmds, exe_arg);
-	if (exe_arg->exit_code > 0)
-		return (free_things(exe_arg->pid, exe_arg->pfd, exe_arg->tmp_name, 0));
+	if (heredoc(cmds, exe_arg) != 0)
+		return (free_things(exe_arg->pid, exe_arg->pfd, 0, exe_arg->tmp_name));
 	exe_arg->path = make_paths(arg->env);
 	if (exe_arg->path == 0)
-		return (free_things(exe_arg->pid, exe_arg->pfd, exe_arg->tmp_name, 0));
+		return (free_things(exe_arg->pid, exe_arg->pfd, 0, exe_arg->tmp_name));
 	return (0);
 }
 
@@ -119,9 +117,6 @@ static void	close_and_free_things(t_execute_arg *exe_arg)
 	if (exe_arg->fd[1] != -1)
 		close(exe_arg->restore_fd[1]);
 	while (exe_arg->tmp_name[i])
-	{
-		unlink(exe_arg->tmp_name[i]);
 		free(exe_arg->tmp_name[i++]);
-	}
 	free(exe_arg->tmp_name);
 }
