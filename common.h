@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 20:26:12 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 20:43:43 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,17 @@ typedef struct s_cmds
 
 typedef struct s_execute_arg
 {
-	int		**pfd;
-	int		fd[2];
-	int		restore_fd[2];
-	pid_t	*pid;
-	int		i;
-	int		child_num;
-	char	**path;
-	char	*cmd_path;
-	char	**tmp_name;
-	int		exit_code;
+	int				**pfd;
+	int				fd[2];
+	int				restore_fd[2];
+	pid_t			*pid;
+	int				i;
+	int				child_num;
+	char			**path;
+	char			*cmd_path;
+	char			**tmp_name;
+	int				exit_code;
+	struct s_arg	*arg;
 }	t_execute_arg;
 
 int		print_perror(char *str);
@@ -71,6 +72,7 @@ void	change_term(struct termios *term);
 void	no_echoctl(struct termios *old_term);
 
 char	**list_dup(char **list);
+int		trim_word(char **word, t_arg *arg);
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);
 void	copy_list(char **new_list, char **old_list, int size);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   make_and_write_tmp_files.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:21:00 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 20:08:13 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 20:41:21 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exe_cmd_line.h"
+#include "minishell.h"
 
 static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 				int cmds_idx, int redir_idx);
@@ -63,6 +63,11 @@ static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 		}
 		if (str == 0 || ft_strncmp(tmp, str, ft_strlen(str) + 1) == 0)
 			break ;
+		if (trim_word(&str, exe_arg->arg))
+		{
+			free(str);
+			return (1);
+		}
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
