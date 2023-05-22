@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/22 16:19:51 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/22 18:41:02 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,7 @@ int		is_builtin(char *word);
 int		is_redirection(char *word);
 char	*get_wordcatch(char *str, char *catchs);
 
-void	change_term(struct termios *term);
-void	no_echoctl(struct termios *old_term);
-
 void	sig_handler(int signum);
-void	sig_have_child(int signum);
 
 void	sig_init(void);
 

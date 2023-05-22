@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/20 15:34:13 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/22 18:17:46 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*change_envvalue(char *word, int start, int size, t_arg *arg)
 
 	if (word[start + 1] == '?')
 	{
-		value = ft_itoa(arg->stat_loc >> 8);
+		value = ft_itoa(arg->stat_loc);
 		if (!value)
 			return (NULL);
 	}

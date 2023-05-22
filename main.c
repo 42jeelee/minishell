@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/22 16:20:16 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/22 18:37:42 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av, char **env)
 		if (!cmds)
 			return (print_perror("MINISHELL"));
 		if (arg.num_of_cmd)
-			exe_cmd_line(&arg, cmds, &arg.env);
+			arg.stat_loc = exe_cmd_line(&arg, cmds, &arg.env);
 		free_cmds(cmds);
 		arg.num_of_cmd = 0;
 	}
