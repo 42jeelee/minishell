@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:43:29 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 18:32:50 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:47:32 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	wait_childs(t_execute_arg *exe_arg)
 		{
 			if (WTERMSIG(exe_arg->exit_code) == SIGQUIT)
 				ft_putstr_fd("QUIT: 3", STDOUT_FILENO);
-			exe_arg->exit_code = 128 + WTERMSIG(exe_arg->exit_code);
+			exe_arg->exit_code |= (128 + WTERMSIG(exe_arg->exit_code)) << 8;
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		}
 	}

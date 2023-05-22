@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:21:00 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 17:36:28 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 20:08:13 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 
 void	make_and_write_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg)
 {
-	int		cmds_idx;
-	int		redir_idx;
+	int				cmds_idx;
+	int				redir_idx;
 
 	cmds_idx = 0;
 	while (cmds)
@@ -45,9 +45,9 @@ void	make_and_write_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg)
 static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 				int cmds_idx, int redir_idx)
 {
-	int		fd;
-	char	*str;
-	char	*tmp;
+	int				fd;
+	char			*str;
+	char			*tmp;
 
 	fd = open(exe_arg->tmp_name[cmds_idx], O_WRONLY | O_CREAT, 0644);
 	tmp = cmds->file[redir_idx];
