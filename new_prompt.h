@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 21:10:58 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:19:51 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void	no_echoctl(struct termios *old_term);
 void	sig_handler(int signum);
 void	sig_have_child(int signum);
 
-void	sig_init(t_arg *arg);
+void	sig_init(void);
 
 #endif
