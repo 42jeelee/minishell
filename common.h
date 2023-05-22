@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 16:20:00 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/22 18:41:10 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ int		print_perror(char *str);
 void	fork_sig_init(void);
 void	parents_sig_init(void);
 void	parents_sig_end(void);
+
+void	change_term(struct termios *term);
+void	no_echoctl(struct termios *old_term);
 
 char	**list_dup(char **list);
 int		add_list_word(char *word, char ***list);
