@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 18:15:03 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 19:47:13 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 
 	if (init(arg, cmds, &exe_arg))
 		return (print_perror("error"));
+	if (heredoc(cmds, &exe_arg) != 0)
+		return (free_things(exe_arg.pid, exe_arg.pfd, 0, exe_arg.tmp_name));
 	if (arg->num_of_cmd == 1 && cmds->builtin == 1)
 	{
 		if (redir(cmds->file, cmds->redir_type, exe_arg.fd, &exe_arg) != 0)
@@ -42,8 +44,7 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 	close_pipes_exept(exe_arg.pfd, arg->num_of_cmd - 1, exe_arg.fd);
 	wait_childs(&exe_arg);
 	close_and_free_things(&exe_arg);
-	parents_sig_end();
-	return (exe_arg.exit_code);
+	return (WEXITSTATUS(exe_arg.exit_code));
 }
 
 static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
@@ -88,8 +89,6 @@ static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 	exe_arg->tmp_name = make_tmp_name(cmds);
 	if (exe_arg->tmp_name == 0)
 		return (free_things(exe_arg->pid, exe_arg->pfd, 0, 0));
-	if (heredoc(cmds, exe_arg) != 0)
-		return (free_things(exe_arg->pid, exe_arg->pfd, 0, exe_arg->tmp_name));
 	exe_arg->path = make_paths(arg->env);
 	if (exe_arg->path == 0)
 		return (free_things(exe_arg->pid, exe_arg->pfd, 0, exe_arg->tmp_name));
@@ -112,6 +111,7 @@ static void	close_and_free_things(t_execute_arg *exe_arg)
 	int	i;
 
 	i = 0;
+	parents_sig_end();
 	if (exe_arg->fd[0] != -1)
 		close(exe_arg->restore_fd[0]);
 	if (exe_arg->fd[1] != -1)

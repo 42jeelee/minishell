@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 14:44:54 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:56:20 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	print_env(char **env);
 static void	print_echo(char **cmd);
 static int	print_pwd(int *exit_code);
+static int	run_builtin2(t_cmds *cmds, char ***env, t_execute_arg *exe_arg);
 
 int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 {
@@ -32,7 +33,13 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 		if (exe_arg->exit_code != 0)
 			print_perror("cd");
 	}
-	else if (ft_strncmp(cmds->cmd[0], "export", 7) == 0)
+	run_builtin2(cmds, env, exe_arg);
+	return (exe_arg->exit_code);
+}
+
+static int	run_builtin2(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
+{
+	if (ft_strncmp(cmds->cmd[0], "export", 7) == 0)
 		exe_arg->exit_code = exe_export(cmds->cmd, env);
 	else if (ft_strncmp(cmds->cmd[0], "unset", 6) == 0)
 		exe_arg->exit_code = exe_unset(cmds->cmd, *env);
@@ -40,7 +47,7 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 	dup2(exe_arg->restore_fd[1], 1);
 	close(exe_arg->restore_fd[0]);
 	close(exe_arg->restore_fd[1]);
-	return (exe_arg->exit_code);
+	return (0);
 }
 
 static int	print_pwd(int *exit_code)
