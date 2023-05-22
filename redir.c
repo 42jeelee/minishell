@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:43:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 21:12:33 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 14:58:40 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg)
 		if (redir_type[i] == INONE && in_one(file[i], fd, &in_count))
 			return (1);
 		else if (redir_type[i] == INTWO
-			&& in_two(exe_arg, fd, exe_arg->i, &in_count))
+			&& in_two(exe_arg, fd, exe_arg->child_num, &in_count))
 			return (1);
 		else if ((redir_type[i] == OUTONE || redir_type[i] == OUTTWO)
 			&& out_one_two(file[i], redir_type[i], fd, &out_count))

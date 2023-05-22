@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 21:38:21 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:13:31 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg);
 static void	init_2(t_execute_arg *exe_arg);
-static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
+static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 				t_cmds *cmds, char ***env);
 static void	close_and_free_things(t_execute_arg *exe_arg);
 
@@ -33,26 +33,27 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 	while (cmds)
 	{
 		parents_sig_init();
-		exe_arg.pid[exe_arg.i] = fork();
-		if (exe_arg.pid[exe_arg.i] == 0)
-			i_hate_25_line(&exe_arg, arg, cmds, env);
+		exe_arg.pid[exe_arg.child_num] = fork();
+		if (exe_arg.pid[exe_arg.child_num] == 0)
+			run_child_process(&exe_arg, arg, cmds, env);
 		cmds = cmds->next;
-		exe_arg.i++;
+		exe_arg.child_num++;
 	}
 	close_pipes_exept(exe_arg.pfd, arg->num_of_cmd - 1, exe_arg.fd);
-	while (exe_arg.i--)
-		waitpid(exe_arg.pid[exe_arg.i], &exe_arg.exit_code, 0);
+	while (exe_arg.i < exe_arg.child_num)
+		waitpid(exe_arg.pid[exe_arg.i++], &exe_arg.exit_code, 0);
 	close_and_free_things(&exe_arg);
 	parents_sig_end();
 	return (exe_arg.exit_code);
 }
 
-static void	i_hate_25_line(t_execute_arg *exe_arg, t_arg *arg,
+static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 				t_cmds *cmds, char ***env)
 {
 	fork_sig_init(arg);
-	pipe_redir(exe_arg->pfd, exe_arg->i, arg->num_of_cmd, exe_arg->fd);
-	redir(cmds->file, cmds->redir_type, exe_arg->fd, exe_arg);
+	pipe_redir(exe_arg->pfd, exe_arg->child_num, arg->num_of_cmd, exe_arg->fd);
+	if (redir(cmds->file, cmds->redir_type, exe_arg->fd, exe_arg) != 0)
+		exit(print_perror("redir"));
 	if (arg->num_of_cmd > 1)
 		close_pipes_exept(exe_arg->pfd, arg->num_of_cmd - 1, exe_arg->fd);
 	if (cmds->builtin == 1)
@@ -100,6 +101,7 @@ static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 static void	init_2(t_execute_arg *exe_arg)
 {
 	exe_arg->i = 0;
+	exe_arg->child_num = 0;
 	exe_arg->exit_code = 0;
 	exe_arg->fd[0] = -1;
 	exe_arg->fd[1] = -1;

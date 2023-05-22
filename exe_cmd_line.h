@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 20:12:29 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 14:42:33 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int		redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg);
 
 int		exe_cd(char **cmd, char **env);
 
-void	exe_export(char **cmd, char ***env);
-void	sort_export(char **copied_env);
-void	print_export(char **env);
-int		str_size_until_equal_or_null(const char *str);
-int		find_str_idx_in_env(char *str, char **env);
+int		exe_export(char **cmd, char ***env);
+int		exe_export_with_no_arg(char **env);
 
-void	exe_unset(char **cmd, char **env);
+int		exe_unset(char **cmd, char **env);
+
 int		free_things(void *a, void *b, void *c, void *d);
 
+int		str_size_until_equal_or_null(const char *str);
+int		find_str_idx_in_env(char *str, char **env);
 #endif
