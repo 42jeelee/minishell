@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 21:26:43 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 14:44:54 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 		exe_arg->exit_code = print_pwd(&exe_arg->exit_code);
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
 		exit(0);
-	else if (ft_strncmp(cmds->cmd[0], "cd", 3) == 0
-		&& exe_cd(cmds->cmd, *env) > 0)
-		print_perror("cd");
+	else if (ft_strncmp(cmds->cmd[0], "cd", 3) == 0)
+	{
+		exe_arg->exit_code = exe_cd(cmds->cmd, *env);
+		if (exe_arg->exit_code != 0)
+			print_perror("cd");
+	}
 	else if (ft_strncmp(cmds->cmd[0], "export", 7) == 0)
-		exe_export(cmds->cmd, env);
+		exe_arg->exit_code = exe_export(cmds->cmd, env);
 	else if (ft_strncmp(cmds->cmd[0], "unset", 6) == 0)
-		exe_unset(cmds->cmd, *env);
+		exe_arg->exit_code = exe_unset(cmds->cmd, *env);
 	dup2(exe_arg->restore_fd[0], 0);
 	dup2(exe_arg->restore_fd[1], 1);
 	close(exe_arg->restore_fd[0]);
