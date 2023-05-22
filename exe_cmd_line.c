@@ -6,14 +6,14 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 19:47:13 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 20:44:02 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe_cmd_line.h"
 
 static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg);
-static void	init_2(t_execute_arg *exe_arg);
+static void	init_2(t_arg *arg, t_execute_arg *exe_arg);
 static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 				t_cmds *cmds, char ***env);
 static void	close_and_free_things(t_execute_arg *exe_arg);
@@ -74,7 +74,7 @@ static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 
 static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 {
-	init_2(exe_arg);
+	init_2(arg, exe_arg);
 	exe_arg->pid = (pid_t *)malloc(sizeof(pid_t) * arg->num_of_cmd);
 	if (exe_arg->pid == 0)
 		return (1);
@@ -95,7 +95,7 @@ static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 	return (0);
 }
 
-static void	init_2(t_execute_arg *exe_arg)
+static void	init_2(t_arg *arg, t_execute_arg *exe_arg)
 {
 	exe_arg->i = 0;
 	exe_arg->child_num = 0;
@@ -104,6 +104,7 @@ static void	init_2(t_execute_arg *exe_arg)
 	exe_arg->fd[1] = -1;
 	exe_arg->restore_fd[0] = dup(0);
 	exe_arg->restore_fd[1] = dup(1);
+	exe_arg->arg = arg;
 }
 
 static void	close_and_free_things(t_execute_arg *exe_arg)
