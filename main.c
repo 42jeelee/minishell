@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:40:36 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 20:31:06 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:20:16 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int ac, char **av, char **env)
 		(void)av;
 	if (init_shell(&arg, env))
 		return (print_perror("MINISHELL"));
-	sig_init(&arg);
 	while (1)
 	{
 		cmds = new_prompt(&arg);

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:06 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 21:21:01 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/22 16:20:50 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	init_shell(t_arg *arg, char **env)
 
 	if (init_arg(arg, env))
 		return (1);
+	sig_init();
 	shlvl = ft_itoa(ft_atoi(get_value_env("SHLVL", 5, arg->env)) + 1);
 	if (!shlvl[0] || shlvl[0] == '0')
 		return (1);
