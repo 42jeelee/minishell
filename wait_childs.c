@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_free_things.c                                  :+:      :+:    :+:   */
+/*   wait_childs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/21 19:42:18 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 18:09:06 by byejeon          ###   ########.fr       */
+/*   Created: 2023/05/22 17:43:29 by byejeon           #+#    #+#             */
+/*   Updated: 2023/05/22 18:32:50 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "exe_cmd_line.h"
 
-int	free_things(void *a, void *b, void *c, char **d)
+void	wait_childs(t_execute_arg *exe_arg)
 {
-	int	i;
-
-	i = 0;
-	if (a != 0)
-		free(a);
-	if (b != 0)
-		free(b);
-	if (c != 0)
-		free(c);
-	if (d != 0)
+	while (exe_arg->i < exe_arg->child_num)
 	{
-		while (d[i])
-			free(d[i++]);
-		free(d);
+		waitpid(exe_arg->pid[exe_arg->i++], &exe_arg->exit_code, WUNTRACED);
+		if (WIFSIGNALED(exe_arg->exit_code))
+		{
+			if (WTERMSIG(exe_arg->exit_code) == SIGQUIT)
+				ft_putstr_fd("QUIT: 3", STDOUT_FILENO);
+			exe_arg->exit_code = 128 + WTERMSIG(exe_arg->exit_code);
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		}
 	}
-	return (1);
 }

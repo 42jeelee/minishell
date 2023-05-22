@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 14:42:33 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:16:04 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 
 int		exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env);
 
+int		heredoc(t_cmds *cmds, t_execute_arg *exe_arg);
 char	**make_tmp_name(t_cmds *cmds);
-char	**make_paths(char **env);
 void	make_and_write_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg);
+char	**make_paths(char **env);
 
 int		run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg);
 char	*cmd_abs_path(char *cmd, char **paths);
@@ -37,8 +38,11 @@ int		exe_export_with_no_arg(char **env);
 
 int		exe_unset(char **cmd, char **env);
 
-int		free_things(void *a, void *b, void *c, void *d);
+int		free_things(void *a, void *b, void *c, char **d);
 
 int		str_size_until_equal_or_null(const char *str);
 int		find_str_idx_in_env(char *str, char **env);
+
+void	wait_childs(t_execute_arg *exe_arg);
+
 #endif
