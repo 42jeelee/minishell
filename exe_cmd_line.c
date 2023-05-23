@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 20:44:02 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/23 15:55:18 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 				t_cmds *cmds, char ***env)
 {
-	fork_sig_init();
+	fork_sig_init(1);
 	pipe_redir(exe_arg->pfd, exe_arg->child_num, arg->num_of_cmd, exe_arg->fd);
 	if (redir(cmds->file, cmds->redir_type, exe_arg->fd, exe_arg) != 0)
 		exit(print_perror("redir"));

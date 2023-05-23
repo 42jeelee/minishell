@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 01:36:40 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/22 16:19:30 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/23 15:56:12 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ void	sig_init(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	fork_sig_init(void)
+void	fork_sig_init(int sigquit)
 {
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (sigquit)
+		signal(SIGQUIT, SIG_DFL);
+	else
+		signal(SIGQUIT, SIG_IGN);
 }
 
 void	parents_sig_init(void)

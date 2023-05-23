@@ -6,7 +6,7 @@
 #    By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 20:55:40 by jeelee            #+#    #+#              #
-#    Updated: 2023/05/22 18:14:42 by byejeon          ###   ########.fr        #
+#    Updated: 2023/05/23 16:23:30 by jeelee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,8 @@ RLINC		=	/Users/byejeon/.brew/opt/readline/include
 
 SRC			=	main.c get_path.c new_prompt.c parse_line.c command.c \
 				utils.c utils2.c utils3.c utils4.c free_it.c print_it.c init.c \
-				term_env.c sig_control.c sig_handler.c change_cmdenv.c trim_cmds.c \
-				envvalue.c \
-				close_pipes_exept.c cmd_abs_path.c exe_cmd_line.c \
+				term_env.c sig_control.c change_cmdenv.c trim_cmds.c \
+				close_pipes_exept.c cmd_abs_path.c exe_cmd_line.c envvalue.c \
 				is_relative_path.c make_pipes.c print_perror.c redir.c \
 				run_builtin.c exe_cd.c exe_export.c exe_unset.c \
 				str_size_until_equal_of_null.c exe_export_with_no_arg.c \
