@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/22 18:17:46 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/23 16:19:58 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	get_env_size(char *word, int block_size)
 		return (0);
 	while (++i < block_size)
 	{
-		if (word[i] == '$' || word[i] == ' ')
+		if (word[i] == '$' || word[i] == ' ' || word[i] == '=')
 			break ;
 		else if (word[i] == '\'' || word[i] == '\"')
 			break ;

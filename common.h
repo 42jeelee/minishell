@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 20:43:43 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/23 15:54:27 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_execute_arg
 
 int		print_perror(char *str);
 
-void	fork_sig_init(void);
+void	fork_sig_init(int sigquit);
 void	parents_sig_init(void);
 void	parents_sig_end(void);
 

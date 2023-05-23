@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:52:42 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 20:26:23 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/23 15:55:35 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	heredoc(t_cmds *cmds, t_execute_arg *exe_arg)
 	pid = fork();
 	if (pid == 0)
 	{
-		fork_sig_init();
+		fork_sig_init(0);
 		make_and_write_tmp_files(cmds, exe_arg);
 		if (exe_arg->exit_code > 0)
 			exit(1);
