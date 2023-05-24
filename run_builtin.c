@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 17:10:05 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 18:21:46 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 			print_perror("cd");
 	}
 	run_builtin2(cmds, env, exe_arg);
+	close_and_free_things(exe_arg);
 	return (exe_arg->exit_code);
 }
 
