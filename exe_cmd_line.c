@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/23 15:55:18 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:46:42 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 	fork_sig_init(1);
 	pipe_redir(exe_arg->pfd, exe_arg->child_num, arg->num_of_cmd, exe_arg->fd);
 	if (redir(cmds->file, cmds->redir_type, exe_arg->fd, exe_arg) != 0)
-		exit(print_perror("redir"));
+		exit(1);
 	if (arg->num_of_cmd > 1)
 		close_pipes_exept(exe_arg->pfd, arg->num_of_cmd - 1, exe_arg->fd);
 	if (cmds->builtin == 1)
@@ -62,12 +62,13 @@ static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 	{
 		exe_arg->cmd_path = cmds->cmd[0];
 		if (access(exe_arg->cmd_path, X_OK) == -1)
-			exit(print_perror(exe_arg->cmd_path));
+		{
+			print_perror(exe_arg->cmd_path);
+			exit(126);
+		}
 	}
 	else
-		exe_arg->cmd_path = cmd_abs_path(cmds->cmd[0], exe_arg->path);
-	if (exe_arg->cmd_path == 0)
-		exit(127);
+		cmd_abs_path(cmds->cmd[0], exe_arg->path, &exe_arg->cmd_path);
 	execve(exe_arg->cmd_path, cmds->cmd, *env);
 	exit(print_perror(cmds->cmd[0]));
 }

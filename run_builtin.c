@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 18:56:20 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:10:05 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_env(char **env);
 static void	print_echo(char **cmd);
-static int	print_pwd(int *exit_code);
+static int	print_pwd(int *exit_code, char **env);
 static int	run_builtin2(t_cmds *cmds, char ***env, t_execute_arg *exe_arg);
 
 int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
@@ -24,12 +24,12 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 	else if (ft_strncmp(cmds->cmd[0], "echo", 5) == 0)
 		print_echo(cmds->cmd);
 	else if (ft_strncmp(cmds->cmd[0], "pwd", 4) == 0)
-		exe_arg->exit_code = print_pwd(&exe_arg->exit_code);
+		exe_arg->exit_code = print_pwd(&exe_arg->exit_code, *env);
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(cmds->cmd[0], "cd", 3) == 0)
 	{
-		exe_arg->exit_code = exe_cd(cmds->cmd, *env);
+		exe_arg->exit_code = exe_cd(cmds->cmd, *env, exe_arg);
 		if (exe_arg->exit_code != 0)
 			print_perror("cd");
 	}
@@ -50,11 +50,11 @@ static int	run_builtin2(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 	return (0);
 }
 
-static int	print_pwd(int *exit_code)
+static int	print_pwd(int *exit_code, char **env)
 {
 	char	*str;
 
-	str = getcwd(0, 0);
+	str = ft_getpwd(env);
 	if (str == 0)
 	{
 		*exit_code = 1;

@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:11:32 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 14:17:17 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:26:41 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	cd_set_flag(char **cmd, char **env);
 static char	*get_path(char **cmd, char **env, int flag);
 static int	change_pwds_in_env(char **env, char *after_pwd, char *after_oldpwd);
 
-int	exe_cd(char **cmd, char **env)
+int	exe_cd(char **cmd, char **env, t_execute_arg *exe_arg)
 {
 	int		flag;
 	char	*cd_path;
@@ -32,18 +32,20 @@ int	exe_cd(char **cmd, char **env)
 	if (flag == FAIL)
 		return (1);
 	cd_path = get_path(cmd, env, flag);
-	after_oldpwd = getcwd(0, 0);
+	after_oldpwd = ft_strdup(exe_arg->arg->pwd);
 	if (after_oldpwd == 0)
 		return (1);
 	if (chdir(cd_path) != 0)
 		return (free_things(after_oldpwd, 0, 0, 0));
-	after_pwd = getcwd(0, 0);
+	after_pwd = ft_getpwd(env);
 	if (after_pwd == 0)
 		return (free_things(after_oldpwd, 0, 0, 0));
 	if (flag == CD_OLD)
 		printf("%s\n", after_pwd);
 	if (change_pwds_in_env(env, after_pwd, after_oldpwd))
 		return (free_things(after_oldpwd, after_pwd, 0, 0));
+	if (set_g_pwd(exe_arg->arg) == 1)
+		return (1);
 	return (0);
 }
 
@@ -81,7 +83,9 @@ static char	*get_path(char **cmd, char **env, int flag)
 	else if (flag == CD_OLD)
 		return (&env[find_str_idx_in_env("OLDPWD=", env)][7]);
 	else
+	{
 		return (&cmd[1][0]);
+	}
 }
 
 static int	cd_set_flag(char **cmd, char **env)

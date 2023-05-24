@@ -6,53 +6,52 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:38:25 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/06 18:56:32 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 16:46:02 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*print_error_message(char *cmd, char *message);
-static char	*print_perror_massage(char *cmd);
+static int	print_error_message(char *cmd, char *message, int errnum);
+static int	print_perror_massage(char *cmd, int errnum);
 
-char	*cmd_abs_path(char *cmd, char **paths)
+int	cmd_abs_path(char *cmd, char **paths, char **cmd_path)
 {
-	char	*out;
 	int		i;
 
 	i = -1;
 	if (cmd[0] == '\0')
-		return (print_error_message(cmd, ": command not found\n"));
+		exit(print_error_message(cmd, ": command not found\n", 127));
 	while (paths[++i])
 	{
-		out = ft_strjoin(paths[i], cmd);
-		if (out == 0)
+		*cmd_path = ft_strjoin(paths[i], cmd);
+		if (*cmd_path == 0)
 			exit(print_perror(cmd));
-		if (access(out, F_OK) == 0)
+		if (access(*cmd_path, F_OK) == 0)
 		{
-			if (access(out, X_OK) == 0)
-				return (out);
+			if (access(*cmd_path, X_OK) == 0)
+				return (0);
 			else
 			{
-				free(out);
-				return (print_perror_massage(cmd));
+				free(*cmd_path);
+				exit(print_perror_massage(cmd, 126));
 			}
 		}
 		else
-			free(out);
+			free(*cmd_path);
 	}
-	return (print_error_message(cmd, ": command not found\n"));
+	exit(print_error_message(cmd, ": command not found\n", 127));
 }
 
-static char	*print_perror_massage(char *cmd)
+static int	print_perror_massage(char *cmd, int errnum)
 {
 	perror(cmd);
-	return (0);
+	return (errnum);
 }
 
-static char	*print_error_message(char *cmd, char *message)
+static int print_error_message(char *cmd, char *message, int errnum)
 {
 	write(2, cmd, ft_strlen(cmd));
 	write(2, message, ft_strlen(message));
-	return (0);
+	return (errnum);
 }

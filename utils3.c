@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 13:56:41 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 16:48:45 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 17:34:38 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,8 @@ int	find_key_env(char *key, char **env)
 int	set_g_pwd(t_arg *arg)
 {
 	char	*tmp;
-	char	*value;
 
-	value = get_value_env("PWD", 3, arg->env);
-	if (!value)
-		value = "";
-	tmp = ft_strjoin("PWD=", value);
+	tmp = ft_getpwd(arg->env);
 	if (!tmp)
 		return (1);
 	if (arg->pwd)

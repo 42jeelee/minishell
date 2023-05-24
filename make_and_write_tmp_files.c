@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:21:00 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 14:00:04 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:18:01 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 {
 	int				fd;
 	char			*str;
-	char			*tmp;
 
 	fd = open(exe_arg->tmp_name[cmds_idx], O_WRONLY | O_CREAT, 0644);
-	tmp = cmds->file[redir_idx];
 	if (fd < 0)
 		return (1);
 	while (1)
@@ -61,13 +59,11 @@ static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 			close(fd);
 			return (1);
 		}
-		if (str == 0 || ft_strncmp(tmp, str, ft_strlen(str) + 1) == 0)
+		if (str == 0 || ft_strncmp(cmds->file[redir_idx],
+				str, ft_strlen(str) + 1) == 0)
 			break ;
 		if (trim_word(&str, exe_arg->arg, 1))
-		{
-			free(str);
-			return (1);
-		}
+			return (free_things(str, 0, 0, 0));
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
