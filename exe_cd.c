@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:11:32 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 17:26:41 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 18:41:22 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static int	change_pwds_in_env(char **env, char *after_pwd, char *after_oldpwd)
 		free(env[oldpwd_idx]);
 		env[oldpwd_idx] = tmp;
 	}
+	free_things(after_oldpwd, after_pwd, 0, 0);
 	return (0);
 }
 
