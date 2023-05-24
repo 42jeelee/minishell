@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/23 20:13:12 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 12:53:31 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ char	*change_envvalue(char *word, int start, int size, t_arg *arg)
 	return (change_word);
 }
 
-int	_change_block_env(char **word, int i, t_blockinfo *bi, t_arg *arg)
+int	_change_block_env(char **word, int *i, t_blockinfo *bi, t_arg *arg)
 {
 	char	*change_word;
 	int		ch_word_size;
 	int		env_size;
 
-	env_size = get_env_size(*word + i, bi->end - i);
+	env_size = get_env_size(*word + *i, bi->end - *i);
 	if (env_size > 1)
 	{
-		change_word = change_envvalue(*word, i, env_size, arg);
+		change_word = change_envvalue(*word, *i, env_size, arg);
 		if (!change_word)
 			return (1);
 		ch_word_size = ft_strlen(change_word);
@@ -91,6 +91,8 @@ int	_change_block_env(char **word, int i, t_blockinfo *bi, t_arg *arg)
 		bi->end += ch_word_size - bi->word_size;
 		bi->word_size = ch_word_size;
 	}
+	else
+		(*i)++;
 	return (0);
 }
 
@@ -105,10 +107,11 @@ int	change_block_env(char **word, t_blockinfo *bi, t_arg *arg)
 	{
 		if ((*word)[i] == '$')
 		{
-			if (_change_block_env(word, i, bi, arg))
+			if (_change_block_env(word, &i, bi, arg))
 				return (1);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (0);
 }

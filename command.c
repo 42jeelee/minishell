@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 20:09:45 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 14:11:49 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	put_word_inlist(char **command, int *i, int type, t_cmds *cmd)
 		word = get_wordcatch(*command + *i, "< >");
 		if (!word)
 			return (-1);
-		rm_quotes_intoken(&word, 0);
+		if (trim_word(&word, 0, 0))
+			return (-1);
 		if (add_any_list(type, word, cmd) == -1)
 			return (-1);
 		free(word);
@@ -79,12 +80,13 @@ t_cmds	*new_cmd(char **command, t_arg *arg)
 {
 	t_cmds	*cmd;
 
-	if (trim_word(command, arg))
+	if (trim_word(command, arg, 1))
 		return (NULL);
 	cmd = (t_cmds *)malloc(sizeof(t_cmds));
 	if (!cmd)
 		return (NULL);
-	init_cmd(cmd);
+	if (init_cmd(cmd))
+		return (NULL);
 	if (parse_cmd(cmd, command) == -1)
 	{
 		free_cmds(cmd);
