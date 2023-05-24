@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 16:16:17 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:36:19 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ int		is_builtin(char *word);
 int		is_redirection(char *word);
 char	*get_wordcatch(char *str, char *catchs);
 
-void	sig_handler(int signum);
+int		find_key_env(char *key, char **env);
 
+void	sig_handler(int signum);
 void	sig_init(void);
 
 #endif
