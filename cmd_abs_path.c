@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:38:25 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 16:46:02 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:39:40 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	print_perror_massage(char *cmd, int errnum)
 	return (errnum);
 }
 
-static int print_error_message(char *cmd, char *message, int errnum)
+static int	print_error_message(char *cmd, char *message, int errnum)
 {
 	write(2, cmd, ft_strlen(cmd));
 	write(2, message, ft_strlen(message));
