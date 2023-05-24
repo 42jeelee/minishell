@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 15:07:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 19:46:45 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	bi_init(char *word, t_blockinfo *bi)
 	bi->start = 0;
 	bi->end = 0;
 	bi->quotes = 0;
+	bi->quotes_start = 0;
 }
 
 int	rm_quotes_word(char **word, t_blockinfo *bi)
@@ -56,6 +57,29 @@ int	change_block(char **word, t_blockinfo *bi, t_arg *arg, int flag)
 	return (0);
 }
 
+int	now_quotes(char **word, t_blockinfo *bi, t_arg *arg, int flag)
+{
+	if (!(bi->quotes))
+	{
+		bi->quotes = (*word)[bi->start];
+		bi->quotes_start = bi->start;
+	}
+	else
+	{
+		if (bi->quotes_start < bi->start)
+		{
+			bi->end += bi->start;
+			if (change_block(word, bi, arg, flag))
+				return (1);
+			bi->start = bi->end - 1;
+		}
+		bi->quotes_start = 0;
+		bi->quotes = 0;
+	}
+	bi->start += 1;
+	return (0);
+}
+
 int	trim_word(char **word, t_arg *arg, int flag)
 {
 	t_blockinfo	bi;
@@ -68,11 +92,8 @@ int	trim_word(char **word, t_arg *arg, int flag)
 		bi.end = get_block_size(*word + bi.start, bi.quotes);
 		if (bi.end == 0)
 		{
-			if (!bi.quotes)
-				bi.quotes = (*word)[bi.start];
-			else
-				bi.quotes = 0;
-			bi.start += 1;
+			if (now_quotes(word, &bi, arg, flag))
+				return (1);
 		}
 		else
 		{

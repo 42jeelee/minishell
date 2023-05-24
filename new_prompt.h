@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 16:36:19 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 19:27:33 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_blockinfo
 	int		start;
 	int		end;
 	char	quotes;
+	int		quotes_start;
 }	t_blockinfo;
 
 t_cmds	*new_prompt(t_arg *arg);
