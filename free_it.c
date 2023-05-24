@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 17:24:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 15:49:21 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 18:41:41 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ void	free_cmds(t_cmds *cmds)
 
 void	free_arg(t_arg *arg)
 {
-	if (arg)
-	{
-		free(arg);
-		arg = 0;
-	}
+	free_words(arg->env);
+	free(arg->pwd);
 }
