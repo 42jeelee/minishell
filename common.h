@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 15:09:37 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:46:20 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_arg
 	int		num_of_cmd;
 	int		stat_loc;
 	char	**env;
+	char	*pwd;
 }	t_arg;
 
 typedef struct s_cmds
@@ -70,6 +71,8 @@ void	parents_sig_end(void);
 
 void	change_term(struct termios *term);
 void	no_echoctl(struct termios *old_term);
+
+int		set_g_pwd(t_arg *arg);
 
 char	**list_dup(char **list);
 int		trim_word(char **word, t_arg *arg, int flag);

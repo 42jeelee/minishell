@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 13:56:41 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/11 18:17:59 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:48:45 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,36 @@ int	get_block_size(char *word, char c)
 			break ;
 	}
 	return (ft_strlen(word));
+}
+
+int	find_key_env(char *key, char **env)
+{
+	int	i;
+	int	key_size;
+
+	key_size = ft_strlen(key);
+	i = -1;
+	while (env[++i])
+	{
+		if (!ft_strncmp(key, env[i], key_size))
+			return (1);
+	}
+	return (0);
+}
+
+int	set_g_pwd(t_arg *arg)
+{
+	char	*tmp;
+	char	*value;
+
+	value = get_value_env("PWD", 3, arg->env);
+	if (!value)
+		value = "";
+	tmp = ft_strjoin("PWD=", value);
+	if (!tmp)
+		return (1);
+	if (arg->pwd)
+		free(arg->pwd);
+	arg->pwd = tmp;
+	return (0);
 }
