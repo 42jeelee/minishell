@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/23 15:54:27 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 15:09:37 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	change_term(struct termios *term);
 void	no_echoctl(struct termios *old_term);
 
 char	**list_dup(char **list);
-int		trim_word(char **word, t_arg *arg);
+int		trim_word(char **word, t_arg *arg, int flag);
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);
 void	copy_list(char **new_list, char **old_list, int size);

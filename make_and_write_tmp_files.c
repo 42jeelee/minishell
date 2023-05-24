@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:21:00 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 20:41:21 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 14:00:04 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 		}
 		if (str == 0 || ft_strncmp(tmp, str, ft_strlen(str) + 1) == 0)
 			break ;
-		if (trim_word(&str, exe_arg->arg))
+		if (trim_word(&str, exe_arg->arg, 1))
 		{
 			free(str);
 			return (1);

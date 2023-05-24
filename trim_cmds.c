@@ -6,11 +6,19 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 19:29:03 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/24 15:07:32 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	bi_init(char *word, t_blockinfo *bi)
+{
+	bi->word_size = ft_strlen(word);
+	bi->start = 0;
+	bi->end = 0;
+	bi->quotes = 0;
+}
 
 int	rm_quotes_word(char **word, t_blockinfo *bi)
 {
@@ -29,63 +37,48 @@ int	rm_quotes_word(char **word, t_blockinfo *bi)
 	return (0);
 }
 
-int	rm_quotes_intoken(char **token, int i)
-{
-	t_blockinfo	bi;
-
-	bi.start = i;
-	while ((*token)[bi.start])
-	{
-		bi.start = str_in_idx(*token + i, "\'\"");
-		if (bi.start == -1)
-			break ;
-		bi.quotes = (*token)[i + bi.start];
-		bi.start += i + 1;
-		bi.end = get_block_size(*token + bi.start, bi.quotes);
-		if (bi.end > 0)
-		{
-			bi.end += bi.start;
-			if (rm_quotes_word(token, &bi))
-				return (1);
-		}
-		bi.start = bi.end;
-	}
-	return (0);
-}
-
-int	change_block(char **word, t_blockinfo *bi, t_arg *arg)
+int	change_block(char **word, t_blockinfo *bi, t_arg *arg, int flag)
 {
 	int	block_size;
 
 	block_size = bi->end - bi->start;
-	if (block_size > 0 && change_block_env(word, bi, arg))
-		return (1);
+	if (flag && arg)
+	{
+		if (block_size > 0 && change_block_env(word, bi, arg))
+			return (1);
+	}
+	else if (!flag)
+	{
+		if (bi->quotes && rm_quotes_word(word, bi))
+			return (1);
+		bi->quotes = 0;
+	}
 	return (0);
 }
 
-int	trim_word(char **word, t_arg *arg)
+int	trim_word(char **word, t_arg *arg, int flag)
 {
 	t_blockinfo	bi;
 
 	if (!(*word))
 		return (0);
-	bi.word_size = ft_strlen(*word);
-	bi.start = 0;
-	bi.quotes = 0;
+	bi_init(*word, &bi);
 	while ((*word)[bi.start])
 	{
 		bi.end = get_block_size(*word + bi.start, bi.quotes);
-		if (bi.end == 0 && !bi.quotes)
+		if (bi.end == 0)
 		{
-			bi.quotes = (*word)[bi.start];
+			if (!bi.quotes)
+				bi.quotes = (*word)[bi.start];
+			else
+				bi.quotes = 0;
 			bi.start += 1;
 		}
 		else
 		{
 			bi.end += bi.start;
-			if (change_block(word, &bi, arg))
+			if (change_block(word, &bi, arg, flag))
 				return (1);
-			bi.quotes = 0;
 			bi.start = bi.end;
 		}
 	}
