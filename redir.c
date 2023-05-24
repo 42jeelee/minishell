@@ -6,29 +6,16 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:43:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 17:07:46 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 15:32:59 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	in_one(char *file, int *fd, int *in_count);
-static int	in_two(t_execute_arg *exe_arg, int *fd, int idx, int *in_count);
+static int	in_two(t_execute_arg *exe_arg, int *fd, int *in_count);
 static int	out_one_two(char *file, int redir_type, int *fd, int *out_count);
-
-void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd)
-{
-	if (i != 0)
-	{
-		fd[0] = pfd[i -1][0];
-		dup2(pfd[i -1][0], 0);
-	}
-	if (i != num_of_cmd - 1)
-	{
-		fd[1] = pfd[i][1];
-		dup2(pfd[i][1], 1);
-	}
-}
+static int	last_heredoc_idx(char **file, int *redir_type);
 
 int	redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg)
 {
@@ -43,9 +30,13 @@ int	redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg)
 	{
 		if (redir_type[i] == INONE && in_one(file[i], fd, &in_count))
 			return (1);
-		else if (redir_type[i] == INTWO
-			&& in_two(exe_arg, fd, exe_arg->child_num, &in_count))
-			return (1);
+		else if (redir_type[i] == INTWO)
+		{
+			if (in_two(exe_arg, fd, &in_count) != 0)
+				return (1);
+			if (last_heredoc_idx(file, redir_type) == i)
+				unlink(exe_arg->tmp_name[exe_arg->child_num]);
+		}
 		else if ((redir_type[i] == OUTONE || redir_type[i] == OUTTWO)
 			&& out_one_two(file[i], redir_type[i], fd, &out_count))
 			return (1);
@@ -53,16 +44,31 @@ int	redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg)
 	return (0);
 }
 
-static int	in_two(t_execute_arg *exe_arg, int *fd, int idx, int *in_count)
+static int	last_heredoc_idx(char **file, int *redir_type)
+{
+	int	i;
+	int	idx;
+
+	i = 0;
+	idx = -1;
+	while (file[i])
+	{
+		if (redir_type[i] == INTWO)
+			idx = i;
+		i++;
+	}
+	return (idx);
+}
+
+static int	in_two(t_execute_arg *exe_arg, int *fd, int *in_count)
 {
 	if (*in_count != 0)
 		close(fd[0]);
-	if (access(exe_arg->tmp_name[idx], R_OK) == -1)
-		return (print_perror(exe_arg->tmp_name[idx]));
-	fd[0] = open(exe_arg->tmp_name[idx], O_RDONLY);
+	if (access(exe_arg->tmp_name[exe_arg->child_num], R_OK) == -1)
+		return (print_perror(exe_arg->tmp_name[exe_arg->child_num]));
+	fd[0] = open(exe_arg->tmp_name[exe_arg->child_num], O_RDONLY);
 	if (fd[0] < 0)
-		return (print_perror(exe_arg->tmp_name[idx]));
-	unlink(exe_arg->tmp_name[idx]);
+		return (print_perror(exe_arg->tmp_name[exe_arg->child_num]));
 	dup2(fd[0], 0);
 	(*in_count)++;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/22 18:16:04 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:05:35 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	make_and_write_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg);
 char	**make_paths(char **env);
 
 int		run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg);
-char	*cmd_abs_path(char *cmd, char **paths);
+int		cmd_abs_path(char *cmd, char **paths, char **cmd_path);
 int		**make_pipes(int num_of_pipe);
 void	close_pipes_exept(int **pfd, int num_of_pipe, int *fd);
 int		is_relative_path(char *cmd);
@@ -31,7 +31,7 @@ int		is_relative_path(char *cmd);
 void	pipe_redir(int **pfd, int i, int num_of_cmd, int *fd);
 int		redir(char **file, int *redir_type, int *fd, t_execute_arg *exe_arg);
 
-int		exe_cd(char **cmd, char **env);
+int		exe_cd(char **cmd, char **env, t_execute_arg *exe_arg);
 
 int		exe_export(char **cmd, char ***env);
 int		exe_export_with_no_arg(char **env);
@@ -44,5 +44,6 @@ int		str_size_until_equal_or_null(const char *str);
 int		find_str_idx_in_env(char *str, char **env);
 
 void	wait_childs(t_execute_arg *exe_arg);
+char	*ft_getpwd(char **env);
 
 #endif
