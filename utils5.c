@@ -6,13 +6,13 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 02:16:22 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 19:02:49 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 19:14:54 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_empty_cmd(t_cmds *cmd)
+int	is_empty_cmd(t_cmds *cmd)
 {
 	if (!cmd)
 		return (1);
