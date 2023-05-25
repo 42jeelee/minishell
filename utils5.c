@@ -6,11 +6,18 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 02:16:22 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 02:24:46 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 19:14:54 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_empty_cmd(t_cmds *cmd)
+{
+	if (!cmd)
+		return (1);
+	return (!((cmd->cmd)[0] || (cmd->file)[0] || (cmd->redir_type)[0]));
+}
 
 char	*ft_stridxdup(char *str, int start, int end)
 {

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 16:27:13 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 19:03:18 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		is_builtin(char *word);
 int		is_redirection(char *word);
 char	*get_wordcatch(char *str, char *catchs);
 char	*ft_stridxdup(char *str, int start, int end);
+int		is_empty_cmd(t_cmds *cmd);
 
 int		find_key_env(char *key, char **env);
 
