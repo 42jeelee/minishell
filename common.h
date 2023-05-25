@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/25 16:30:49 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 17:37:13 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ void	no_echoctl(struct termios *old_term);
 int		set_g_pwd(t_arg *arg);
 
 char	**list_dup(char **list);
+void	bi_init(char *word, t_blockinfo *bi);
 int		change_env_block(char **word, t_blockinfo *bi, t_arg *arg);
 int		change_quotes_block(char **word, t_blockinfo *bi, t_arg *arg);
-int 	change_trim_block(char **word, t_arg *arg, \
+int		change_trim_block(char **word, t_arg *arg, \
 					int (*f)(char**, t_blockinfo*, t_arg*));
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);

@@ -6,20 +6,11 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 17:23:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 17:35:25 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	bi_init(char *word, t_blockinfo *bi)
-{
-	bi->word_size = ft_strlen(word);
-	bi->start = 0;
-	bi->end = 0;
-	bi->quotes = 0;
-	bi->quotes_start = -1;
-}
 
 int	rm_quotes_word(char **word, t_blockinfo *bi)
 {
@@ -59,7 +50,7 @@ int	change_quotes_block(char **word, t_blockinfo *bi, t_arg *arg)
 	return (0);
 }
 
-int on_quotes(char **word, t_blockinfo *bi, \
+int	on_quotes(char **word, t_blockinfo *bi, \
 			t_arg *arg, int (*f)(char**, t_blockinfo*, t_arg*))
 {
 	int	size;
@@ -85,7 +76,7 @@ int on_quotes(char **word, t_blockinfo *bi, \
 	return (0);
 }
 
-int change_trim_block(char **word, t_arg *arg, \
+int	change_trim_block(char **word, t_arg *arg, \
 					int (*f)(char**, t_blockinfo*, t_arg*))
 {
 	t_blockinfo	bi;
