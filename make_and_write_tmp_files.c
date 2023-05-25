@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:21:00 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 16:18:01 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:31:23 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	open_write_close(t_cmds *cmds, t_execute_arg *exe_arg,
 		if (str == 0 || ft_strncmp(cmds->file[redir_idx],
 				str, ft_strlen(str) + 1) == 0)
 			break ;
-		if (trim_word(&str, exe_arg->arg, 1))
+		if (change_trim_block(&str, exe_arg->arg, change_env_block))
 			return (free_things(str, 0, 0, 0));
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
