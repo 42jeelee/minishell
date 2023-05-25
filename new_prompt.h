@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 19:27:33 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 02:26:32 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		get_env_size(char *word, int block_size);
 int		is_builtin(char *word);
 int		is_redirection(char *word);
 char	*get_wordcatch(char *str, char *catchs);
+char	*ft_stridxdup(char *str, int start, int end);
 
 int		find_key_env(char *key, char **env);
 
