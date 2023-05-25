@@ -6,20 +6,11 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:03:54 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 19:46:45 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 17:35:25 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	bi_init(char *word, t_blockinfo *bi)
-{
-	bi->word_size = ft_strlen(word);
-	bi->start = 0;
-	bi->end = 0;
-	bi->quotes = 0;
-	bi->quotes_start = 0;
-}
 
 int	rm_quotes_word(char **word, t_blockinfo *bi)
 {
@@ -32,76 +23,77 @@ int	rm_quotes_word(char **word, t_blockinfo *bi)
 			return (1);
 		free(*word);
 		*word = change_word;
-		bi->end -= 1;
+		bi->end -= 2;
 		bi->word_size -= 2;
 	}
 	return (0);
 }
 
-int	change_block(char **word, t_blockinfo *bi, t_arg *arg, int flag)
+int	change_env_block(char **word, t_blockinfo *bi, t_arg *arg)
 {
 	int	block_size;
 
 	block_size = bi->end - bi->start;
-	if (flag && arg)
+	if (arg)
 	{
 		if (block_size > 0 && change_block_env(word, bi, arg))
 			return (1);
 	}
-	else if (!flag)
+	return (0);
+}
+
+int	change_quotes_block(char **word, t_blockinfo *bi, t_arg *arg)
+{
+	(void)arg;
+	if (bi->quotes && rm_quotes_word(word, bi))
+		return (1);
+	return (0);
+}
+
+int	on_quotes(char **word, t_blockinfo *bi, \
+			t_arg *arg, int (*f)(char**, t_blockinfo*, t_arg*))
+{
+	int	size;
+
+	size = quotes_blockidx((*word) + bi->end);
+	if (size)
 	{
-		if (bi->quotes && rm_quotes_word(word, bi))
+		if (bi->start < bi->end)
+		{
+			if (f(word, bi, arg))
+				return (1);
+		}
+		bi->quotes_start = bi->end;
+		bi->quotes = (*word)[bi->end];
+		bi->start = bi->end + 1;
+		bi->end += size;
+		if (f(word, bi, arg))
 			return (1);
 		bi->quotes = 0;
+		bi->quotes_start = -1;
+		bi->start = bi->end + 1;
 	}
 	return (0);
 }
 
-int	now_quotes(char **word, t_blockinfo *bi, t_arg *arg, int flag)
-{
-	if (!(bi->quotes))
-	{
-		bi->quotes = (*word)[bi->start];
-		bi->quotes_start = bi->start;
-	}
-	else
-	{
-		if (bi->quotes_start < bi->start)
-		{
-			bi->end += bi->start;
-			if (change_block(word, bi, arg, flag))
-				return (1);
-			bi->start = bi->end - 1;
-		}
-		bi->quotes_start = 0;
-		bi->quotes = 0;
-	}
-	bi->start += 1;
-	return (0);
-}
-
-int	trim_word(char **word, t_arg *arg, int flag)
+int	change_trim_block(char **word, t_arg *arg, \
+					int (*f)(char**, t_blockinfo*, t_arg*))
 {
 	t_blockinfo	bi;
 
 	if (!(*word))
 		return (0);
 	bi_init(*word, &bi);
-	while ((*word)[bi.start])
+	while ((*word)[bi.end])
 	{
-		bi.end = get_block_size(*word + bi.start, bi.quotes);
-		if (bi.end == 0)
-		{
-			if (now_quotes(word, &bi, arg, flag))
-				return (1);
-		}
-		else
-		{
-			bi.end += bi.start;
-			if (change_block(word, &bi, arg, flag))
-				return (1);
-			bi.start = bi.end;
-		}
+		if (on_quotes(word, &bi, arg, f))
+			return (1);
+		(bi.end)++;
+	}
+	if (bi.start < bi.end)
+	{
+		if (f(word, &bi, arg))
+			return (1);
 	}
 	return (0);
 }

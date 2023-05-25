@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 02:26:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 16:27:13 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 # define NEW_PROMPT_H
 
 # include "common.h"
-
-typedef struct s_blockinfo
-{
-	int		word_size;
-	int		start;
-	int		end;
-	char	quotes;
-	int		quotes_start;
-}	t_blockinfo;
 
 t_cmds	*new_prompt(t_arg *arg);
 

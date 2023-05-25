@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 16:46:20 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 17:37:13 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,15 @@ typedef struct s_execute_arg
 	struct s_arg	*arg;
 }	t_execute_arg;
 
+typedef struct s_blockinfo
+{
+	int		word_size;
+	int		start;
+	int		end;
+	char	quotes;
+	int		quotes_start;
+}	t_blockinfo;
+
 int		print_perror(char *str);
 
 void	fork_sig_init(int sigquit);
@@ -75,7 +84,11 @@ void	no_echoctl(struct termios *old_term);
 int		set_g_pwd(t_arg *arg);
 
 char	**list_dup(char **list);
-int		trim_word(char **word, t_arg *arg, int flag);
+void	bi_init(char *word, t_blockinfo *bi);
+int		change_env_block(char **word, t_blockinfo *bi, t_arg *arg);
+int		change_quotes_block(char **word, t_blockinfo *bi, t_arg *arg);
+int		change_trim_block(char **word, t_arg *arg, \
+					int (*f)(char**, t_blockinfo*, t_arg*));
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);
 void	copy_list(char **new_list, char **old_list, int size);

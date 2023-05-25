@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:06 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 16:47:18 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 17:35:42 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,13 @@ int	init_shell(t_arg *arg, char **env)
 		return (1);
 	free(shlvl);
 	return (0);
+}
+
+void	bi_init(char *word, t_blockinfo *bi)
+{
+	bi->word_size = ft_strlen(word);
+	bi->start = 0;
+	bi->end = 0;
+	bi->quotes = 0;
+	bi->quotes_start = -1;
 }
