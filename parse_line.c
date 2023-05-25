@@ -6,11 +6,17 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:48:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 14:13:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/25 14:45:55 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	fail_malloc_commands(char **commands)
+{
+	free_words(commands);
+	return (-1);
+}
 
 static int	commands_size(char *line)
 {
@@ -110,6 +116,8 @@ int	parse_line(char *line, t_cmds **cmds, t_arg *arg)
 	while (++i < size)
 	{
 		n_cmd = new_cmd(&(commands[i]), arg);
+		if (!n_cmd)
+			return (fail_malloc_commands(commands));
 		add_cmd_list(n_cmd, cmds);
 	}
 	free_words(commands);
