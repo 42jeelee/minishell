@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 19:06:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/26 13:33:50 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ void	add_cmd_list(t_cmds *new, t_cmds **list)
 	if (!(*list))
 	{
 		*list = new;
+		return ;
+	}
+	if (is_empty_cmd(new))
+	{
+		free_cmds(new);
 		return ;
 	}
 	tmp = *list;
