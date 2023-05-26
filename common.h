@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/25 17:37:13 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/26 16:18:13 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int		change_trim_block(char **word, t_arg *arg, \
 					int (*f)(char**, t_blockinfo*, t_arg*));
 int		add_list_word(char *word, char ***list);
 int		add_list_int(int num, int **list);
+int		get_list_size(char **list);
 void	copy_list(char **new_list, char **old_list, int size);
 int		ft_cmdssize(t_cmds *cmds);
 
