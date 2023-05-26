@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 19:03:18 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/26 17:51:36 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_cmds	*new_prompt(t_arg *arg);
 int		parse_line(char *line, t_cmds **cmds, t_arg *arg);
 
 t_cmds	*new_cmd(char **command, t_arg *arg);
-void	add_cmd_list(t_cmds *new, t_cmds **list);
+void	add_cmd_list(t_cmds *new, t_arg *arg, t_cmds **list);
 char	*ft_strchange(char *str, int start, int end, char *changestr);
 char	*ft_tristrjoin(char *s1, char *s2, char *s3);
 char	*rmbothend_str(char *word, int start, int end);
@@ -50,8 +50,12 @@ int		get_env_size(char *word, int block_size);
 int		is_builtin(char *word);
 int		is_redirection(char *word);
 char	*get_wordcatch(char *str, char *catchs);
-char	*ft_stridxdup(char *str, int start, int end);
-int		is_empty_cmd(t_cmds *cmd);
+int		is_empty_command(char *command);
+char	*current_command(char *line, int *d, char *chars);
+int		add_empty_cmd(t_arg *arg, t_cmds **cmds);
+int		add_new_cmd(char **command, t_arg *arg, t_cmds **cmds);
+int		is_syntax_error(char **commands, t_arg *arg);
+int		is_empty_str(char *str);
 
 int		find_key_env(char *key, char **env);
 

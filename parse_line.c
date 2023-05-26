@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:48:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 14:45:55 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/26 19:24:21 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,16 @@ static int	commands_size(char *line)
 	int	c;
 	int	i;
 
-	c = 0;
+	if (!line)
+		return (1);
+	c = 1;
 	i = 0;
 	while (line[i])
 	{
-		while (line[i] == '|')
-			i++;
-		if (line[i])
-		{
+		if (line[i] == '|')
 			c++;
-			while (line[i] && line[i] != '|')
-			{
-				i += quotes_blockidx(line + i);
-				i++;
-			}
-		}
+		i += quotes_blockidx(line + i);
+		i++;
 	}
 	return (c);
 }
@@ -45,28 +40,15 @@ static int	commands_size(char *line)
 static char	*get_command_foridx(char *line, int *d)
 {
 	char	*command;
-	int		i;
-	int		size;
+	char	*chars;
 
+	chars = NULL;
 	command = NULL;
-	i = *d;
-	while (line[i])
-	{
-		while (line[i] && line[i] == '|')
-			i++;
-		if (line[i])
-		{
-			size = is_in_idx(line + i, "|");
-			if (size == -1)
-				size = ft_strlen(line + i);
-			command = ft_stridxdup(line, i, i + size);
-			if (!command)
-				return (NULL);
-			*d = i + size;
-			break ;
-		}
-		i++;
-	}
+	if (*d > 0 && line[*d] && line[*d] == '|')
+		(*d)++;
+	if (!is_empty_command(line + *d))
+		chars = " ";
+	command = current_command(line, d, chars);
 	return (command);
 }
 
@@ -99,26 +81,27 @@ static char	**split_commands(char *line)
 int	parse_line(char *line, t_cmds **cmds, t_arg *arg)
 {
 	char	**commands;
-	t_cmds	*n_cmd;
 	int		size;
 	int		i;
 
 	commands = split_commands(line);
 	if (!commands)
 		return (-1);
-	size = 0;
-	while (commands[size])
-		size++;
-	arg->num_of_cmd = size;
+	size = get_list_size(commands);
 	if (!size)
 		size = 1;
+	if (is_syntax_error(commands, arg))
+	{
+		if (add_empty_cmd(arg, cmds))
+			return (1);
+		arg->num_of_cmd = 0;
+		return (0);
+	}
 	i = -1;
 	while (++i < size)
 	{
-		n_cmd = new_cmd(&(commands[i]), arg);
-		if (!n_cmd)
-			return (fail_malloc_commands(commands));
-		add_cmd_list(n_cmd, cmds);
+		if (add_new_cmd(&(commands[i]), arg, cmds))
+			return (1);
 	}
 	free_words(commands);
 	return (0);

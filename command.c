@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 19:06:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/26 18:26:22 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ int	parse_cmd(t_cmds *cmd, char **command)
 	int	i;
 	int	type;
 
-	if (!(*command))
+	if (!(*command) || !((*command)[0]))
+	{
+		cmd->builtin = -1;
 		return (0);
+	}
 	type = 0;
 	i = 0;
 	while ((*command)[i])
@@ -86,24 +89,33 @@ t_cmds	*new_cmd(char **command, t_arg *arg)
 	if (!cmd)
 		return (NULL);
 	if (init_cmd(cmd))
+	{
+		free_cmds(cmd);
 		return (NULL);
+	}
 	if (parse_cmd(cmd, command) == -1)
 	{
 		free_cmds(cmd);
 		return (NULL);
 	}
-	if (arg->num_of_cmd && is_empty_cmd(cmd))
-		arg->num_of_cmd -= 1;
 	return (cmd);
 }
 
-void	add_cmd_list(t_cmds *new, t_cmds **list)
+void	add_cmd_list(t_cmds *new, t_arg *arg, t_cmds **list)
 {
 	t_cmds	*tmp;
 
 	if (!(*list))
 	{
+		if (new->builtin == -1)
+			new->builtin = 0;
+		arg->num_of_cmd = 1;
 		*list = new;
+		return ;
+	}
+	if (new->builtin == -1)
+	{
+		free_cmds(new);
 		return ;
 	}
 	tmp = *list;
@@ -111,4 +123,5 @@ void	add_cmd_list(t_cmds *new, t_cmds **list)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
+	arg->num_of_cmd += 1;
 }
