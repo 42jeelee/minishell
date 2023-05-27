@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 21:16:24 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/26 16:18:13 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 17:34:41 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 typedef struct s_arg
 {
 	int		num_of_cmd;
+	int		syntax;
 	int		stat_loc;
 	char	**env;
 	char	*pwd;

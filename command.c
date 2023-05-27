@@ -6,20 +6,21 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/26 18:26:22 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 18:12:06 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	add_any_list(int type, char *word, t_cmds *cmd)
+int	add_any_list(int *type, char *word, t_cmds *cmd)
 {
-	if (type)
+	if (*type)
 	{
-		if (add_list_int(type, &(cmd->redir_type)) == -1)
+		if (add_list_int(*type, &(cmd->redir_type)) == -1)
 			return (-1);
 		if (add_list_word(word, &(cmd->file)) == -1)
 			return (-1);
+		*type = 0;
 	}
 	else
 	{
@@ -31,11 +32,12 @@ int	add_any_list(int type, char *word, t_cmds *cmd)
 	return (0);
 }
 
-int	put_word_inlist(char **command, int *i, int type, t_cmds *cmd)
+int	put_word_inlist(char **command, int *i, int *type, t_cmds *cmd)
 {
 	char	*word;
 	int		size;
 
+	word = NULL;
 	size = is_in_idx(*command + *i, "< >");
 	if (size == -1)
 		size = ft_strlen(*command + *i);
@@ -43,39 +45,41 @@ int	put_word_inlist(char **command, int *i, int type, t_cmds *cmd)
 	{
 		word = get_wordcatch(*command + *i, "< >");
 		if (!word)
-			return (-1);
+			fail_malloc_exit();
 		if (change_trim_block(&word, 0, change_quotes_block))
-			return (-1);
+			fail_malloc_exit();
 		if (add_any_list(type, word, cmd) == -1)
-			return (-1);
+			fail_malloc_exit();
 		free(word);
 	}
 	*i += size;
+	if (is_syntax_error2(*type, word, *command + *i))
+		return (1);
 	return (0);
 }
 
-int	parse_cmd(t_cmds *cmd, char **command)
+int	parse_cmd(t_cmds *cmd, t_arg *arg, char **command)
 {
 	int	i;
 	int	type;
 
-	if (!(*command) || !((*command)[0]))
-	{
-		cmd->builtin = -1;
-		return (0);
-	}
 	type = 0;
 	i = 0;
 	while ((*command)[i])
 	{
 		while ((*command)[i] == ' ')
 			i++;
-		if (put_word_inlist(command, &i, type, cmd) == -1)
-			return (-1);
+		if (put_word_inlist(command, &i, &type, cmd))
+		{
+			arg->syntax = 1;
+			return (0);
+		}
 		type = is_redirection(*command + i);
 		if (type)
 			i += (type & 1) + 1;
 	}
+	if (type && syntax_error_msg("newline"))
+		arg->syntax = 1;
 	return (0);
 }
 
@@ -93,11 +97,12 @@ t_cmds	*new_cmd(char **command, t_arg *arg)
 		free_cmds(cmd);
 		return (NULL);
 	}
-	if (parse_cmd(cmd, command) == -1)
+	if (!(*command) || !((*command)[0]))
 	{
-		free_cmds(cmd);
-		return (NULL);
+		cmd->builtin = -1;
+		return (0);
 	}
+	parse_cmd(cmd, arg, command);
 	return (cmd);
 }
 
