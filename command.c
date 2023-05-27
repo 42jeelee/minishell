@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 18:12:06 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 19:04:32 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,9 @@ t_cmds	*new_cmd(char **command, t_arg *arg)
 		return (NULL);
 	}
 	if (!(*command) || !((*command)[0]))
-	{
 		cmd->builtin = -1;
-		return (0);
-	}
-	parse_cmd(cmd, arg, command);
+	else
+		parse_cmd(cmd, arg, command);
 	return (cmd);
 }
 
