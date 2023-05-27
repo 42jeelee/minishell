@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:48:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 19:16:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 20:29:14 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	parse_line(char *line, t_cmds **cmds, t_arg *arg)
 	{
 		add_empty_cmd(arg, cmds);
 		arg->syntax = 1;
+		free_words(commands);
 		return (0);
 	}
 	i = -1;
