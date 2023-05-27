@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 15:38:09 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/21 19:35:31 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/27 17:00:37 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@ char	**make_paths(char **env)
 	i = -1;
 	compare = "PATH=";
 	while (env[++i])
-	{
-		if (!ft_strncmp(env[i], compare, 5))
+		if (ft_strncmp(env[i], compare, 5) == 0)
 			break ;
-		if (env[i] == 0)
-			return (0);
-	}
+	if (env[i] == 0)
+		return (0);
 	oneline = ft_strtrim(env[i], compare);
 	if (oneline == 0)
 		exit(1);
