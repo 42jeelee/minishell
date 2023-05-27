@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:08:39 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 16:36:36 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 18:53:28 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,32 +56,32 @@ char	**make_envlist(char **env)
 	return (env_list);
 }
 
-char	*ft_strchange(char *str, int start, int end, char *changestr)
+char	*ft_strchange(char *str, int st, int end, char *changestr)
 {
 	char	*new_str;
 	int		s_size;
 	int		c_size;
 	int		i;
 
-	if (start > end)
+	if (st > end)
 		return (str);
 	s_size = ft_strlen(str);
-	if (start < 0 || s_size < end)
+	if (st < 0 || s_size < end)
 		return (str);
 	c_size = ft_strlen(changestr);
-	new_str = (char *)malloc(sizeof(char) * (s_size - (end - start) + c_size));
+	new_str = (char *)malloc(sizeof(char) * (s_size - (end - st) + c_size + 1));
 	if (!new_str)
 		return (NULL);
 	i = -1;
-	while (++i < start)
+	while (++i < st)
 		new_str[i] = str[i];
 	i = -1;
 	while (++i < c_size)
-		new_str[start + i] = changestr[i];
+		new_str[st + i] = changestr[i];
 	i = -1;
 	while (++i < s_size - end)
-		new_str[start + c_size + i] = str[end + i];
-	new_str[start + c_size + i] = 0;
+		new_str[st + c_size + i] = str[end + i];
+	new_str[st + c_size + i] = 0;
 	return (new_str);
 }
 
