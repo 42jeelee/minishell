@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 17:24:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 17:25:40 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/28 02:55:16 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	free_arg(t_arg *arg)
 
 void	fail_malloc_exit(void)
 {
-	print_perror("MINISHELL");
+	if (errno)
+		print_perror("MINISHELL");
 	exit(1);
 }
