@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/27 18:06:40 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:38:04 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exe_cmd_line(t_arg *arg, t_cmds *cmds, char ***env)
 	if (init(arg, cmds, &exe_arg))
 		return (print_perror("error"));
 	if (heredoc(cmds, &exe_arg) != 0)
-		return (free_things(exe_arg.pid, exe_arg.pfd, 0, exe_arg.tmp_name));
+		return (close_and_free_things(&exe_arg));
 	if (arg->num_of_cmd == 1 && cmds->builtin == 1)
 	{
 		if (redir(cmds->file, cmds->redir_type, exe_arg.fd, &exe_arg) != 0)
@@ -53,12 +53,12 @@ static void	run_child_process(t_execute_arg *exe_arg, t_arg *arg,
 	pipe_redir(exe_arg->pfd, exe_arg->child_num, arg->num_of_cmd, exe_arg->fd);
 	if (redir(cmds->file, cmds->redir_type, exe_arg->fd, exe_arg) != 0)
 		exit(1);
-	if (cmds->cmd[0] == 0)
-		exit(0);
 	if (arg->num_of_cmd > 1)
 		close_pipes_exept(exe_arg->pfd, arg->num_of_cmd - 1, exe_arg->fd);
 	if (cmds->builtin == 1)
 		exit(run_builtin(cmds, env, exe_arg));
+	if (cmds->cmd[0] == 0)
+		exit(0);
 	if (is_relative_path(cmds->cmd[0]))
 	{
 		exe_arg->cmd_path = cmds->cmd[0];
