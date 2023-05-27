@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 19:11:02 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/28 01:08:15 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		init_cmd(t_cmds *cmd);
 int		get_block_size(char *word, char c);
 int		change_block_env(char **word, t_blockinfo *bi, t_arg *env);
 
-int		set_valueenv(char *key, char *value, char **env);
+int		set_valueenv(char *key, char *value, char ***env);
 char	*get_value_env(char *key, int size, char **env);
 
 char	**make_envlist(char **env);
