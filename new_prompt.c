@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:42:15 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 17:42:04 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 20:27:57 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_cmds	*new_prompt(t_arg *arg)
 	cmds = NULL;
 	no_echoctl(&old_term);
 	errno = 0;
-	line = readline("minishell $> ");
+	line = readline("minishell $ ");
 	change_term(&old_term);
 	is_ctrl_d(&line);
 	if (line)
