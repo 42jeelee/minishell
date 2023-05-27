@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:35 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/26 18:10:31 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 18:06:40 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ static int	init(t_arg *arg, t_cmds *cmds, t_execute_arg *exe_arg)
 	if (exe_arg->tmp_name == 0)
 		return (free_things(exe_arg->pid, exe_arg->pfd, 0, 0));
 	exe_arg->path = make_paths(arg->env);
-	if (exe_arg->path == 0)
+	errno = 0;
+	if (exe_arg->path == 0 && errno != 0)
 		return (free_things(exe_arg->pid, exe_arg->pfd, 0, exe_arg->tmp_name));
 	return (0);
 }
