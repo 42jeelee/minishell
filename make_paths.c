@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 15:38:09 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/27 17:00:37 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:13:53 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**make_paths(char **env)
 			break ;
 	if (env[i] == 0)
 		return (0);
-	oneline = ft_strtrim(env[i], compare);
+	oneline = ft_strdup(env[i] + 5);
 	if (oneline == 0)
 		exit(1);
 	strs = path_split(oneline, ':');

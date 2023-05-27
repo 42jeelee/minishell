@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:57 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 19:43:16 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:34:40 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int		find_str_idx_in_env(char *str, char **env);
 
 void	wait_childs(t_execute_arg *exe_arg);
 char	*ft_getpwd(char **env);
-void	close_and_free_things(t_execute_arg *exe_arg);
+int		close_and_free_things(t_execute_arg *exe_arg);
 
 #endif

@@ -6,23 +6,13 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:52:42 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/23 15:55:35 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 20:32:47 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe_cmd_line.h"
 
-void	unlink_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg)
-{
-	int	i;
-
-	i = 0;
-	while (cmds)
-	{
-		unlink(exe_arg->tmp_name[i++]);
-		cmds = cmds->next;
-	}
-}
+static void	unlink_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg);
 
 int	heredoc(t_cmds *cmds, t_execute_arg *exe_arg)
 {
@@ -51,4 +41,16 @@ int	heredoc(t_cmds *cmds, t_execute_arg *exe_arg)
 	}
 	parents_sig_end();
 	return (stat_loc);
+}
+
+static void	unlink_tmp_files(t_cmds *cmds, t_execute_arg *exe_arg)
+{
+	int	i;
+
+	i = 0;
+	while (cmds)
+	{
+		unlink(exe_arg->tmp_name[i++]);
+		cmds = cmds->next;
+	}
 }
