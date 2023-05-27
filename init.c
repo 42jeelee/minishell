@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:06 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/25 17:35:42 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 17:34:56 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	init_arg(t_arg *arg, char **env)
 	if (!arg->env)
 		return (1);
 	arg->num_of_cmd = 0;
+	arg->syntax = 0;
 	arg->stat_loc = 0;
 	arg->pwd = 0;
 	if (set_g_pwd(arg))

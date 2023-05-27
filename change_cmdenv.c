@@ -6,30 +6,32 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 02:48:52 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 18:30:47 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_value_env(char *key, int size, char **env)
+char	*get_malloc_env(char *key, int size, char **env)
 {
+	char	*new_value;
 	char	*value;
-	int		i;
 
+	new_value = NULL;
 	if (size == 0)
 		return (NULL);
-	value = NULL;
-	i = -1;
-	while (env[++i])
+	value = get_value_env(key, size, env);
+	if (!value)
 	{
-		if (!ft_strncmp(key, env[i], size) && env[i][size] == '=')
-		{
-			value = env[i] + size + 1;
-			break ;
-		}
+		new_value = ft_strdup("");
+		if (!new_value)
+			fail_malloc_exit();
 	}
-	return (value);
+	else
+		new_value = ft_strdup(value);
+	if (!new_value)
+		fail_malloc_exit();
+	return (new_value);
 }
 
 int	get_env_size(char *word, int block_size)
@@ -59,18 +61,15 @@ char	*change_envvalue(char *word, int *start, int size, t_arg *arg)
 	{
 		value = ft_itoa(arg->stat_loc);
 		if (!value)
-			return (NULL);
+			fail_malloc_exit();
 	}
 	else
-		value = get_value_env(word + *start + 1, size - 1, arg->env);
-	if (!value)
-		value = "";
+		value = get_malloc_env(word + *start + 1, size - 1, arg->env);
 	change_word = ft_strchange(word, *start, *start + size, value);
 	if (!change_word)
-		return (NULL);
+		fail_malloc_exit();
 	*start += ft_strlen(value) - 1;
-	if (word[*start + 1] == '?')
-		free(value);
+	free(value);
 	return (change_word);
 }
 

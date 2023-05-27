@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:16:32 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/26 19:24:26 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 17:29:54 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,24 @@ t_cmds	*get_empty_cmd(void)
 	return (cmd);
 }
 
-int	add_empty_cmd(t_arg *arg, t_cmds **cmds)
+void	add_empty_cmd(t_arg *arg, t_cmds **cmds)
 {
 	t_cmds	*empty_cmd;
 
 	empty_cmd = get_empty_cmd();
 	if (!empty_cmd)
-		return (1);
+		fail_malloc_exit();
 	add_cmd_list(empty_cmd, arg, cmds);
-	return (0);
 }
 
-int	add_new_cmd(char **command, t_arg *arg, t_cmds **cmds)
+void	add_new_cmd(char **command, t_arg *arg, t_cmds **cmds)
 {
 	t_cmds	*n_cmd;
 
 	n_cmd = new_cmd(command, arg);
 	if (!n_cmd)
-		return (1);
+		fail_malloc_exit();
 	add_cmd_list(n_cmd, arg, cmds);
-	return (0);
 }
 
 int	is_syntax_error(char **commands, t_arg *arg)

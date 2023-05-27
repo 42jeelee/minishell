@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:48:37 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/26 19:24:21 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 17:37:34 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,23 +86,19 @@ int	parse_line(char *line, t_cmds **cmds, t_arg *arg)
 
 	commands = split_commands(line);
 	if (!commands)
-		return (-1);
+		fail_malloc_exit();
 	size = get_list_size(commands);
 	if (!size)
 		size = 1;
 	if (is_syntax_error(commands, arg))
 	{
-		if (add_empty_cmd(arg, cmds))
-			return (1);
+		add_empty_cmd(arg, cmds);
 		arg->num_of_cmd = 0;
 		return (0);
 	}
 	i = -1;
 	while (++i < size)
-	{
-		if (add_new_cmd(&(commands[i]), arg, cmds))
-			return (1);
-	}
+		add_new_cmd(&(commands[i]), arg, cmds);
 	free_words(commands);
 	return (0);
 }

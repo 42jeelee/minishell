@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 21:42:15 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/21 18:36:01 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 17:42:04 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	is_ctrl_d(char **line)
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		*line = ft_strdup("exit");
 	}
+	else if (!(*line) && errno)
+		fail_malloc_exit();
 }
 
 t_cmds	*new_prompt(t_arg *arg)
@@ -34,21 +36,20 @@ t_cmds	*new_prompt(t_arg *arg)
 	t_cmds			*cmds;
 	char			*line;
 	struct termios	old_term;
-	int				status;
 
-	no_echoctl(&old_term);
 	cmds = NULL;
+	no_echoctl(&old_term);
+	errno = 0;
 	line = readline("minishell $> ");
 	change_term(&old_term);
 	is_ctrl_d(&line);
 	if (line)
 	{
-		status = parse_line(line, &cmds, arg);
+		arg->syntax = 0;
+		parse_line(line, &cmds, arg);
 		if (ft_strlen(line))
 			add_history(line);
 		free(line);
-		if (status == -1)
-			return (fail_free(cmds));
 	}
 	return (cmds);
 }
