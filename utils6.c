@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:16:32 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 17:29:54 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 19:10:53 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	add_new_cmd(char **command, t_arg *arg, t_cmds **cmds)
 	add_cmd_list(n_cmd, arg, cmds);
 }
 
-int	is_syntax_error(char **commands, t_arg *arg)
+int	is_syntax_error(char **commands)
 {
 	int	i;
 	int	empty_command;
@@ -70,16 +70,13 @@ int	is_syntax_error(char **commands, t_arg *arg)
 			empty_command = 1;
 		if (i > 0 && empty_command)
 		{
-			arg->num_of_cmd = 0;
-			ft_putstr_fd(\
-				"syntax error near unexpected token `|'\n", STDERR_FILENO);
+			syntax_error_msg("|");
 			return (1);
 		}
 	}
 	if (!i)
 	{
-		arg->num_of_cmd = 0;
-		ft_putstr_fd("syntax error near unexpected token `|'\n", STDERR_FILENO);
+		syntax_error_msg("|");
 		return (1);
 	}
 	return (0);

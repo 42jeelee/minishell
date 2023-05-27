@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 00:04:34 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 17:47:48 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 19:11:02 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		is_empty_command(char *command);
 char	*current_command(char *line, int *d, char *chars);
 void	add_empty_cmd(t_arg *arg, t_cmds **cmds);
 void	add_new_cmd(char **command, t_arg *arg, t_cmds **cmds);
-int		is_syntax_error(char **commands, t_arg *arg);
+int		is_syntax_error(char **commands);
 int		is_syntax_error2(int type, char *word, char *next_command);
 int		is_empty_str(char *str);
 int		syntax_error_msg(char *word);
