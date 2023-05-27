@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:40:55 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 19:04:32 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 19:23:43 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	parse_cmd(t_cmds *cmd, t_arg *arg, char **command)
 t_cmds	*new_cmd(char **command, t_arg *arg)
 {
 	t_cmds	*cmd;
+	int		is_empty;
 
-	if (change_trim_block(command, arg, change_env_block))
-		return (NULL);
+	is_empty = 0;
 	cmd = (t_cmds *)malloc(sizeof(t_cmds));
 	if (!cmd)
 		return (NULL);
@@ -98,8 +98,13 @@ t_cmds	*new_cmd(char **command, t_arg *arg)
 		return (NULL);
 	}
 	if (!(*command) || !((*command)[0]))
+	{
 		cmd->builtin = -1;
-	else
+		is_empty = 1;
+	}
+	if (change_trim_block(command, arg, change_env_block))
+		fail_malloc_exit();
+	if (!is_empty)
 		parse_cmd(cmd, arg, command);
 	return (cmd);
 }
