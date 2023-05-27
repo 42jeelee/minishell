@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 20:00:29 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 12:53:31 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/27 02:48:52 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,26 @@ int	get_env_size(char *word, int block_size)
 	return (i);
 }
 
-char	*change_envvalue(char *word, int start, int size, t_arg *arg)
+char	*change_envvalue(char *word, int *start, int size, t_arg *arg)
 {
 	char	*change_word;
 	char	*value;
 
-	if (word[start + 1] == '?')
+	if (word[*start + 1] == '?')
 	{
 		value = ft_itoa(arg->stat_loc);
 		if (!value)
 			return (NULL);
 	}
 	else
-		value = get_value_env(word + start + 1, size - 1, arg->env);
+		value = get_value_env(word + *start + 1, size - 1, arg->env);
 	if (!value)
 		value = "";
-	change_word = ft_strchange(word, start, start + size, value);
+	change_word = ft_strchange(word, *start, *start + size, value);
 	if (!change_word)
 		return (NULL);
-	if (word[start + 1] == '?')
+	*start += ft_strlen(value) - 1;
+	if (word[*start + 1] == '?')
 		free(value);
 	return (change_word);
 }
@@ -82,7 +83,7 @@ int	_change_block_env(char **word, int *i, t_blockinfo *bi, t_arg *arg)
 	env_size = get_env_size(*word + *i, bi->end - *i);
 	if (env_size > 1)
 	{
-		change_word = change_envvalue(*word, *i, env_size, arg);
+		change_word = change_envvalue(*word, i, env_size, arg);
 		if (!change_word)
 			return (1);
 		ch_word_size = ft_strlen(change_word);
@@ -91,8 +92,6 @@ int	_change_block_env(char **word, int *i, t_blockinfo *bi, t_arg *arg)
 		bi->end += ch_word_size - bi->word_size;
 		bi->word_size = ch_word_size;
 	}
-	else
-		(*i)++;
 	return (0);
 }
 
@@ -110,8 +109,7 @@ int	change_block_env(char **word, t_blockinfo *bi, t_arg *arg)
 			if (_change_block_env(word, &i, bi, arg))
 				return (1);
 		}
-		else
-			i++;
+		i++;
 	}
 	return (0);
 }
