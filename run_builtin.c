@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 20:58:21 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/28 11:22:12 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/28 11:51:32 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	run_builtin(t_cmds *cmds, char ***env, t_execute_arg *exe_arg)
 	else if (ft_strncmp(cmds->cmd[0], "pwd", 4) == 0)
 		print_pwd(exe_arg, *env);
 	else if (ft_strncmp(cmds->cmd[0], "exit", 5) == 0)
-		exit(0);
+		exe_arg->exit_code = exe_exit(cmds->cmd);
 	else if (ft_strncmp(cmds->cmd[0], "cd", 3) == 0)
 	{
 		exe_arg->exit_code = exe_cd(cmds->cmd, *env, exe_arg);

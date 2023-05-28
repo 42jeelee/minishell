@@ -6,7 +6,7 @@
 #    By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/30 20:55:40 by jeelee            #+#    #+#              #
-#    Updated: 2023/05/26 19:31:12 by jeelee           ###   ########.fr        #
+#    Updated: 2023/05/28 11:45:50 by byejeon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC			=	main.c init.c new_prompt.c parse_line.c command.c \
 				find_str_idx_in_env.c ft_cmdssize.c make_tmp_name.c \
 				make_and_write_tmp_files.c make_paths.c exe_free_things.c \
 				wait_childs.c heredoc.c ft_getpwd.c pipe_redir.c \
-				exe_close_and_free_things.c
+				exe_close_and_free_things.c exe_exit.c
 
 OBJ			=	$(SRC:.c=.o)
 
