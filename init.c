@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:29:06 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 17:34:56 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/28 01:33:34 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,21 @@ int	init_cmd(t_cmds *cmd)
 int	init_shell(t_arg *arg, char **env)
 {
 	char	*shlvl;
+	char	*prev_shlvl;
+	int		int_prev_shlvl;
 
 	if (init_arg(arg, env))
 		return (1);
 	sig_init();
-	shlvl = ft_itoa(ft_atoi(get_value_env("SHLVL", 5, arg->env)) + 1);
-	if (!shlvl[0] || shlvl[0] == '0')
+	prev_shlvl = get_value_env("SHLVL", 5, arg->env);
+	if (prev_shlvl)
+		int_prev_shlvl = ft_atoi(prev_shlvl);
+	else
+		int_prev_shlvl = 0;
+	shlvl = ft_itoa(int_prev_shlvl + 1);
+	if (!shlvl)
 		return (1);
-	if (set_valueenv("SHLVL", shlvl, arg->env))
+	if (set_valueenv("SHLVL", shlvl, &(arg->env)))
 		return (1);
 	free(shlvl);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 13:56:41 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/24 17:34:38 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/28 01:25:24 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,17 @@ int	find_key_env(char *key, char **env)
 	int	i;
 	int	key_size;
 
+	if (!key | !(key[0]))
+		return (-1);
 	key_size = ft_strlen(key);
 	i = -1;
 	while (env[++i])
 	{
-		if (!ft_strncmp(key, env[i], key_size))
-			return (1);
+		if (!ft_strncmp(key, env[i], key_size + 1) || \
+			(!ft_strncmp(key, env[i], key_size) && (env[i])[key_size] == '='))
+			return (i);
 	}
-	return (0);
+	return (-1);
 }
 
 int	set_g_pwd(t_arg *arg)

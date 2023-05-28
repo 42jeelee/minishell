@@ -6,7 +6,7 @@
 /*   By: jeelee <jeelee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 19:08:39 by jeelee            #+#    #+#             */
-/*   Updated: 2023/05/27 18:53:28 by jeelee           ###   ########.fr       */
+/*   Updated: 2023/05/28 01:17:53 by jeelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**make_envlist(char **env)
 	env_list = list_dup(env);
 	if (!env_list)
 		return (NULL);
-	if (!find_key_env("OLDPWD", env))
+	if (find_key_env("OLDPWD", env) == -1)
 	{
 		if (add_list_word("OLDPWD", &env_list) == -1)
 		{
