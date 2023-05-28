@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:23:48 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/24 19:23:14 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/28 11:22:13 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_getpwd(char **env)
 	char	*pwd;
 
 	pwd = getcwd(0, 0);
-	if (pwd == 0 && errno == 2)
+	if (pwd == 0 && errno == 12)
 		pwd = ft_getpwd_in_env(env);
 	else if (pwd == 0)
 		return (0);
