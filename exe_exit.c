@@ -6,7 +6,7 @@
 /*   By: byejeon <byejeon@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 11:42:48 by byejeon           #+#    #+#             */
-/*   Updated: 2023/05/28 12:39:27 by byejeon          ###   ########.fr       */
+/*   Updated: 2023/05/28 12:50:43 by byejeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exe_exit(char **cmd)
 	else if (cmd[2] != 0)
 		print_exit_error(0, "too many arguments");
 	else
-		exit(ft_atoi(cmd[1]));
+		exit(ft_atoi(cmd[1]) % 256);
 	return (1);
 }
 
@@ -48,6 +48,8 @@ static	int	is_numcmd(char *cmd)
 	int	i;
 
 	i = 0;
+	if (ft_strlen(cmd) >= 20)
+		return (0);
 	if (cmd[i] == '-' || cmd[i] == '+')
 		i++;
 	while (cmd[i])
@@ -58,4 +60,3 @@ static	int	is_numcmd(char *cmd)
 	}
 	return (1);
 }
-
